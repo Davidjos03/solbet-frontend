@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* In your global CSS file */
+@layer utilities {
+  .main-background {
+    background-blend-mode: difference;
+    background-image: url("/images/static/bg.3338e82d.webp");
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: #000000e7;
+  }
+  .text-emboss {
+    text-shadow: 0 -1px 0 #c39eff;
+  }
+  .text-glow {
+    text-shadow: 0 0 8px var(--tw-shadow-color);
+  }
+  .animate-popup-enter {
+    animation: 0.5s cubic-bezier(0.25, 1.4, 0.61, 0.98) forwards;
+  }
+  .bg-blurp-gradient {
+    background-image: linear-gradient(
+        91.53deg,
+        #9748e666 0%,
+        #4d94e966 42.87%,
+        #ce4ec266 100%
+      ),
+      linear-gradient(#1f1f2d, #171721);
+  }
+  .bg-green-shine {
+    background-image: linear-gradient(
+      98.59deg,
+      #00832e -19.86%,
+      #00d289 2.42%,
+      #008f2d 93.44%
+    );
+  }
+  .intercom-lightweight-app {
+    position: fixed;
+    z-index: 2147483001;
+    width: 0;
+    height: 0;
+    font-family: intercom-font, "Helvetica Neue", "Apple Color Emoji", Helvetica,
+      Arial, sans-serif;
+  }
+  .intercom-lightweight-app-launcher {
+    position: fixed;
+    z-index: 2147483003;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none;
+    bottom: 20px;
+    right: 20px;
+    max-width: 48px;
+    width: 48px;
+    max-height: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #6945f6;
+    cursor: pointer;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.06),
+      0 2px 32px 0 rgba(0, 0, 0, 0.16);
+    transition: transform 167ms cubic-bezier(0.33, 0, 0, 1);
+    box-sizing: content-box;
+  }
+  .intercom-lightweight-app-launcher-icon-open {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+  .intercom-lightweight-app-launcher-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 48px;
+    height: 48px;
+    transition: transform 100ms linear, opacity 80ms linear;
+  }
+  .intercom-lightweight-app-launcher-custom-icon-open {
+    max-height: 24px;
+    max-width: 24px;
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+#root {
+  padding: 0;
+  max-width: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  --tw-gradient-stops: #151518 20%, #3b3b49 75%, #9333ea 95%;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  background: #100e1e;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: #100e1e;
+  border-radius: 5px;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #424657;
+  border-radius: 5px;
+}
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+/* Add this to your global CSS */
+.transition-transform {
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
