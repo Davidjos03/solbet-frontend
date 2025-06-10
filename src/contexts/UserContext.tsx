@@ -4,8 +4,8 @@ import React, { ReactNode, createContext, useContext, useState } from "react";
 interface UserContextProps {
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  isLogin: boolean;
-  setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
+  isToggle: boolean;
+  setIsToggle: React.Dispatch<React.SetStateAction<boolean>>;
   isWalletModal: boolean;
   setIsWalletModal: React.Dispatch<React.SetStateAction<boolean>>;
   state: boolean;
@@ -20,7 +20,7 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 // Create the User context provider component
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [isToggle, setIsToggle] = useState<boolean>(true);
   const [isWalletModal, setIsWalletModal] = useState<boolean>(false);
   const [state, setState] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<IUser>({ name: 'skinfeg11', icon: '/images/user-logo-icon.png' });
@@ -29,8 +29,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       value={{
         isLoading,
         setIsLoading,
-        isLogin,
-        setIsLogin,
+        isToggle,
+        setIsToggle,
         isWalletModal,
         setIsWalletModal,
         state,

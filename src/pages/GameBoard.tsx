@@ -5,8 +5,8 @@ const GameBoard = () => {
     const [value, setValue] = useState<string>("");
 
     return (
-        <div className="relative w-full h-max overflow-hidden transition-[padding,opacity] will-change-[padding,opacity] duration-300 pl-[300px] 2xl:pl-[350px]">
-            <div className="absolute main-background h-full top-[70px] lg:top-[109px] transition-[width,left] duration-300 mix-blend-difference will-change-[padding,width] w-[calc(100%-300px)] 2xl:w-[calc(100%-350px)] left-[300px] 2xl:left-[350px]"></div>
+        <div className="relative w-full h-max overflow-hidden transition-[padding,opacity] will-change-[padding,opacity] duration-300 xl:pl-[300px] 2xl:pl-[350px]">
+            <div className="absolute main-background h-full top-[70px] lg:top-[109px] transition-[width,left] duration-300 mix-blend-difference will-change-[padding,width] w-full xl:w-[calc(100%-300px)] 2xl:w-[calc(100%-350px)] xl:left-[300px] 2xl:left-[350px]"></div>
             <div className="relative w-full min-h-[calc(100vh-110px)] h-full px-6 md:px-10 lg:px-16 py-12 mb-20 mt-12 md:mt-16 lg:mt-28">
                 <div className="opacity-100 translate-y-2 animate-fade-y">
                     <div className="flex flex-col lg:flex-row gap-6 lg:gap-12 max-w-[1440px] desktop:max-w-[1800px] mx-auto">
@@ -51,7 +51,7 @@ const GameBoard = () => {
                                                         <div className="group flex items-center justify-center relative min-w-10 overflow-hidden transition duration-300 px-4 bg-[#303030] hover:bg-[#393939]/75 text-sm font-medium rounded-lg h-full w-[48px] text-[#C4C4C4] cursor-pointer [text-shadow: rgba(0, 0, 0, 0.5) 0px 2px]">+0.1</div>
                                                     </div>
                                                 </button>
-                                                <button className="bg-gradient-to-t from-[#222222] to-[#303030] p-[3px] rounded-2xl transition-opacity duration-300 cursor-pointer block sm:ml-1">
+                                                <button className="bg-gradient-to-t from-[#222222] to-[#303030] p-[3px] rounded-2xl transition-opacity duration-300 cursor-pointer hidden min-[1440px]:block">
                                                     <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#454545] to-[#232323] border-[1px] border-[#1D1D1D]">
                                                         <div className="group flex items-center justify-center relative min-w-10 overflow-hidden transition duration-300 px-4 bg-[#303030] hover:bg-[#393939]/75 text-sm font-medium rounded-lg h-full w-[48px] text-[#C4C4C4] cursor-pointer [text-shadow: rgba(0, 0, 0, 0.5) 0px 2px]">+1</div>
                                                     </div>
@@ -299,7 +299,7 @@ const GameBoard = () => {
                     <video className="pointer-events-none -z-[1] w-full max-w-[2160px] mx-auto absolute bottom-0 opacity-0 animate-fade-in" poster="/img/background.webp" src="/video/grid.webm"></video>
                 </div>
                 <div className="flex flex-col py-9 px-6 md:px-10 lg:px-16 pb-[100px] md:pb-9">
-                    <div className="w-full bg-blurp-gradient p-[1px] rounded-xl max-w-[1064px] mx-auto">
+                    <div className="w-full bg-blur p-gradient p-[1px] rounded-xl max-w-[1064px] mx-auto">
                         <div className="flex flex-col md:flex-row items-center bg-blurp-card w-full h-full rounded-[11px] px-8 py-6 gap-6 text-center md:text-left">
                             <div className="min-w-[140px] h-[103px]"></div>
                             <p className="grow text-xs leading-[20px] font-[500] text-[#e6e6e6]">
