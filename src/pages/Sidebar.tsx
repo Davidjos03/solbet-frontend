@@ -7,7 +7,7 @@ const Sidebar = () => {
   const { setIsToggle } = useUserProvider();
 
   return (
-    <div className="flex w-fit h-full">
+    <div className="flex w-fit h-full z-10">
       <div className={`xl:flex xl:flex-col fixed left-0 top-[70px] lg:top-[110px] w-[350px] lg:w-[300px] 2xl:w-[350px] h-[calc(100%-70px)] lg:h-[calc(100%-110px)] bg-[#141414] border-r border-[#1D1D1D] transition-transform duration-300 will-change-transform hidden`}>
         <div className="absolute w-full px-6 py-4 bg-[#141414] top-0 left-0 z-[10] grow-0 shrink-0 animate-fade-in">
           <div className="flex gap-2 mb-3">

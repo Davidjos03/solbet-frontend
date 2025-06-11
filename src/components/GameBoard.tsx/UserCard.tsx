@@ -1,7 +1,7 @@
 const UserCard = () => {
     return (
         <div
-            className="group w-full bg-gradient-to-t from-[#222222] to-[#303030] rounded-[15px] p-[3px] cursor-pointer mb-4 pointer-events-none md:pointer-events-auto"
+            className="group w-full bg-gradient-to-t from-[#222222] to-[#303030] rounded-[15px] p-[3px] cursor-pointer mb-4 pointer-events-none md:pointer-events-auto opacity-100 "
         // style="opacity: 1; transform: scale(1); transform-origin: 50% 50% 0px"
         >
             <div
@@ -16,16 +16,16 @@ const UserCard = () => {
                                 className="rounded-[8px] overflow-hidden border-[1px] border-[#222222] aspect-square hover:brightness-125 duration-300 cursor-pointer w-12 h-12 transition-[filter] will-change-[filter] group-hover:brightness-125 shrink-0 shadow-[0px_1.48px_0px_0px_#FFFFFF1A_inset] bg-[#303045] p-[1px] border-none"
                             >
                                 <div
-                                    className="w-full h-full p-0.5 border-[1px] border-[#222222] rounded-[10px] bg-current relative overflow-hidden"
+                                    className="w-full h-full p-0.5 border-[1px]  border-[#222222] rounded-[8px] bg-current relative overflow-hidden"
                                 >
                                     <div
-                                        className="bg-gradient-to-b from-white to-white/0 opacity-30 absolute top-0 left-0 w-full h-full"
+                                        className="bg-gradient-to-b from-[#9176ff] to-[#9176ff]/50 opacity-100 rounded-[8px] absolute top-0 left-0 w-full h-full"
                                     ></div>
                                     <div
-                                        className="w-full h-full border-[1px] border-[#222222] rounded-2 overflow-hidden shadow-avatar-emboss relative z-[3] bg-[#595959]"
+                                        className="w-full h-full border-[1px] rounded-[8px] border-[#222222] rounded-2 overflow-hidden shadow-avatar-emboss relative z-[3] bg-[#595959]"
                                     >
                                         <img
-                                            src="https://solpot.com/cdn/avatars/4bece49215939a8e1edef0799fa93a1526ef3bf7c890b79161fb5cb67780e821.jpeg"
+                                            src="/images/avatars/9fddb4e7b9f48a521886e34bd22474b9ae8da2665a6983b2923f5a3a6e60d81b.jpeg"
                                             className="object-cover object-center w-full h-full"
                                             alt=""
                                         />
@@ -35,7 +35,7 @@ const UserCard = () => {
                         </div>
                         <div className="flex flex-col items-start gap-1 ml-2 -top-[2px] relative">
                             <p
-                                className="text-sm font-book text-[#C4C4C4] w-[50px] sm:w-[75px] truncate"
+                                className="font-bold text-sm font-book text-[#C4C4C4] w-[50px] sm:w-[75px] truncate"
                             >
                                 XSpEN
                             </p>
@@ -64,34 +64,28 @@ const UserCard = () => {
                                 />
                                 <div className="absolute inset-0 m-auto w-full h-full mix-blend-screen">
                                     <img
-                                        src="/img/rarities/blue.webp"
+                                        src="/images/rarities/purple.webp"
                                         className="object-cover object-center w-full"
                                         alt=""
                                     />
                                 </div>
-                                <div
-                                    className="w-2/3 h-auto aspect-square rounded-full absolute inset-0 m-auto opacity-25 mix-blend-plus-lighter bg-[#89B6FF] blur-6"
-                                ></div>
                             </div>
                         </div>
                         <div className="min-w-[80px] relative -left-1.5 sm:left-0">
-                            <p className="text-xl font-semibold leading-7">0.001</p>
-                            <p className="text-sm font-book text-[#C4C4C4]">~$0.15</p>
+                            <p className="text-xl text-white font-extrabold leading-7">0.001</p>
+                            <p className="text-sm font-medium font-book text-[#C4C4C4]">~$0.15</p>
                         </div>
                     </div>
                     <div className="text-right">
-                        <p className="text-sm font-book text-[#C4C4C4]">Chance</p>
-                        <p className="font-semibold leading-7">0.43%</p>
+                        <p className="text-sm font-book font-bold text-[#C4C4C4]">Chance</p>
+                        <p className="font-bold text-white leading-7">0.43%</p>
                     </div>
                 </div>
-                <div
-                    className="bg-gradient-to-r from-current to-[#1F1F2D]/0 absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none text-[#70d4ff]"
-                ></div>
                 <div
                     className="w-12 h-12 absolute -top-6 -left-6 rounded-full blur-[60px] pointer-events-none text-[#39c4ff]"
                 ></div>
                 <div
-                    className="absolute right-0 inset-y-0 m-auto w-max h-max text-[#70d4ff]"
+                    className="absolute right-0 inset-y-0 m-auto w-max h-max text-[#9176ff]"
                 >
                     <div
                         className="bg-gradient-to-b from-transparent via-white to-transparent absolute right-0 w-1/2 h-full mix-blend-plus-lighter transition-opacity opacity-10 z-[3] duration-[1s]"
