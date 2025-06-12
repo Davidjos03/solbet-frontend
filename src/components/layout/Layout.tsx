@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import { Icon } from "@iconify-icon/react";
 import { useUserProvider } from "@/contexts/UserContext";
+import ProfileModal from "../Modal/ProfileModal";
 
 const Layout = () => {
   const { setIsToggle } = useUserProvider()
@@ -36,6 +37,7 @@ const Layout = () => {
           </div>
         </div>
       </div>
+      <ProfileModal />
     </div>
   );
 };

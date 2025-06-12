@@ -3,79 +3,79 @@ import ChatItem from "./ChatItem"
 const Chat = () => {
     const chats: IChatItem[] = [
         {
-            image: "a16f18d0d596d1faf39ecde21f66ab4b155624f0979085d5ed3905a4c2868488.jpeg",
+            image: "9fddb4e7b9f48a521886e34bd22474b9ae8da2665a6983b2923f5a3a6e60d81b.jpeg",
             time: "20:10",
             user: "smdjg",
             msg: "Qweezy go into pot"
         },
         {
-            image: "a16f18d0d596d1faf39ecde21f66ab4b155624f0979085d5ed3905a4c2868488.jpeg",
+            image: "9fddb4e7b9f48a521886e34bd22474b9ae8da2665a6983b2923f5a3a6e60d81b.jpeg",
             time: "20:10",
             user: "smdjg",
             msg: "Qweezy go into pot"
         },
         {
-            image: "a16f18d0d596d1faf39ecde21f66ab4b155624f0979085d5ed3905a4c2868488.jpeg",
+            image: "9fddb4e7b9f48a521886e34bd22474b9ae8da2665a6983b2923f5a3a6e60d81b.jpeg",
             time: "20:10",
             user: "smdjg",
             msg: "Qweezy go into pot"
         },
         {
-            image: "a16f18d0d596d1faf39ecde21f66ab4b155624f0979085d5ed3905a4c2868488.jpeg",
+            image: "9fddb4e7b9f48a521886e34bd22474b9ae8da2665a6983b2923f5a3a6e60d81b.jpeg",
             time: "20:10",
             user: "smdjg",
             msg: "Qweezy go into pot"
         },
         {
-            image: "a16f18d0d596d1faf39ecde21f66ab4b155624f0979085d5ed3905a4c2868488.jpeg",
+            image: "9fddb4e7b9f48a521886e34bd22474b9ae8da2665a6983b2923f5a3a6e60d81b.jpeg",
             time: "20:10",
             user: "smdjg",
             msg: "Qweezy go into pot"
         },
         {
-            image: "a16f18d0d596d1faf39ecde21f66ab4b155624f0979085d5ed3905a4c2868488.jpeg",
+            image: "9fddb4e7b9f48a521886e34bd22474b9ae8da2665a6983b2923f5a3a6e60d81b.jpeg",
             time: "20:10",
             user: "smdjg",
             msg: "Qweezy go into pot"
         },
         {
-            image: "a16f18d0d596d1faf39ecde21f66ab4b155624f0979085d5ed3905a4c2868488.jpeg",
+            image: "9fddb4e7b9f48a521886e34bd22474b9ae8da2665a6983b2923f5a3a6e60d81b.jpeg",
             time: "20:10",
             user: "smdjg",
             msg: "Qweezy go into pot"
         },
         {
-            image: "a16f18d0d596d1faf39ecde21f66ab4b155624f0979085d5ed3905a4c2868488.jpeg",
+            image: "9fddb4e7b9f48a521886e34bd22474b9ae8da2665a6983b2923f5a3a6e60d81b.jpeg",
             time: "20:10",
             user: "smdjg",
             msg: "Qweezy go into pot"
         },
         {
-            image: "a16f18d0d596d1faf39ecde21f66ab4b155624f0979085d5ed3905a4c2868488.jpeg",
+            image: "9fddb4e7b9f48a521886e34bd22474b9ae8da2665a6983b2923f5a3a6e60d81b.jpeg",
             time: "20:10",
             user: "smdjg",
             msg: "Qweezy go into pot"
         },
         {
-            image: "a16f18d0d596d1faf39ecde21f66ab4b155624f0979085d5ed3905a4c2868488.jpeg",
+            image: "9fddb4e7b9f48a521886e34bd22474b9ae8da2665a6983b2923f5a3a6e60d81b.jpeg",
             time: "20:10",
             user: "smdjg",
             msg: "Qweezy go into pot"
         },
         {
-            image: "a16f18d0d596d1faf39ecde21f66ab4b155624f0979085d5ed3905a4c2868488.jpeg",
+            image: "9fddb4e7b9f48a521886e34bd22474b9ae8da2665a6983b2923f5a3a6e60d81b.jpeg",
             time: "20:10",
             user: "smdjg",
             msg: "Qweezy go into pot"
         },
         {
-            image: "a16f18d0d596d1faf39ecde21f66ab4b155624f0979085d5ed3905a4c2868488.jpeg",
+            image: "9fddb4e7b9f48a521886e34bd22474b9ae8da2665a6983b2923f5a3a6e60d81b.jpeg",
             time: "20:10",
             user: "smdjg",
             msg: "Qweezy go into pot"
         },
         {
-            image: "a16f18d0d596d1faf39ecde21f66ab4b155624f0979085d5ed3905a4c2868488.jpeg",
+            image: "9fddb4e7b9f48a521886e34bd22474b9ae8da2665a6983b2923f5a3a6e60d81b.jpeg",
             time: "20:10",
             user: "smdjg",
             msg: "Qweezy go into pot"

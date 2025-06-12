@@ -62,6 +62,7 @@ const Sidebar = () => {
               </div>
             </div>
           </div>
+          <div className="absolute bg-gradient-to-b from-[#141414] to-[#141414]/0 w-full translate-y-[40px] bottom-0 left-0 h-[40px]"></div>
         </div>
         <Chat />
         <SendChat />

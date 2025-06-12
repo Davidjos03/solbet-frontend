@@ -10,11 +10,6 @@ interface IChatItem {
   msg: string;
 }
 
-interface IGameItem {
-  icon: string;
-  name: string;
-}
-
 interface IUser {
   name: string;
   icon: string;

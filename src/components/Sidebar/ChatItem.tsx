@@ -1,7 +1,10 @@
+import { useUserProvider } from "@/contexts/UserContext"
 
 const ChatItem: React.FC<IChatItem> = ({ image, time, user, msg }) => {
+    const { setIsProfileModal } = useUserProvider();
+
     return (
-        <div className="animate-popup-enter">
+        <div className="animate-popup-enter" onClick={() => { setIsProfileModal(true) }}>
             <div className="relative bg-[#1D1D1D] hover:bg-[#222222]/90 p-3 pl-8 rounded-lg cursor-pointer transition-colors duration-200">
                 <div
                     className="w-9 h-9 rounded-[8px] overflow-hidden border-[1px] border-[#222222] aspect-square hover:brightness-125 transition-[filter] duration-300 cursor-pointer absolute -left-3 bg-[#303045] p-[1px] border-none"

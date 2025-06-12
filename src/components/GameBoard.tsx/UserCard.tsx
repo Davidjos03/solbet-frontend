@@ -1,8 +1,13 @@
+import { useUserProvider } from "@/contexts/UserContext"
+
 const UserCard = () => {
+    const { setIsProfileModal } = useUserProvider()
+
     return (
         <div
             className="group w-full bg-gradient-to-t from-[#222222] to-[#303030] rounded-[15px] p-[3px] cursor-pointer mb-4 pointer-events-none md:pointer-events-auto opacity-100 "
-        // style="opacity: 1; transform: scale(1); transform-origin: 50% 50% 0px"
+            // style="opacity: 1; transform: scale(1); transform-origin: 50% 50% 0px"
+            onClick={() => setIsProfileModal(true)}
         >
             <div
                 className="w-full h-[92px] shadow-bet rounded-[13px] bg-gradient-to-b from-[#2E2E35] to-[#1A1A22] p-[3px] relative overflow-hidden"
