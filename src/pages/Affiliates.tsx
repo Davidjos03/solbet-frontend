@@ -147,25 +147,25 @@ const Affiliates = () => {
                                         <img src="/images/dot-pattern-stat.webp" className="object-cover object-center absolute right-0 top-0 h-full w-full" alt="Pattern"></img>
                                     </div>
                                 </div>
-                                <div className="h-[461px]">
-                                    <div className="mb-4">
-                                        <div className="flex justify-between items-center">
-                                            <p className="text-white font-semibold">Wager Stats</p>
-                                            <DuringDropdown />
-                                        </div>
+                            </div>
+                            <div className="h-[461px]">
+                                <div className="mb-4">
+                                    <div className="flex justify-between items-center">
+                                        <p className="text-white font-semibold">Wager Stats</p>
+                                        <DuringDropdown />
                                     </div>
-                                    <div className="w-full h-[1px] bg-[#222222] mt-6 mb-0"></div>
                                 </div>
-                                <div>
-                                    <p className="text-white font-semibold mb-4">Top Depositors</p>
-                                    <div className="flex flex-col gap-3">
-                                        <div className="flex px-4 text-sm text-[#A2A2A2] w-full gap-2">
-                                            <div className="w-[25%]">Name</div>
-                                            <div className="w-[20%]">Wagered</div>
-                                            <div className="w-[30%]">Commission</div>
-                                            <div className="w-[25%]">First Seen</div>
-                                            <div className="w-[25%] text-right">Last Seen</div>
-                                        </div>
+                                <div className="w-full h-[1px] bg-[#222222] mt-6 mb-0"></div>
+                            </div>
+                            <div>
+                                <p className="text-white font-semibold mb-4">Top Depositors</p>
+                                <div className="flex flex-col gap-3">
+                                    <div className="flex px-4 text-sm text-[#A2A2A2] w-full gap-2">
+                                        <div className="w-[25%]">Name</div>
+                                        <div className="w-[20%]">Wagered</div>
+                                        <div className="w-[30%]">Commission</div>
+                                        <div className="w-[25%]">First Seen</div>
+                                        <div className="w-[25%] text-right">Last Seen</div>
                                     </div>
                                 </div>
                             </div>
