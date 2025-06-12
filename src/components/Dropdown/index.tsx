@@ -1,4 +1,4 @@
-import GameDropdown from "./DuringDropdown";
-import ProfileDropdown from "./ProfileDropdown";
+import DuringDropdown from "./DuringDropdown";
+import DropDownProfile from "./DropdownProfile";
 
-export { GameDropdown, ProfileDropdown };
+export { DuringDropdown, DropDownProfile };
