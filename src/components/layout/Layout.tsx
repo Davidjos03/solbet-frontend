@@ -3,6 +3,8 @@ import Header from "./Header";
 import { Icon } from "@iconify-icon/react";
 import { useUserProvider } from "@/contexts/UserContext";
 import ProfileModal from "../Modal/ProfileModal";
+import Sidebar from "./Sidebar";
+import Footer from "./Footer";
 
 const Layout = () => {
   const { setIsToggle } = useUserProvider()
@@ -29,7 +31,14 @@ const Layout = () => {
         </button>
       </div>
       <Header />
-      <Outlet />
+      <div className="flex w-full h-full relative">
+      <Sidebar />
+      <div className="relative w-full h-max overflow-hidden transition-[padding,opacity] will-change-[padding,opacity] duration-300 xl:pl-[300px] 2xl:pl-[350px]">
+        <div className="absolute main-background h-full top-[70px] lg:top-[109px] transition-[width,left] duration-300 mix-blend-difference will-change-[padding,width] w-full xl:w-[calc(100%-300px)] 2xl:w-[calc(100%-350px)] xl:left-[300px] 2xl:left-[350px]"></div>
+        <Outlet /> 
+        <Footer />
+      </div>
+    </div>
       <div className="intercom-lightweight-app">
         <div className="intercom-lightweight-app-launcher intercom-launcher" role="button" tabIndex={0} aria-label="Open Intercom Messenger" aria-live="polite">
           <div className="intercom-lightweight-app-launcher-icon intercom-lightweight-app-launcher-icon-open">

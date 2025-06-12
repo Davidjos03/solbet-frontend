@@ -1,6 +1,6 @@
 // import { ChatItem, SendChat } from "../Sidebar";
 import { Icon } from "@iconify-icon/react";
-import { Chat, SendChat } from "../components/Sidebar";
+import { Chat, SendChat } from "../Sidebar";
 import { useUserProvider } from "@/contexts/UserContext";
 
 const Sidebar = () => {

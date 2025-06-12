@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import { Toaster } from "react-hot-toast";
 import { UserProvider } from "./contexts/UserContext";
-import Home from "./pages/Home";
+import Jackpot from "./pages/Jackpot";
+import Affiliates from "./pages/Affiliates";
 
 
 function App() {
@@ -12,7 +13,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Layout />}>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Jackpot />} />
+            <Route path="/affiliates" element={<Affiliates />} />
           </Route>
         </Routes>
       </Router>

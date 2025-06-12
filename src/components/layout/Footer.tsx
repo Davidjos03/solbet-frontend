@@ -1,0 +1,109 @@
+import { Icon } from "@iconify-icon/react";
+
+const Footer = () => {
+    return (
+        <div className="w-full bg-gradient-to-br from-[#141414] to-[#0D0D0D] relative">
+            <div
+                className="absolute inset-x-0 right-0 bottom-[100%] pointer-events-none -z-[1] w-full mix-blend-screen mx-auto bg-black h-[300px]"
+                style={{
+                    maskImage: "linear-gradient(to top, black, transparent 90%)",
+                    WebkitMaskImage: "linear-gradient(to top, black, transparent 90%)"
+                }}
+            >
+                <video className="pointer-events-none -z-[1] w-full max-w-[2160px] mx-auto absolute bottom-0 opacity-0 animate-fade-in" poster="/img/background.webp" src="/video/grid.webm"></video>
+            </div>
+            <div className="flex flex-col py-9 px-6 md:px-10 lg:px-16 pb-[100px] md:pb-9">
+                <div className="w-full bg-blur p-gradient p-[1px] rounded-xl max-w-[1064px] mx-auto">
+                    <div className="flex flex-col md:flex-row items-center bg-blurp-card w-full h-full rounded-[11px] px-8 py-6 gap-6 text-center md:text-left">
+                        <div className="min-w-[140px] h-[103px]"></div>
+                        <p className="grow text-xs leading-[20px] font-[500] text-[#e6e6e6]">
+                            Welcome to Solbet. Play 100% fair on-chain Solana based gambling games like Coinflip and Jackpot. Solbet provides instant on-chain deposits and withdrawals for bets of any size. We are dedicated to providing gambling games solely for the SOL chain. Earn and play with free Solana by opening your Daily Case or participating in our Airdrop promotion.
+                            <br />
+                            <br />
+                            In order to register for this website, the user is required to accept the
+                            <a className="text-white font-semibold" href="/terms">General Terms and Conditions</a>
+                            . In the event the
+                            <a className="text-white font-semibold" href="/terms">General Terms and Conditions</a>
+                            are updated, existing users may choose to discontinue using the products and services before the said update shall become effective, which is a minimum of two weeks after it has been announced.
+                        </p>
+                    </div>
+                </div>
+                <div className="rounded-xl shadow-[0_4px_8px_0_rgba(0,0,0,0.24)] overflow-hidden border border-[#6e6e8c42] max-w-[1064px] mx-auto mt-5">
+                    <div className="rounded-xl bg-[#1C1B24]/25 bg-[linear-gradient(91deg,_rgba(110,110,140,0.1)_0%,_rgba(110,110,140,0.05)_100%)]">
+                        <div className="flex flex-row justify-center items-center py-4 px-6 gap-6">
+                            <div className="min-w-11 h-11"></div>
+                            <p className="text-white/50 font-normal leading-[1.25rem] text-xs">Solbet.com is owned and operated by Solbet Ltd. registration number: 2024-00724, registered address: ACE CORPORATE SERVICES INC, Top Floor, Rodney Court Building, Rodney Bay, Gros Islet, Saint Lucia. Solpot.com is licensed and regulated by the Government of the Autonomous Island of Anjouan and operates under License No. ALSI-202504013-FI1. Solpot.com has passed all regulatory compliance and is legally authorized to conduct gaming operations for all games of chance and wagering.</p>
+                        </div>
+                    </div>
+                </div>
+                <div className="flex flex-col lg:flex-row justify-between items-center mt-[42px] max-w-[1064px] mx-auto w-full gap-12">
+                    <div className="flex gap-6 w-max text-center lg:text-left">
+                        <a className="" href="mailto:Solbetplay@gmail.com">
+                            <p className="text-[#A2A2A2] text-sm mb-2 font-medium leading-[17px]">Contact Support:</p>
+                            <div className="text-white transition-colors duration-300 cursor-pointer font-book leading-[19px]">Solbetplay@gmail.com</div>
+                        </a>
+                        <a className="" href="mailto:lunabetis@hotmail.com">
+                            <p className="text-[#A2A2A2] text-sm mb-2 font-medium leading-[17px]">Marketing Inquiries:</p>
+                            <div className="text-white transition-colors duration-300 cursor-pointer font-book leading-[19px]">lunabetis@hotmail.com</div>
+                        </a>
+                    </div>
+                    <div className="flex flex-col sm:flex-row gap-6 w-3/4 sm:w-max">
+                        <a href="https://x.com/solpotcom" target="_blank" rel="noreferrer" className="group relative p-[1px] bg-gradient-to-r from-[#303030] to-[#2B2B2B] rounded-xl w-full sm:w-[236px] hover:brightness-125 transition-[filter] cursor-pointer">
+                            <div className="absolute rounded-lg -top-1.5 -right-3 z-[3] rotate-3 p-[1px] group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:rotate-6 transition-transform duration-300 ease-[cubic-bezier(.17,1.66,.68,1.01)] bg-green-shine">
+                                <div className="text-sm font-book w-full h-full py-[5px] px-3 rounded-[7px] border-[#00d289] bg-[#204E2D] text-white">Follow now</div>
+                            </div>
+                            <div className="flex items-center w-full h-full gap-2.5 p-3 bg-gradient-to-r from-[#1D1D1D] from-[50%] to-[120%] rounded-[11px] overflow-hidden relative to-[#27432F]">
+                                <div className="flex items-center justify-center rounded-md bg-[#0D0D0D] w-9 h-9">
+                                    <Icon icon="fa6-brands:x-twitter" width="24" height="24" style={{ color: "#fff" }} />
+                                </div>
+                                <div>
+                                    <p className="text-xs text-[#C4C4C4]">Follow our</p>
+                                    <p className="text-sm font-semibold text-white">X / Twitter</p>
+                                </div>
+                                <img src="/img/dot-pattern-referral.webp" className="w-full object-cover object-center absolute top-0 -right-5" alt=""></img>
+                            </div>
+                        </a>
+                        <a href="https://discord.gg/solpot" target="_blank" rel="noreferrer" className="group relative p-[1px] bg-gradient-to-r from-[#303030] to-[#2B2B2B] rounded-xl w-full sm:w-[236px] hover:brightness-125 transition-[filter] cursor-pointer">
+                            <div className="absolute rounded-lg -top-1.5 -right-3 z-[3] rotate-3 p-[1px] group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:rotate-6 transition-transform duration-300 ease-[cubic-bezier(.17,1.66,.68,1.01)] bg-green-shine">
+                                <div className="text-sm font-book w-full h-full py-[5px] px-3 rounded-[7px] border-[00d289] bg-[#204E2D] text-white">Join</div>
+                            </div>
+                            <div className="flex items-center w-full h-full gap-2.5 p-3 bg-gradient-to-r from-[#1D1D1D] from-[50%] to-[120%] rounded-[11px] overflow-hidden relative to-[#27432F]">
+                                <div className="flex items-center justify-center rounded-md bg-[#0D0D0D] w-9 h-9">
+                                    <Icon icon="flowbite:discord-solid" width="24" height="24" style={{ color: "#fff" }} />
+                                </div>
+                                <div>
+                                    <p className="text-xs text-[#C4C4C4]">Join our</p>
+                                    <p className="text-sm font-semibold text-white">Discord</p>
+                                </div>
+                                <img src="/img/dot-pattern-referral.webp" className="w-full object-cover object-center absolute top-0 -right-5" alt=""></img>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div className="flex items-center justify-between mt-[42px] max-w-[1064px] mx-auto w-full">
+                    <p className="text-sm text-[#A2A2A25C] font-book mr-2">© 2024 Solpot.com All Rights Reserved</p>
+                    <button className="" id="headlessui-menu-button-:r8:" type="button" aria-haspopup="menu" aria-expanded="false" data-headlessui-state="" aria-controls="headlessui-menu-items-:r9:">
+                        <div className="group justify-center relative h-10 min-w-10 focus:outline-none overflow-hidden transition duration-300 gap-1 px-4 w-full bg-[#303030] hover:bg-[#393939]/75 text-sm font-medium text-white rounded-lg flex items-center border-[#3B3B3B] cursor-pointer">
+                            <span>
+                                <div className="flex items-center gap-2">
+                                    <div className="flag  size-s   border-radius ">
+                                        <img src="/images/flags/US.svg"></img>
+                                    </div>English</div>
+                            </span>
+                            <Icon icon="solar:alt-arrow-down-line-duotone" width="16" height="16" style={{ color: "#fff" }} />
+                        </div>
+                    </button>
+                    <div className="z-[1002] origin-top w-[calc(var(--button-width)*1.5)] p-2 rounded-lg mt-2 bg-[#1D1D1D] border border-[#303030] transition duration-200 ease-out data-[closed]:scale-95 data-[closed]:opacity-0" data-floating-ui-focusable="" data-anchor="bottom end" id="headlessui-menu-items-:r9:" role="menu" hidden data-headlessui-state="" style={{ display: "none", overflow: "auto", maxWidth: "1422px", maxHeight: "37px" }} aria-labelledby="headlessui-menu-button-:r8:">
+                        <div className="block data-[focus]:bg-[#303030] px-3 py-2 rounded-md text-sm font-semibold cursor-pointer transition-colors" id="headlessui-menu-item-:rc:" role="menuitem" tabIndex={-1} data-headlessui-state="">English</div>
+                        <div className="block data-[focus]:bg-[#303030] px-3 py-2 rounded-md text-sm font-semibold cursor-pointer transition-colors" id="headlessui-menu-item-:rd:" role="menuitem" tabIndex={-1} data-headlessui-state="">Español</div>
+                        <div className="block data-[focus]:bg-[#303030] px-3 py-2 rounded-md text-sm font-semibold cursor-pointer transition-colors" id="headlessui-menu-item-:re:" role="menuitem" tabIndex={-1} data-headlessui-state="">Français</div>
+                        <div className="block data-[focus]:bg-[#303030] px-3 py-2 rounded-md text-sm font-semibold cursor-pointer transition-colors" id="headlessui-menu-item-:rf:" role="menuitem" tabIndex={-1} data-headlessui-state="">Türkçe</div>
+                        <div className="block data-[focus]:bg-[#303030] px-3 py-2 rounded-md text-sm font-semibold cursor-pointer transition-colors" id="headlessui-menu-item-:rg:" role="menuitem" tabIndex={-1} data-headlessui-state="">简体中文</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default Footer

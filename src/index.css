@@ -132,6 +132,10 @@
       ),
       linear-gradient(#1f1f2d, #171721);
   }
+  .bg-blurp-card {
+    background-image: linear-gradient(#1f1f2d00 -2.71%, #6741ff26 100%),
+      linear-gradient(#1f1f2d 0%, #171721 100%);
+  }
 }
 
 #root {

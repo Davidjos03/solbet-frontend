@@ -44,6 +44,10 @@ const Header = () => {
                             <Icon icon="gravity-ui:target-dart" width="24" height="24" style={{ color: "#6741ff" }} />
                             <h1 className="transition-colors duration-300 font-semibold text-base block text-[#E3E3E3]">Jackpot</h1>
                         </a>
+                        <a href="/affiliates" className="flex justify-center items-center w-[110px] lg:w-[123px] text-base gap-1.5 transition-colors duration-300 text-[#6741FF]" aria-current="page">
+                            <Icon icon="material-symbols:person-rounded" width="24" height="24" style={{ color: "#6741ff" }} />
+                            <h1 className="transition-colors duration-300 font-semibold text-base block text-[#A2A2A2]">Affiliates</h1>
+                        </a>
                     </div>
                     <div className="flex items-center gap-1.5 sm:gap-3 w-full md:w-auto h-full ml-auto md:m-0">
                         <button className="flex flex-col justify-center items-center w-[123px] text-base gap-0.5 transition-colors duration-300 text-[#6741FF] relative mr-auto ml-4 lg:mr-4 h-full">
