@@ -71,11 +71,11 @@ const Jackpot = () => {
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 2xl:gap-4 justify-between w-full -mt-1.5">
-                                <div className="transition-colors duration-300 p-[4px] rounded-xl h-[97px] relative w-full border-[#2D254B] bg-[#0D0D0D]">
-                                    <div className="absolute w-[calc(100%+5px)] h-[calc(100%+4px)] inset-y-0 my-auto border-[2px] border-[#2D254B] top-0 -left-[3px] rounded-[14px]"></div>
-                                    <div className="p-[1px] h-full rounded-lg relative border border-[#6741ff] overflow-hidden bg-conic-progress">
+                                <div className="transition-colors duration-300 p-[4px] rounded-xl h-[97px] relative w-full border-[#0c2e4f] bg-[#0D0D0D]">
+                                    <div className="absolute w-[calc(100%+5px)] h-[calc(100%+4px)] inset-y-0 my-auto border-[2px] border-[#0c2e4f] top-0 -left-[3px] rounded-[14px]"></div>
+                                    <div className="p-[1px] h-full rounded-lg relative border border-[#04D9FF] overflow-hidden bg-conic-progress">
                                         <div className="flex flex-col items-center justify-center w-full h-full bg-[#1D1D1D] rounded-[7px] relative z-[3] overflow-hidden">
-                                            <div className="bg-gradient-to-l from-[#6741FF]/15 to-[#6741FF]/0 w-full h-full absolute"></div>
+                                            <div className="bg-gradient-to-l from-[#04D9FF]/15 to-[#04D9FF]/0 w-full h-full absolute"></div>
                                             <img src="/images/dot-pattern-stat.webp" className="object-cover object-center absolute top-0 left-0 w-full h-full" alt=""></img>
                                             <div className="flex items-center gap-1.5">
                                                 <img src="/images/solana.png" className="object-cover object-center w-6 h-6" alt=""></img>

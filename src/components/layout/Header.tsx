@@ -7,8 +7,8 @@ const Header = () => {
             <a href="/" className="flex items-center justify-center w-[100px] xl:w-[300px] 2xl:w-[350px] h-full flex-none relative border-r border-[#0D0D0D] active" aria-current="page">
                 <img src="/images/header-glow.webp" alt="" className="object-cover object-center absolute top-0 left-0 w-full h-full -z-[1] opacity-50" />
                 <div className="flex items-center gap-4">
-                    <img src="/images/icon.gif" alt="" className='object-cover object-center w-12' />
-                    <p className="text-[#E3E3E3] text-[24px] font-extrabold uppercase xl:block hidden">solbet</p>
+                    <img src="/images/icon.png" alt="" className='object-cover object-center w-12' />
+                    <p className="text-[#E3E3E3] text-[32px] font-extrabold uppercase xl:block hidden">solbet</p>
                 </div>
             </a>
             <div className="flex flex-col w-full h-full">

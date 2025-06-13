@@ -17,14 +17,7 @@ const Footer = () => {
                     <div className="flex flex-col md:flex-row items-center bg-blurp-card w-full h-full rounded-[11px] px-8 py-6 gap-6 text-center md:text-left">
                         <div className="min-w-[140px] h-[103px]"></div>
                         <p className="grow text-xs leading-[20px] font-[500] text-[#e6e6e6]">
-                            Welcome to Solbet. Play 100% fair on-chain Solana based gambling games like Coinflip and Jackpot. Solbet provides instant on-chain deposits and withdrawals for bets of any size. We are dedicated to providing gambling games solely for the SOL chain. Earn and play with free Solana by opening your Daily Case or participating in our Airdrop promotion.
-                            <br />
-                            <br />
-                            In order to register for this website, the user is required to accept the
-                            <a className="text-white font-semibold" href="/terms">General Terms and Conditions</a>
-                            . In the event the
-                            <a className="text-white font-semibold" href="/terms">General Terms and Conditions</a>
-                            are updated, existing users may choose to discontinue using the products and services before the said update shall become effective, which is a minimum of two weeks after it has been announced.
+                            SolBet is a next-generation Web3 gaming platform built on Solana. We bring excitement, transparency, and innovation to online betting through jackpots, NFTs, and social features. All draws are powered by smart contracts and verified on-chain. Join a new era of fair and engaging crypto entertainment.
                         </p>
                     </div>
                 </div>
@@ -32,7 +25,9 @@ const Footer = () => {
                     <div className="rounded-xl bg-[#1C1B24]/25 bg-[linear-gradient(91deg,_rgba(110,110,140,0.1)_0%,_rgba(110,110,140,0.05)_100%)]">
                         <div className="flex flex-row justify-center items-center py-4 px-6 gap-6">
                             <div className="min-w-11 h-11"></div>
-                            <p className="text-white/50 font-normal leading-[1.25rem] text-xs">Solbet.com is owned and operated by Solbet Ltd. registration number: 2024-00724, registered address: ACE CORPORATE SERVICES INC, Top Floor, Rodney Court Building, Rodney Bay, Gros Islet, Saint Lucia. Solpot.com is licensed and regulated by the Government of the Autonomous Island of Anjouan and operates under License No. ALSI-202504013-FI1. Solpot.com has passed all regulatory compliance and is legally authorized to conduct gaming operations for all games of chance and wagering.</p>
+                            <p className="text-white/50 font-normal leading-[1.25rem] text-xs">
+                                SolBet is a decentralized platform operated by the SolBet team. All games on SolBet are powered by smart contracts on the Solana blockchain, ensuring transparency, fairness, and on-chain verification of results. SolBet does not currently operate under a gaming license and is offered as a community-based experimental Web3 platform. Use of the platform is at your own discretion and subject to applicable laws in your jurisdiction. By using SolBet, you agree to the platform’s Terms and Conditions and acknowledge the inherent risks of blockchain-based games.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -48,7 +43,7 @@ const Footer = () => {
                         </a>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-6 w-3/4 sm:w-max">
-                        <a href="https://x.com/solpotcom" target="_blank" rel="noreferrer" className="group relative p-[1px] bg-gradient-to-r from-[#303030] to-[#2B2B2B] rounded-xl w-full sm:w-[236px] hover:brightness-125 transition-[filter] cursor-pointer">
+                        <a href="https://x.com/lunabetis" target="_blank" rel="noreferrer" className="group relative p-[1px] bg-gradient-to-r from-[#303030] to-[#2B2B2B] rounded-xl w-full sm:w-[236px] hover:brightness-125 transition-[filter] cursor-pointer">
                             <div className="absolute rounded-lg -top-1.5 -right-3 z-[3] rotate-3 p-[1px] group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:rotate-6 transition-transform duration-300 ease-[cubic-bezier(.17,1.66,.68,1.01)] bg-green-shine">
                                 <div className="text-sm font-book w-full h-full py-[5px] px-3 rounded-[7px] border-[#00d289] bg-[#204E2D] text-white">Follow now</div>
                             </div>
@@ -81,7 +76,7 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className="flex items-center justify-between mt-[42px] max-w-[1064px] mx-auto w-full">
-                    <p className="text-sm text-[#A2A2A25C] font-book mr-2">© 2024 Solpot.com All Rights Reserved</p>
+                    <p className="text-sm text-[#A2A2A25C] font-book mr-2">© 2025 SolBet — Powered by Solana. All rights reserved.</p>
                     <button className="" id="headlessui-menu-button-:r8:" type="button" aria-haspopup="menu" aria-expanded="false" data-headlessui-state="" aria-controls="headlessui-menu-items-:r9:">
                         <div className="group justify-center relative h-10 min-w-10 focus:outline-none overflow-hidden transition duration-300 gap-1 px-4 w-full bg-[#303030] hover:bg-[#393939]/75 text-sm font-medium text-white rounded-lg flex items-center border-[#3B3B3B] cursor-pointer">
                             <span>
