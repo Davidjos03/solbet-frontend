@@ -303,7 +303,7 @@
     background-size: cover;
   }
   .text-emboss {
-    text-shadow: 0 -1px 0 #c39eff;
+    text-shadow: 0 -1px 0 #9ed0ff;
   }
   .text-glow {
     text-shadow: 0 0 8px var(--tw-shadow-color);
@@ -349,7 +349,7 @@
     max-height: 48px;
     height: 48px;
     border-radius: 50%;
-    background: #6945f6;
+    background: #2c5fbf;
     cursor: pointer;
     box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.06),
       0 2px 32px 0 rgba(0, 0, 0, 0.16);
@@ -401,9 +401,9 @@
     background-image: conic-gradient(
       from 181.06deg,
       #7030d6 -49.9deg,
-      #3b2cbf 210.06deg,
+      #2c5fbf 210.06deg,
       #7030d6 310.1deg,
-      #3b2cbf 570.06deg
+      #2c5fbf 570.06deg
     );
   }
   #global-modal {

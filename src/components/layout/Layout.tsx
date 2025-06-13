@@ -13,10 +13,10 @@ const Layout = () => {
     <div className="h-full min-h-screen w-full pt-0 pb-0 block main-background">
       <div className="fixed top-0 left-0 w-full h-full z-[10000] flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none">
         <div className="absolute top-0 z-30 h-0.5 w-full">
-          <div className="animate-top-loader h-full w-1/2 bg-[#6741FF]"></div>
+          <div className="animate-top-loader h-full w-1/2 bg-[#2c5fbf]"></div>
         </div>
         <img src="/images/grey.webp" className="object-cover object-center w-[100px] h-auto aspect-[594/468] relative z-[2] drop-shadow-[0px_20px_20px_rgba(0,0,0,0.4)]" alt=""></img>
-        <div className="w-[150px] h-[150px] bg-[#6741FF] rounded-full blur-[150px] absolute inset-0 m-auto animate-glow-pulse"></div>
+        <div className="w-[150px] h-[150px] bg-[#2c5fbf] rounded-full blur-[150px] absolute inset-0 m-auto animate-glow-pulse"></div>
       </div>
       <div className="fixed bottom-0 left-0 w-full h-[69px] border-t border-[#1D1D1D] z-[6] flex items-center gap-3 md:hidden px-3">
         <button

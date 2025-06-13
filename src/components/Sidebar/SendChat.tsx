@@ -27,12 +27,12 @@ const SendChat = () => {
                     <div className="absolute inset-y-0 my-auto right-1.5 h-max w-max mt-1.5">
                         <div className="flex items-center gap-1.5 cursor-pointer text-[#A2A2A2] transition-colors">
                             <button
-                                className="w-8 h-8 flex items-center justify-center outline-none bg-transparent hover:bg-[#AD98FF]/15 transition-colors duration-300 rounded-full p-1"
+                                className="w-8 h-8 flex items-center justify-center outline-none bg-transparent hover:bg-[#446ab1]/15 transition-colors duration-300 rounded-full p-1"
                                 type="button"
                                 aria-expanded="false"
                                 id="headlessui-popover-button-:rk9:"
                             >
-                                <Icon icon="mdi:emoji" width="24" height="24" style={{ color: "#AD98FF" }} />
+                                <Icon icon="mdi:emoji" width="24" height="24" style={{ color: "#446ab1" }} />
                             </button>
                         </div>
                     </div>

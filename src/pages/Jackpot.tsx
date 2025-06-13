@@ -16,7 +16,7 @@ const Jackpot = () => {
                                 <div className="flex sm:items-center gap-4 sm:gap-1 grow">
                                     <div className="flex flex-col">
                                         <div className="flex items-center gap-2 mb-2.5">
-                                            <Icon icon="gravity-ui:target-dart" width="24" height="24" style={{ color: "#3b2cbf" }} />
+                                            <Icon icon="gravity-ui:target-dart" width="24" height="24" style={{ color: "#2c5fbf" }} />
                                             <h2 className="font-airstrike text-[28px] 2xl:text-[32px] leading-[28px] my-0 text-white">Jackpot</h2>
                                         </div>
                                         <h4 className="text-[#BFBFCD] text-xs 2xl:text-sm font-medium whitespace-nowrap">Winner takes all...</h4>
@@ -58,8 +58,8 @@ const Jackpot = () => {
                                             </button>
                                             <div className="relative w-full h-max hidden sm:block">
                                                 <button className="bg-gradient-to-t from-[#10101f] to-[#121229] p-[3px] rounded-2xl transition-opacity duration-300 opacity-50 w-full" disabled>
-                                                    <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#7c7aff] to-[#4232d3] border-[1px] border-[#1D1D1D]">
-                                                        <div className="group flex items-center justify-center relative min-w-10 overflow-hidden rounded-[10px] transition duration-300 px-4 w-full bg-[#3b2cbf] hover:bg-[#3b2cbf]/75 text-sm font-bold text-white h-[32px] whitespace-nowrap font-book opacity-50 [text-shadow: rgba(0, 0, 0, 0.5) 0px 2px]">
+                                                    <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#6797df] to-[#2a64cf] border-[1px] border-[#1D1D1D]">
+                                                        <div className="group flex items-center justify-center relative min-w-10 overflow-hidden rounded-[10px] transition duration-300 px-4 w-full bg-[#2c5fbf] hover:bg-[#2c5fbf]/75 text-sm font-bold text-white h-[32px] whitespace-nowrap font-book opacity-50 [text-shadow: rgba(0, 0, 0, 0.5) 0px 2px]">
                                                             <span className="hidden sm:inline mr-1">Place</span> Bet
                                                             <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(68.53%_169.15%_at_50%_-27.56%,_#D787FF_0%,_#5B2CBF_100%)] transition-opacity duration-500 z-[1] opacity-0 group-hover:opacity-20 mix-blend-screen"></div>
                                                         </div>
@@ -75,7 +75,7 @@ const Jackpot = () => {
                                     <div className="absolute w-[calc(100%+5px)] h-[calc(100%+4px)] inset-y-0 my-auto border-[2px] border-[#292a64] top-0 -left-[3px] rounded-[14px]"></div>
                                     <div className="p-[1px] h-full rounded-lg relative border overflow-hidden bg-conic-progress">
                                         <div className="flex flex-col items-center justify-center w-full h-full bg-[#1D1D1D] rounded-[7px] relative z-[3] overflow-hidden">
-                                            <div className="bg-gradient-to-l from-[#3b2cbf]/15 to-[#3b2cbf]/0 w-full h-full absolute"></div>
+                                            <div className="bg-gradient-to-l from-[#2c5fbf]/35 to-[#2c5fbf]/0 w-full h-full absolute"></div>
                                             <img src="/images/dot-pattern-stat.webp" className="object-cover object-center absolute top-0 left-0 w-full h-full" alt=""></img>
                                             <div className="flex items-center gap-1.5">
                                                 <img src="/images/solana.png" className="object-cover object-center w-6 h-6" alt=""></img>
@@ -87,7 +87,7 @@ const Jackpot = () => {
                                 </div>
                                 <div className="w-full bg-transparent transition-colors duration-300 p-[4px] rounded-xl h-[97px] relative">
                                     <div className="p-[1px] h-full rounded-lg relative overflow-hidden">
-                                        <div className="flex flex-col items-center justify-center w-full h-full bg-[#1D1D1D] rounded-[7px] relative z-[3] overflow-hidden">
+                                        <div className="flex flex-col items-center justify-center w-full h-full bg-[#2c5fbf]/10 rounded-[7px] relative z-[3] overflow-hidden">
                                             <div className="flex items-center gap-1.5">
                                                 <img src="/images/solana.png" className="object-cover object-center w-6 h-6" alt=""></img>
                                                 <div className="my-0 font-bold text-xl text-white"><span>0.000</span></div>
@@ -99,7 +99,7 @@ const Jackpot = () => {
                                 </div>
                                 <div className="w-full bg-transparent transition-colors duration-300 p-[4px] rounded-xl h-[97px] relative">
                                     <div className="p-[1px] h-full rounded-lg relative overflow-hidden">
-                                        <div className="flex flex-col items-center justify-center w-full h-full bg-[#1D1D1D] rounded-[7px] relative z-[3] overflow-hidden">
+                                        <div className="flex flex-col items-center justify-center w-full h-full bg-[#2c5fbf]/10 rounded-[7px] relative z-[3] overflow-hidden">
                                             <div className="flex items-center gap-1.5">
                                                 <div className="my-0 font-bold text-xl text-white"><span>0.00</span>%</div>
                                             </div>
@@ -110,7 +110,7 @@ const Jackpot = () => {
                                 </div>
                                 <div className="w-full bg-transparent transition-colors duration-300 p-[4px] rounded-xl h-[97px] relative">
                                     <div className="p-[1px] h-full rounded-lg relative overflow-hidden">
-                                        <div className="flex flex-col items-center justify-center w-full h-full bg-[#1D1D1D] rounded-[7px] relative z-[3] overflow-hidden">
+                                        <div className="flex flex-col items-center justify-center w-full h-full bg-[#2c5fbf]/10 rounded-[7px] relative z-[3] overflow-hidden">
                                             <div className="flex items-center gap-1.5">
                                                 <h1 className="my-0 font-bold text-xl">
                                                     <div className="flex overflow-hidden tabular-nums">
@@ -143,29 +143,30 @@ const Jackpot = () => {
                                             </div>
                                             <p className="text-sm text-[#A2A2A2] font-medium">Time Remaining</p>
                                         </div>
+                                        <div id="progress" className="w-[calc(100%-2px)] h-[calc(100%-2px)] absolute bg-[#303030] top-[1px] right-[1px] rounded-[7px]"></div>
                                     </div>
                                 </div>
                             </div>
                             {/* <Bonus /> */}
                             <div className="w-full min-h-[600px] border-t border-[#22222D]/50">
-                                <div className="flex md:hidden justify-center mt-4 items-center gap-1.5 pl-2 pr-3 py-2 rounded-lg bg-[#a28eb6]/10">
+                                <div className="flex md:hidden justify-center mt-4 items-center gap-1.5 pl-2 pr-3 py-2 rounded-lg bg-[#307bc0]/40">
                                     <img src="/images/solana.png" className="object-cover object-center w-5 h-5" alt=""></img>
-                                    <p className="text-[#a28eb6] font-medium text-sm">Payouts are settled in SOL</p>
+                                    <p className="text-[#307bc0] font-medium text-sm">Payouts are settled in SOL</p>
                                 </div>
                                 <div className="flex justify-between pt-5 text-[#A2A2A2] text-sm font-book mb-4">
                                     <div className="flex items-center gap-3">
                                         <div className="flex items-center gap-2">
-                                            <Icon icon="material-symbols:person-rounded" width="24" height="24" style={{ color: "#5B2CBF" }} />
+                                            <Icon icon="material-symbols:person-rounded" width="24" height="24" style={{ color: "#2c5fbf" }} />
                                             <p>2 Players</p>
                                         </div>
                                         <div className="h-2/3 w-[1px] bg-[#303030]/50 hidden md:block"></div>
-                                        <div className="hidden md:flex items-center gap-1.5 pl-2 pr-3 py-[5px] rounded-lg bg-[#a28eb6]/10">
+                                        <div className="hidden md:flex items-center gap-1.5 pl-2 pr-3 py-[5px] rounded-lg bg-[#307bc0]/20">
                                             <img src="/images/solana.png" className="object-cover object-center w-4 h-4" alt=""></img>
-                                            <p className="text-[#a28eb6] font-medium text-[13px]">Payouts are settled in SOL</p>
+                                            <p className="text-[#307bc0] font-medium text-[13px]">Payouts are settled in SOL</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <p className="text-[16px] text-[#AD98FF]">#</p>
+                                        <p className="text-[16px] text-[#2c5fbf]">#</p>
                                         <p className="text-[#E3E3E3]">Round: <strong className="text-white font-bold">57518</strong></p>
                                     </div>
                                 </div>
@@ -180,10 +181,10 @@ const Jackpot = () => {
                             <div className="relative h-max lg:h-[280px] w-full" style={{ animationDelay: "0s" }}>
                                 <div>
                                     <div className="backface-hidden preserve-3d" style={{ transform: "translateZ(-5px)" }}>
-                                        <div className="w-full bg-gradient-to-t from-[#222222]/15 to-[#303030]/50 rounded-[14px] p-[3px]">
+                                        <div className="w-full bg-gradient-to-t from-[#0c1e2b]/15 to-[#00293b]/50 rounded-[14px] p-[3px]">
                                             <div className="flex flex-col shadow-bet h-full rounded-[11px]">
-                                                <div className="w-full rounded-t-[11px] bg-gradient-to-b from-[#282828] to-[#1E1A2D] p-[3px] pb-0 grow relative">
-                                                    <div className="w-full h-full bg-gradient-to-b from-[#161618] to-[150%] to-[#1D192C] rounded-t-[8px] p-4">
+                                                <div className="w-full rounded-t-[11px] bg-gradient-to-b from-[#122033] to-[#262f44] p-[3px] pb-0 grow relative">
+                                                    <div className="w-full h-full bg-gradient-to-b from-[#181a1f] to-[150%] to-[#334357] rounded-t-[8px] p-4">
                                                         <img src="/images/download.webp" className="object-cover object-center w-full absolute top-0 left-0" alt=""></img>
                                                         <div className="relative z-[3]">
                                                             <div className="flex justify-between uppercase text-xs text-[#8C8C8C] mb-3">
@@ -209,8 +210,8 @@ const Jackpot = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className="w-full h-[1px] bg-[#0F0F0F]"></div>
-                                                <div className="w-full bg-gradient-to-b from-[#1D1D1D] to-[#141414] shrink-0 rounded-b-[11px] relative py-3 px-4">
+                                                <div className="w-full h-[1px] bg-[#2c3342]"></div>
+                                                <div className="w-full bg-gradient-to-b from-[#242d3b] to-[#040a24] shrink-0 rounded-b-[11px] relative py-3 px-4">
                                                     <img src="/images/static/grid.bb6dda07.webp" className="object-cover object-center w-full h-full absolute top-0 left-0" alt=""></img>
                                                     <div className="flex flex-col gap-1">
                                                         <div className="flex items-center w-full justify-between relative z-[3]">
@@ -234,10 +235,10 @@ const Jackpot = () => {
                             <div className="relative h-max lg:h-[280px] w-full" style={{ animationDelay: "0s" }}>
                                 <div>
                                     <div className="backface-hidden preserve-3d" style={{ transform: "translateZ(-5px)" }}>
-                                        <div className="w-full bg-gradient-to-t from-[#222222]/15 to-[#303030]/50 rounded-[14px] p-[3px]">
+                                        <div className="w-full bg-gradient-to-t from-[#0c1e2b]/15 to-[#00293b]/50 rounded-[14px] p-[3px]">
                                             <div className="flex flex-col shadow-bet h-full rounded-[11px]">
-                                                <div className="w-full rounded-t-[11px] bg-gradient-to-b from-[#282828] to-[#211D18] p-[3px] pb-0 grow relative">
-                                                    <div className="w-full h-full bg-gradient-to-b from-[#161618] to-[150%] to-[#201C16] rounded-t-[8px] p-4">
+                                                <div className="w-full rounded-t-[11px] bg-gradient-to-b from-[#122033] to-[#262f44] p-[3px] pb-0 grow relative">
+                                                    <div className="w-full h-full bg-gradient-to-b from-[#15161a] to-[150%] to-[#0a0f13] rounded-t-[8px] p-4">
                                                         <img src="/images/download.webp" className="object-cover object-center w-full absolute top-0 left-0" alt=""></img>
                                                         <div className="relative z-[3]">
                                                             <div className="flex justify-between uppercase text-xs text-[#8C8C8C] mb-3">
@@ -263,8 +264,8 @@ const Jackpot = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className="w-full h-[1px] bg-[#0F0F0F]"></div>
-                                                <div className="w-full bg-gradient-to-b from-[#1D1D1D] to-[#141414] shrink-0 rounded-b-[11px] relative py-3 px-4">
+                                                <div className="w-full h-[1px] bg-[#2c3342]"></div>
+                                                <div className="w-full bg-gradient-to-b from-[#242d3b] to-[#040a24] shrink-0 rounded-b-[11px] relative py-3 px-4">
                                                     <img src="/images/static/grid.bb6dda07.webp" className="object-cover object-center w-full h-full absolute top-0 left-0" alt=""></img>
                                                     <div className="flex flex-col gap-1">
                                                         <div className="flex items-center w-full justify-between relative z-[3]">

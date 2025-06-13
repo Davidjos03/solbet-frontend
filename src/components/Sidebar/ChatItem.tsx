@@ -5,7 +5,7 @@ const ChatItem: React.FC<IChatItem> = ({ image, time, user, msg }) => {
 
     return (
         <div className="animate-popup-enter" onClick={() => { setIsProfileModal(true) }}>
-            <div className="relative bg-[#161635]/70 hover:bg-[#161635] p-3 pl-8 rounded-lg cursor-pointer transition-colors duration-200">
+            <div className="relative bg-[#162135]/70 hover:bg-[#162135] p-3 pl-8 rounded-lg cursor-pointer transition-colors duration-200">
                 <div
                     className="w-9 h-9 rounded-[8px] overflow-hidden border-[1px] border-[#222222] aspect-square hover:brightness-125 transition-[filter] duration-300 cursor-pointer absolute -left-3 bg-[#303045] p-[1px] border-none"
                 >
