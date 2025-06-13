@@ -1,8 +1,9 @@
 import { Icon } from "@iconify-icon/react";
+import LanguageDropdown from "../Dropdown/LanguageDropdown";
 
 const Footer = () => {
     return (
-        <div className="w-full bg-gradient-to-br from-[#141414] to-[#0D0D0D] relative">
+        <div className="w-full relative">
             <div
                 className="absolute inset-x-0 right-0 bottom-[100%] pointer-events-none -z-[1] w-full mix-blend-screen mx-auto bg-black h-[300px]"
                 style={{
@@ -77,24 +78,7 @@ const Footer = () => {
                 </div>
                 <div className="flex items-center justify-between mt-[42px] max-w-[1064px] mx-auto w-full">
                     <p className="text-sm text-[#A2A2A25C] font-book mr-2">© 2025 SolBet — Powered by Solana. All rights reserved.</p>
-                    <button className="" id="headlessui-menu-button-:r8:" type="button" aria-haspopup="menu" aria-expanded="false" data-headlessui-state="" aria-controls="headlessui-menu-items-:r9:">
-                        <div className="group justify-center relative h-10 min-w-10 focus:outline-none overflow-hidden transition duration-300 gap-1 px-4 w-full bg-[#303030] hover:bg-[#393939]/75 text-sm font-medium text-white rounded-lg flex items-center border-[#3B3B3B] cursor-pointer">
-                            <span>
-                                <div className="flex items-center gap-2">
-                                    <div className="flag  size-s   border-radius ">
-                                        <img src="/images/flags/US.svg"></img>
-                                    </div>English</div>
-                            </span>
-                            <Icon icon="solar:alt-arrow-down-line-duotone" width="16" height="16" style={{ color: "#fff" }} />
-                        </div>
-                    </button>
-                    <div className="z-[1002] origin-top w-[calc(var(--button-width)*1.5)] p-2 rounded-lg mt-2 bg-[#1D1D1D] border border-[#303030] transition duration-200 ease-out data-[closed]:scale-95 data-[closed]:opacity-0" data-floating-ui-focusable="" data-anchor="bottom end" id="headlessui-menu-items-:r9:" role="menu" hidden data-headlessui-state="" style={{ display: "none", overflow: "auto", maxWidth: "1422px", maxHeight: "37px" }} aria-labelledby="headlessui-menu-button-:r8:">
-                        <div className="block data-[focus]:bg-[#303030] px-3 py-2 rounded-md text-sm font-semibold cursor-pointer transition-colors" id="headlessui-menu-item-:rc:" role="menuitem" tabIndex={-1} data-headlessui-state="">English</div>
-                        <div className="block data-[focus]:bg-[#303030] px-3 py-2 rounded-md text-sm font-semibold cursor-pointer transition-colors" id="headlessui-menu-item-:rd:" role="menuitem" tabIndex={-1} data-headlessui-state="">Español</div>
-                        <div className="block data-[focus]:bg-[#303030] px-3 py-2 rounded-md text-sm font-semibold cursor-pointer transition-colors" id="headlessui-menu-item-:re:" role="menuitem" tabIndex={-1} data-headlessui-state="">Français</div>
-                        <div className="block data-[focus]:bg-[#303030] px-3 py-2 rounded-md text-sm font-semibold cursor-pointer transition-colors" id="headlessui-menu-item-:rf:" role="menuitem" tabIndex={-1} data-headlessui-state="">Türkçe</div>
-                        <div className="block data-[focus]:bg-[#303030] px-3 py-2 rounded-md text-sm font-semibold cursor-pointer transition-colors" id="headlessui-menu-item-:rg:" role="menuitem" tabIndex={-1} data-headlessui-state="">简体中文</div>
-                    </div>
+                    <LanguageDropdown />
                 </div>
             </div>
         </div>

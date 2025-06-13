@@ -4,8 +4,8 @@ const SendChat = () => {
 
     return (
         <div className="relative opacity-100 animate-fade-in">
-            <div className="absolute bg-gradient-to-b from-[#333333] to-[#131313] p-[1px] w-[calc(100%-1rem)] mx-auto bottom-full inset-x-0 z-[5] rounded-md transition-[transform,opacity] duration-300 cursor-pointer shadow-md opacity-100 translate-y-0">
-                <div className="flex items-center justify-between bg-[#0f0f0f] text-[#919191] pointer-events-none w-full h-max px-3 py-2 backdrop-blur-xl rounded-md">
+            <div className="absolute bg-gradient-to-b from-[#222250] to-[#0f0f23] p-[1px] w-[calc(100%-1rem)] mx-auto bottom-full inset-x-0 z-[5] rounded-md transition-[transform,opacity] duration-300 cursor-pointer shadow-md opacity-100 translate-y-0">
+                <div className="flex items-center justify-between bg-[#0b0b1a] text-[#919191] pointer-events-none w-full h-max px-3 py-2 backdrop-blur-xl rounded-md">
                     <div className="flex items-center gap-1.5 text-sm text-[#E3E3E3]">
                         <Icon icon="material-symbols-light:pause-rounded" width="24" height="24" style={{ color: "#E3E3E3" }} />
                         <p>Chat Paused</p>
@@ -19,7 +19,7 @@ const SendChat = () => {
                         id="sendMsg"
                         placeholder="Type Message Here..."
                         maxLength={160}
-                        className="bg-transparent border-[1px] border-[#222222] bg-[#141414] transition-colors duration-300 px-3 rounded-lg w-full text-sm focus:outline-none focus:border-[#3c3c3c] min-h-[44px] py-2.5 align-bottom resize-none overflow-hidden h-auto focus:placeholder:text-white/10 placeholder:transition-colors placeholder:duration-300 pr-10"
+                        className="bg-transparent border-[1px] border-[#222222] bg-[#0f0f23] transition-colors duration-300 px-3 rounded-lg w-full text-sm focus:outline-none focus:border-[#3c3c3c] min-h-[44px] py-2.5 align-bottom resize-none overflow-hidden h-auto focus:placeholder:text-white/10 placeholder:transition-colors placeholder:duration-300 pr-10"
                         style={{
                             height: "42px"
                         }}
@@ -39,7 +39,7 @@ const SendChat = () => {
                 </div>
                 <div className="flex justify-between">
                     <div className="flex items-center gap-1.5 cursor-pointer text-[#A2A2A2] hover:text-white transition-colors">
-                        <Icon icon="bi:info-circle-fill" width="12" height="12" style={{ color: "#A2A2A2" }} />
+                        <Icon icon="icon-park-solid:info" width="12" height="12" style={{ color: "#A2A2A2" }} />
                         <p className="text-sm font-medium leading-[21px]">Chat Rules</p>
                     </div>
                     <div className="flex items-center gap-1.5 cursor-pointer text-[#A2A2A2] transition-colors">

@@ -10,15 +10,15 @@ const Layout = () => {
   const { setIsToggle } = useUserProvider()
 
   return (
-    <div className="min-h-full h-screen w-full pt-0 pb-0 block">
-      <div className="fixed top-0 left-0 w-full h-full bg-[#0e0e0e]/90 z-[10000] flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none">
+    <div className="h-full min-h-screen w-full pt-0 pb-0 block main-background">
+      <div className="fixed top-0 left-0 w-full h-full z-[10000] flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none">
         <div className="absolute top-0 z-30 h-0.5 w-full">
           <div className="animate-top-loader h-full w-1/2 bg-[#6741FF]"></div>
         </div>
         <img src="/images/grey.webp" className="object-cover object-center w-[100px] h-auto aspect-[594/468] relative z-[2] drop-shadow-[0px_20px_20px_rgba(0,0,0,0.4)]" alt=""></img>
         <div className="w-[150px] h-[150px] bg-[#6741FF] rounded-full blur-[150px] absolute inset-0 m-auto animate-glow-pulse"></div>
       </div>
-      <div className="fixed bottom-0 left-0 w-full h-[69px] bg-[#141414] border-t border-[#1D1D1D] z-[6] flex items-center gap-3 md:hidden px-3">
+      <div className="fixed bottom-0 left-0 w-full h-[69px] border-t border-[#1D1D1D] z-[6] flex items-center gap-3 md:hidden px-3">
         <button
           className="bg-gradient-to-t from-[#222222] to-[#303030] rounded-2xl transition-opacity duration-300 cursor-pointer mr-auto flex md:hidden w-12 p-0 h-12 absolute z-20"
           onClick={() => setIsToggle(true)}
@@ -32,13 +32,13 @@ const Layout = () => {
       </div>
       <Header />
       <div className="flex w-full h-full relative">
-      <Sidebar />
-      <div className="relative w-full h-max overflow-hidden transition-[padding,opacity] will-change-[padding,opacity] duration-300 xl:pl-[300px] 2xl:pl-[350px]">
-        <div className="absolute main-background h-full top-[70px] lg:top-[109px] transition-[width,left] duration-300 mix-blend-difference will-change-[padding,width] w-full xl:w-[calc(100%-300px)] 2xl:w-[calc(100%-350px)] xl:left-[300px] 2xl:left-[350px]"></div>
-        <Outlet /> 
-        <Footer />
+        <Sidebar />
+        <div className="relative w-full h-max overflow-hidden transition-[padding,opacity] will-change-[padding,opacity] duration-300 xl:pl-[300px] 2xl:pl-[350px]">
+          <div className="absolute h-full top-[70px] lg:top-[109px] transition-[width,left] duration-300 mix-blend-difference will-change-[padding,width] w-full xl:w-[calc(100%-300px)] 2xl:w-[calc(100%-350px)] xl:left-[300px] 2xl:left-[350px]"></div>
+          <Outlet />
+          <Footer />
+        </div>
       </div>
-    </div>
       <div className="intercom-lightweight-app">
         <div className="intercom-lightweight-app-launcher intercom-launcher" role="button" tabIndex={0} aria-label="Open Intercom Messenger" aria-live="polite">
           <div className="intercom-lightweight-app-launcher-icon intercom-lightweight-app-launcher-icon-open">

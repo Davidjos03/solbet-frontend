@@ -1,3 +1,8 @@
+interface ILanguageItem {
+  name: string;
+  logo: string;
+}
+
 interface IHomeItem {
   title: string;
   content: string;

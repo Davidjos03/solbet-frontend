@@ -24,7 +24,7 @@ const UserCard = () => {
                                     className="w-full h-full p-0.5 border-[1px]  border-[#222222] rounded-[8px] bg-current relative overflow-hidden"
                                 >
                                     <div
-                                        className="bg-gradient-to-b from-[#9176ff] to-[#9176ff]/50 opacity-100 rounded-[8px] absolute top-0 left-0 w-full h-full"
+                                        className="bg-gradient-to-b from-[#8966d4] to-[#8966d4]/50 opacity-100 rounded-[8px] absolute top-0 left-0 w-full h-full"
                                     ></div>
                                     <div
                                         className="w-full h-full border-[1px] rounded-[8px] border-[#222222] rounded-2 overflow-hidden shadow-avatar-emboss relative z-[3] bg-[#595959]"

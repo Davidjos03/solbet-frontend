@@ -11,7 +11,7 @@ const Bonus = () => {
                     <div className="max-w-[150px] sm:max-w-[unset]">
                         <div className="flex items-center gap-1.5">
                             <img src="/images/bonus-text.681fd74c.webp" className="object-cover object-center w-[114px] aspect-[114/28]" alt=""></img>
-                            <Icon icon="bi:info-circle-fill" width="16" height="16" style={{ color: "#A2A2A2" }} />
+                            <Icon icon="icon-park-solid:info" width="16" height="16" style={{ color: "#A2A2A2" }} />
                         </div>
                         <p className="text-[#C4C4C4] font-medium text-sm">
                             <span className="text-white font-bold">00.00%</span>
@@ -35,7 +35,7 @@ const Bonus = () => {
                         </div>
                     </div>
                 </div>
-                <div className="bg-gradient-to-r from-[#6741FF]/5 to-[#1F1F2D]/0 absolute top-0 left-0 w-full h-full pointer-events-none"></div>
+                <div className="bg-gradient-to-r from-[#5B2CBF]/5 to-[#1F1F2D]/0 absolute top-0 left-0 w-full h-full pointer-events-none"></div>
                 <svg width="9" height="66" viewBox="0 0 9 66" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute right-0 inset-y-0 m-auto pointer-events-none">
                     <g filter="url(#filter0_d_1614_8849)">
                         <path d="M4 8.52179C4 7.80462 4.384 7.14235 5.00641 6.78606L9 4.5L9 61.5L5.00641 59.2139C4.384 58.8577 4 58.1954 4 57.4782L4 8.52179Z" fill="url(#paint0_linear_1614_8849)"></path>

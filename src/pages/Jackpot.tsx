@@ -1,4 +1,4 @@
-import Bonus from "@/components/GameBoard/Bonus";
+// import Bonus from "@/components/GameBoard/Bonus";
 import UserCard from "@/components/GameBoard/UserCard";
 import { Icon } from "@iconify-icon/react";
 import { useState } from "react";
@@ -16,7 +16,7 @@ const Jackpot = () => {
                                 <div className="flex sm:items-center gap-4 sm:gap-1 grow">
                                     <div className="flex flex-col">
                                         <div className="flex items-center gap-2 mb-2.5">
-                                            <Icon icon="gravity-ui:target-dart" width="24" height="24" style={{ color: "#6741ff" }} />
+                                            <Icon icon="gravity-ui:target-dart" width="24" height="24" style={{ color: "#3b2cbf" }} />
                                             <h2 className="font-airstrike text-[28px] 2xl:text-[32px] leading-[28px] my-0 text-white">Jackpot</h2>
                                         </div>
                                         <h4 className="text-[#BFBFCD] text-xs 2xl:text-sm font-medium whitespace-nowrap">Winner takes all...</h4>
@@ -36,7 +36,7 @@ const Jackpot = () => {
                                                             <img src="/images/solana.png" className="object-cover object-center w-6 h-6 rounded-full" alt=""></img>
                                                         </div>
                                                         <input
-                                                            className="border-[1px] transition-colors duration-300 px-3 h-[44px] rounded-lg text-sm focus:outline-none focus:border-[#3c3c3c] pl-11 bg-[#242424] border-[#292929] w-full lg:w-[220px] desktop:w-[260px] hide-input-arrows"
+                                                            className="border-[1px] transition-colors duration-300 px-3 h-[44px] rounded-lg text-sm focus:outline-none focus:border-[#3c3c3c] pl-11 bg-[#13132b] border-[#292929] w-full lg:w-[220px] desktop:w-[260px] hide-input-arrows"
                                                             placeholder="0.00"
                                                             type="text"
                                                             value={value}
@@ -46,22 +46,22 @@ const Jackpot = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button className="bg-gradient-to-t from-[#222222] to-[#303030] p-[3px] rounded-2xl transition-opacity duration-300 cursor-pointer block sm:ml-1">
+                                            <button className="bg-gradient-to-t from-[#161629] to-[#181836] p-[3px] rounded-2xl transition-opacity duration-300 cursor-pointer block sm:ml-1">
                                                 <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#454545] to-[#232323] border-[1px] border-[#1D1D1D]">
-                                                    <div className="group flex items-center justify-center relative min-w-10 overflow-hidden transition duration-300 px-4 bg-[#303030] hover:bg-[#393939]/75 text-sm font-medium rounded-lg h-full w-[48px] text-[#C4C4C4] cursor-pointer [text-shadow: rgba(0, 0, 0, 0.5) 0px 2px]">+0.1</div>
+                                                    <div className="group flex items-center justify-center relative min-w-10 overflow-hidden transition duration-300 px-4 bg-[#2e2e42] hover:bg-[#343449]/75 text-sm font-medium rounded-lg h-full w-[48px] text-[#C4C4C4] cursor-pointer [text-shadow: rgba(0, 0, 0, 0.5) 0px 2px]">+0.1</div>
                                                 </div>
                                             </button>
-                                            <button className="bg-gradient-to-t from-[#222222] to-[#303030] p-[3px] rounded-2xl transition-opacity duration-300 cursor-pointer hidden min-[1440px]:block">
+                                            <button className="bg-gradient-to-t from-[#161629] to-[#181836] p-[3px] rounded-2xl transition-opacity duration-300 cursor-pointer hidden min-[1440px]:block">
                                                 <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#454545] to-[#232323] border-[1px] border-[#1D1D1D]">
-                                                    <div className="group flex items-center justify-center relative min-w-10 overflow-hidden transition duration-300 px-4 bg-[#303030] hover:bg-[#393939]/75 text-sm font-medium rounded-lg h-full w-[48px] text-[#C4C4C4] cursor-pointer [text-shadow: rgba(0, 0, 0, 0.5) 0px 2px]">+1</div>
+                                                    <div className="group flex items-center justify-center relative min-w-10 overflow-hidden transition duration-300 px-4 bg-[#2e2e42] hover:bg-[#343449]/75 text-sm font-medium rounded-lg h-full w-[48px] text-[#C4C4C4] cursor-pointer [text-shadow: rgba(0, 0, 0, 0.5) 0px 2px]">+1</div>
                                                 </div>
                                             </button>
                                             <div className="relative w-full h-max hidden sm:block">
-                                                <button className="bg-gradient-to-t from-[#222222] to-[#303030] p-[3px] rounded-2xl transition-opacity duration-300 opacity-50 w-full" disabled>
-                                                    <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#957AFF] to-[#6741FF] border-[1px] border-[#1D1D1D]">
-                                                        <div className="group flex items-center justify-center relative min-w-10 overflow-hidden rounded-[10px] transition duration-300 px-4 w-full bg-[#6741FF] hover:bg-[#6741FF]/75 text-sm font-bold text-white h-[32px] whitespace-nowrap font-book opacity-50 [text-shadow: rgba(0, 0, 0, 0.5) 0px 2px]">
+                                                <button className="bg-gradient-to-t from-[#10101f] to-[#121229] p-[3px] rounded-2xl transition-opacity duration-300 opacity-50 w-full" disabled>
+                                                    <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#7c7aff] to-[#4232d3] border-[1px] border-[#1D1D1D]">
+                                                        <div className="group flex items-center justify-center relative min-w-10 overflow-hidden rounded-[10px] transition duration-300 px-4 w-full bg-[#3b2cbf] hover:bg-[#3b2cbf]/75 text-sm font-bold text-white h-[32px] whitespace-nowrap font-book opacity-50 [text-shadow: rgba(0, 0, 0, 0.5) 0px 2px]">
                                                             <span className="hidden sm:inline mr-1">Place</span> Bet
-                                                            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(68.53%_169.15%_at_50%_-27.56%,_#D787FF_0%,_#6741FF_100%)] transition-opacity duration-500 z-[1] opacity-0 group-hover:opacity-20 mix-blend-screen"></div>
+                                                            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(68.53%_169.15%_at_50%_-27.56%,_#D787FF_0%,_#5B2CBF_100%)] transition-opacity duration-500 z-[1] opacity-0 group-hover:opacity-20 mix-blend-screen"></div>
                                                         </div>
                                                     </div>
                                                 </button>
@@ -71,11 +71,11 @@ const Jackpot = () => {
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 2xl:gap-4 justify-between w-full -mt-1.5">
-                                <div className="transition-colors duration-300 p-[4px] rounded-xl h-[97px] relative w-full border-[#0c2e4f] bg-[#0D0D0D]">
-                                    <div className="absolute w-[calc(100%+5px)] h-[calc(100%+4px)] inset-y-0 my-auto border-[2px] border-[#0c2e4f] top-0 -left-[3px] rounded-[14px]"></div>
-                                    <div className="p-[1px] h-full rounded-lg relative border border-[#04D9FF] overflow-hidden bg-conic-progress">
+                                <div className="transition-colors duration-300 p-[4px] rounded-xl h-[97px] relative w-full border-[#34527e] bg-[#0D0D0D]">
+                                    <div className="absolute w-[calc(100%+5px)] h-[calc(100%+4px)] inset-y-0 my-auto border-[2px] border-[#292a64] top-0 -left-[3px] rounded-[14px]"></div>
+                                    <div className="p-[1px] h-full rounded-lg relative border overflow-hidden bg-conic-progress">
                                         <div className="flex flex-col items-center justify-center w-full h-full bg-[#1D1D1D] rounded-[7px] relative z-[3] overflow-hidden">
-                                            <div className="bg-gradient-to-l from-[#04D9FF]/15 to-[#04D9FF]/0 w-full h-full absolute"></div>
+                                            <div className="bg-gradient-to-l from-[#3b2cbf]/15 to-[#3b2cbf]/0 w-full h-full absolute"></div>
                                             <img src="/images/dot-pattern-stat.webp" className="object-cover object-center absolute top-0 left-0 w-full h-full" alt=""></img>
                                             <div className="flex items-center gap-1.5">
                                                 <img src="/images/solana.png" className="object-cover object-center w-6 h-6" alt=""></img>
@@ -146,22 +146,22 @@ const Jackpot = () => {
                                     </div>
                                 </div>
                             </div>
-                            <Bonus />
+                            {/* <Bonus /> */}
                             <div className="w-full min-h-[600px] border-t border-[#22222D]/50">
-                                <div className="flex md:hidden justify-center mt-4 items-center gap-1.5 pl-2 pr-3 py-2 rounded-lg bg-[#AD98FF]/10">
+                                <div className="flex md:hidden justify-center mt-4 items-center gap-1.5 pl-2 pr-3 py-2 rounded-lg bg-[#a28eb6]/10">
                                     <img src="/images/solana.png" className="object-cover object-center w-5 h-5" alt=""></img>
-                                    <p className="text-[#AD98FF] font-medium text-sm">Payouts are settled in SOL</p>
+                                    <p className="text-[#a28eb6] font-medium text-sm">Payouts are settled in SOL</p>
                                 </div>
                                 <div className="flex justify-between pt-5 text-[#A2A2A2] text-sm font-book mb-4">
                                     <div className="flex items-center gap-3">
                                         <div className="flex items-center gap-2">
-                                            <Icon icon="material-symbols:person" width="24" height="24" style={{ color: "#9176FF" }} />
+                                            <Icon icon="material-symbols:person-rounded" width="24" height="24" style={{ color: "#5B2CBF" }} />
                                             <p>2 Players</p>
                                         </div>
                                         <div className="h-2/3 w-[1px] bg-[#303030]/50 hidden md:block"></div>
-                                        <div className="hidden md:flex items-center gap-1.5 pl-2 pr-3 py-[5px] rounded-lg bg-[#AD98FF]/10">
+                                        <div className="hidden md:flex items-center gap-1.5 pl-2 pr-3 py-[5px] rounded-lg bg-[#a28eb6]/10">
                                             <img src="/images/solana.png" className="object-cover object-center w-4 h-4" alt=""></img>
-                                            <p className="text-[#AD98FF] font-medium text-[13px]">Payouts are settled in SOL</p>
+                                            <p className="text-[#a28eb6] font-medium text-[13px]">Payouts are settled in SOL</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2">
