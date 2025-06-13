@@ -9,9 +9,9 @@ const Sidebar = () => {
   return (
     <div className="flex w-fit h-full z-10">
       <div className={`xl:flex xl:flex-col fixed left-0 top-[70px] lg:top-[110px] w-[350px] lg:w-[300px] 2xl:w-[350px] h-[calc(100%-70px)] lg:h-[calc(100%-110px)] border-r border-[#1D1D1D] transition-transform duration-300 will-change-transform hidden`}>
-        <div className="absolute w-full px-6 py-4 bg-[#13192cef] top-0 left-0 z-[10] grow-0 shrink-0 animate-fade-in">
+        <div className="absolute w-full px-6 py-4 bg-[#0d152cb9] top-0 left-0 z-[10] grow-0 shrink-0 animate-fade-in">
           <div className="flex gap-2 mb-3">
-            <button className="group flex items-center relative h-10 min-w-10 overflow-hidden transition duration-300 px-4 w-full bg-[#13192c] hover:bg-[#13192c]/75 text-sm font-medium text-white rounded-lg border border-[#3B3B3B] justify-between cursor-pointer">
+            <button className="group flex items-center relative h-10 min-w-10 overflow-hidden transition duration-300 px-4 w-full bg-[#0d152c] hover:bg-[#0d152c]/75 text-sm font-medium text-white rounded-lg border border-[#3B3B3B] justify-between cursor-pointer">
               <div className="flex items-center gap-1 text-[#E3E3E3] font-book whitespace-nowrap w-[calc(100%-40px)] truncate">
                 <Icon icon="game-icons:shark-bite" width="12" height="12" style={{ color: "#E3E3E3" }} />
                 <p className="truncate drop-shadow-[0px_2px_0px_rgba(0,0,0,0.5)]">Degen Chat</p>
@@ -25,13 +25,13 @@ const Sidebar = () => {
               </div>
             </button>
             <button
-              className="group flex items-center justify-center relative h-10 min-w-10 overflow-hidden transition duration-300 bg-[#13192c] hover:bg-[#13192c]/75 text-sm font-medium text-white rounded-lg w-max px-0 border border-[#3B3B3B] cursor-pointer"
+              className="group flex items-center justify-center relative h-10 min-w-10 overflow-hidden transition duration-300 bg-[#0d152c] hover:bg-[#0d152c]/75 text-sm font-medium text-white rounded-lg w-max px-0 border border-[#3B3B3B] cursor-pointer"
               onClick={() => setIsToggle(false)}
             >
               <Icon icon="fluent:arrow-previous-16-filled" width="16" height="16" style={{ color: "#E3E3E3" }} />
             </button>
           </div>
-          <div className="flex items-center justify-center rounded-lg bg-gradient-to-b from-[#20262e] to-[#1d2d42] border-b border-[#2C2653] relative overflow-hidden p-3 transition-[height] duration-700 h-[65px] 2xl:h-[82px]">
+          {/* <div className="flex items-center justify-center rounded-lg bg-gradient-to-b from-[#20262e] to-[#1d2d42] border-b border-[#2C2653] relative overflow-hidden p-3 transition-[height] duration-700 h-[65px] 2xl:h-[82px]">
             <div className="absolute top-0 w-full h-0.5 left-0 bg-[#48505f]">
               <div
                 className="bg-gradient-to-r to-[#2734a8] from-[#2c5fbf] w-1/2 h-full transition-[width] ease-linear duration-1000"
@@ -61,8 +61,8 @@ const Sidebar = () => {
                 </button>
               </div>
             </div>
-          </div>
-          <div className="absolute bg-gradient-to-b from-[#131d2c] to-[#13192c]/0 w-full translate-y-[40px] bottom-0 left-0 h-[40px]"></div>
+          </div> */}
+          <div className="absolute bg-gradient-to-b from-[#0d152c] to-[#0d152c]/0 w-full translate-y-[40px] bottom-0 left-0 h-[40px]"></div>
         </div>
         <Chat />
         <SendChat />

@@ -15,7 +15,7 @@ const ChatItem: React.FC<IChatItem> = ({ image, time, user, msg }) => {
                         </div>
                     </div>
                 </div>
-                <div className="absolute top-0 right-0 px-1.5 py-0.5 bg-[#2a2a58] rounded-bl-md rounded-tr-lg">
+                <div className="absolute top-0 right-0 px-1.5 py-0.5 bg-[#2a3c58] rounded-bl-md rounded-tr-lg">
                     <p className="text-[11px] leading-[16px] text-[#cecece]">{time}</p>
                 </div>
                 <div className="relative z-[3]">

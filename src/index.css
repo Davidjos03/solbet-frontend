@@ -297,7 +297,8 @@
 
   .main-background {
     background-blend-mode: difference;
-    background-image: url("/images/main.gif");
+    /* background-image: url("/images/main.gif"); */
+    background-image: url("/images/test-background.png");
     background-position: top;
     background-repeat: no-repeat;
     background-size: cover;

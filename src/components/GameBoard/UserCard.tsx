@@ -5,15 +5,14 @@ const UserCard = () => {
 
     return (
         <div
-            className="group w-full bg-gradient-to-t from-[#222222] to-[#303030] rounded-[15px] p-[3px] cursor-pointer mb-4 pointer-events-none md:pointer-events-auto opacity-100 "
-            // style="opacity: 1; transform: scale(1); transform-origin: 50% 50% 0px"
+            className="group w-full bg-gradient-to-t from-[#2c303b] to-[#1c222c] rounded-[15px] p-[3px] cursor-pointer mb-4 pointer-events-none md:pointer-events-auto opacity-100 "
             onClick={() => setIsProfileModal(true)}
         >
             <div
-                className="w-full h-[92px] shadow-bet rounded-[13px] bg-gradient-to-b from-[#2E2E35] to-[#1A1A22] p-[3px] relative overflow-hidden"
+                className="w-full h-[92px] shadow-bet rounded-[13px] bg-gradient-to-b from-[#30343d] to-[#202733] p-[3px] relative overflow-hidden"
             >
                 <div
-                    className="flex justify-between items-center w-full h-full rounded-[11px] bg-gradient-to-b from-[#1C1C24] to-[#1A1A22] p-4"
+                    className="flex justify-between items-center w-full h-full rounded-[11px] bg-gradient-to-b from-[#2e3647] to-[#111a27] p-4"
                 >
                     <div className="flex items-center text-[#70d4ff]">
                         <div className="flex items-center">
@@ -24,7 +23,7 @@ const UserCard = () => {
                                     className="w-full h-full p-0.5 border-[1px]  border-[#222222] rounded-[8px] bg-current relative overflow-hidden"
                                 >
                                     <div
-                                        className="bg-gradient-to-b from-[#8966d4] to-[#8966d4]/50 opacity-100 rounded-[8px] absolute top-0 left-0 w-full h-full"
+                                        className="bg-gradient-to-b from-[#668cd4] to-[#668cd4]/50 opacity-100 rounded-[8px] absolute top-0 left-0 w-full h-full"
                                     ></div>
                                     <div
                                         className="w-full h-full border-[1px] rounded-[8px] border-[#222222] rounded-2 overflow-hidden shadow-avatar-emboss relative z-[3] bg-[#595959]"

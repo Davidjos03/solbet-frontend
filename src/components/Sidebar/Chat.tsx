@@ -83,7 +83,7 @@ const Chat = () => {
     ]
 
     return (
-        <div className="overflow-y-scroll overscroll-contain h-full">
+        <div className="overflow-y-scroll overscroll-contain h-full mt-[90px] py-3">
             <div className="flex flex-col justify-end gap-2.5 px-6 pb-0">
                 {chats && chats.map((chat, index) => (
                     <ChatItem key={index} image={chat.image} time={chat.time} user={chat.user} msg={chat.msg} />
