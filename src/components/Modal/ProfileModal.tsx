@@ -1,6 +1,6 @@
 import { Icon } from "@iconify-icon/react";
 import DuringDropdown from "../Dropdown/DuringDropdown";
-import { useState } from "react";
+// import { useState } from "react";
 import { useUserProvider } from "@/contexts/UserContext";
 import ChartComponent from "../charts/ohlc";
 import { Params, useTokenHistory } from "@/utils/utils";
@@ -13,17 +13,17 @@ const initialParams: Params = {
 };
 
 const ProfileModal = () => {
-    const [isNext, setIsNext] = useState<boolean>(false);
-    const [isPrev, setIsPrev] = useState<boolean>(true)
+    // const [isNext, setIsNext] = useState<boolean>(false);
+    // const [isPrev, setIsPrev] = useState<boolean>(true)
 
     const { isProfileModal, setIsProfileModal } = useUserProvider();
 
     const { data: ohlc } = useTokenHistory(initialParams);
 
-    const handleSetState = () => {
-        setIsNext(!isNext)
-        setIsPrev(!isPrev)
-    }
+    // const handleSetState = () => {
+    //     setIsNext(!isNext)
+    //     setIsPrev(!isPrev)
+    // }
 
     return (
         <div id="global-modal" className={`${isProfileModal ? "block" : "hidden"}`}>
@@ -84,7 +84,7 @@ const ProfileModal = () => {
                                         <Icon icon={isNext ? "ic:round-keyboard-double-arrow-right" : "ic:round-keyboard-double-arrow-left"} width="16" height="16" style={{ color: "#373d3f" }} />
                                     </div>
                                 </div> */}
-                                <div className="flex w-full rounded-lg">
+                                <div className="flex w-full rounded-lg bg-[#272c33">
                                     {ohlc?.length && <ChartComponent data={ohlc} />}
                                 </div>
                             </div>

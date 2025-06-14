@@ -55,7 +55,7 @@ export const getTokenHistoryData = async (params: Params) => {
             high: data.h[index],
             low: data.l[index],
             close: data.c[index],
-            time: data.t[index],
+            time: t,
         }));
         // console.log("🚀 ~ ohlc ~ ohlc:", ohlc[ohlc.length - 1]);
 

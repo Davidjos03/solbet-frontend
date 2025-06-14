@@ -109,6 +109,6 @@ export default function ChartComponent(props: any) {
     ]);
 
     return (
-        <div className="border-ton-blue-900 rounded-lg w-full h-[95%]" ref={chartContainerRef} />
+        <div className="border-ton-blue-900 bg-[#272c33] rounded-lg w-full h-[95%]" ref={chartContainerRef} />
     );
 }
