@@ -2,12 +2,23 @@ import { Icon } from "@iconify-icon/react";
 import DuringDropdown from "../Dropdown/DuringDropdown";
 import { useState } from "react";
 import { useUserProvider } from "@/contexts/UserContext";
+import ChartComponent from "../charts/ohlc";
+import { Params, useTokenHistory } from "@/utils/utils";
+
+const initialParams: Params = {
+    symbol: "Crypto.SOL/USD",
+    resolution: "1",
+    from: 1684137600,
+    to: 1684141200,
+};
 
 const ProfileModal = () => {
     const [isNext, setIsNext] = useState<boolean>(false);
     const [isPrev, setIsPrev] = useState<boolean>(true)
 
     const { isProfileModal, setIsProfileModal } = useUserProvider();
+
+    const { data: ohlc } = useTokenHistory(initialParams);
 
     const handleSetState = () => {
         setIsNext(!isNext)
@@ -67,13 +78,15 @@ const ProfileModal = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className={`flex ${isNext ? "flex-row-reverse" : ""} justify-between gap-2 w-full h-[315px] mb-4 border-b border-[#222222] relative`}>
-                                <div className="bg-white/5 text-white/25 rounded-full h-max mt-auto mb-auto relative -top-7 transition-all duration-300 hover:bg-white/10 hover:text-white/50 cursor-pointer">
+                            <div className={`flex justify-between gap-2 w-full h-[315px] mb-4 border-b border-[#222222] relative`}>
+                                {/* <div className="bg-white/5 text-white/25 rounded-full h-max mt-auto mb-auto relative -top-7 transition-all duration-300 hover:bg-white/10 hover:text-white/50 cursor-pointer">
                                     <div className="w-5 h-5 rounded-full flex items-center justify-center bg-[#262b2b]" onClick={() => handleSetState}>
                                         <Icon icon={isNext ? "ic:round-keyboard-double-arrow-right" : "ic:round-keyboard-double-arrow-left"} width="16" height="16" style={{ color: "#373d3f" }} />
                                     </div>
+                                </div> */}
+                                <div className="flex w-full rounded-lg">
+                                    {ohlc?.length && <ChartComponent data={ohlc} />}
                                 </div>
-                                <div className="flex"></div>
                             </div>
                             <div>
                                 <p className="font-medium text-white text-sm mb-2.5">Statistics</p>

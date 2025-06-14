@@ -111,8 +111,8 @@ const UserCard = () => {
                             <path
                                 d="M4.2 7.52179C4.2 6.87634 4.5456 6.28029 5.10577 5.95963L7.60256 4.53039C8.13589 4.22509 8.8 4.61016 8.8 5.22468L8.8 58.7753C8.8 59.3898 8.13589 59.7749 7.60256 59.4696L5.10577 58.0404C4.5456 57.7197 4.2 57.1237 4.2 56.4782L4.2 7.52179Z"
                                 stroke="url(#paint0_linear_1277_23299)"
-                                stroke-opacity="0.5"
-                                stroke-width="0.4"
+                                strokeOpacity="0.5"
+                                strokeWidth="0.4"
                             ></path>
                         </g>
                         <g opacity="0.5" filter="url(#filter1_f_1277_23299)">
@@ -129,9 +129,9 @@ const UserCard = () => {
                                 width="13"
                                 height="63.5537"
                                 filterUnits="userSpaceOnUse"
-                                color-interpolation-filters="sRGB"
+                                colorInterpolationFilters="sRGB"
                             >
-                                <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+                                <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
                                 <feColorMatrix
                                     in="SourceAlpha"
                                     type="matrix"
@@ -164,9 +164,9 @@ const UserCard = () => {
                                 width="7"
                                 height="51.7217"
                                 filterUnits="userSpaceOnUse"
-                                color-interpolation-filters="sRGB"
+                                colorInterpolationFilters="sRGB"
                             >
-                                <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+                                <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
                                 <feBlend
                                     mode="normal"
                                     in="SourceGraphic"
@@ -186,11 +186,11 @@ const UserCard = () => {
                                 y2="32"
                                 gradientUnits="userSpaceOnUse"
                             >
-                                <stop stop-color="currentColor" stop-opacity="0"></stop>
+                                <stop stopColor="currentColor" stopOpacity="0"></stop>
                                 <stop
                                     offset="1"
-                                    stop-color="currentColor"
-                                    stop-opacity="0.56"
+                                    stopColor="currentColor"
+                                    stopOpacity="0.56"
                                 ></stop>
                             </linearGradient>
                             <linearGradient
@@ -201,9 +201,9 @@ const UserCard = () => {
                                 y2="57"
                                 gradientUnits="userSpaceOnUse"
                             >
-                                <stop stop-color="currentColor" stop-opacity="0"></stop>
-                                <stop offset="0.5" stop-color="currentColor"></stop>
-                                <stop offset="1" stop-color="currentColor" stop-opacity="0"></stop>
+                                <stop stopColor="currentColor" stopOpacity="0"></stop>
+                                <stop offset="0.5" stopColor="currentColor"></stop>
+                                <stop offset="1" stopColor="currentColor" stopOpacity="0"></stop>
                             </linearGradient>
                         </defs>
                     </svg>

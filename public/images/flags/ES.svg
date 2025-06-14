@@ -35,7 +35,7 @@
         <path fill="#AD1619" d="M5.528 6.592h1.848V8.72H5.528z"/>
         <path fill="#F1F9FF" d="M5.528 4.632h1.96v2.072h-1.96z"/>
         <path fill-rule="evenodd" clip-rule="evenodd" d="M6.741 8.721s-1.186.094-1.186-.671c0 0-.011.671-1.25.671v.604h2.436v-.604z" fill="#F1F9FF"/>
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M5.556 7.096c.232 0 .42-.2.42-.448 0-.247-.188-.448-.42-.448-.232 0-.42.2-.42.448 0 .247.188.448.42.448z" fill="#005BBF" stroke="#AD1619" stroke-width=".583"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M5.556 7.096c.232 0 .42-.2.42-.448 0-.247-.188-.448-.42-.448-.232 0-.42.2-.42.448 0 .247.188.448.42.448z" fill="#005BBF" stroke="#AD1619" strokeWidth=".583"/>
       </g>
       <path fill-rule="evenodd" clip-rule="evenodd" d="M4.5 6a.5.5 0 100-1 .5.5 0 000 1z" fill="#C88A02"/>
       <path fill-rule="evenodd" clip-rule="evenodd" d="M6.5 6a.5.5 0 100-1 .5.5 0 000 1z" fill="#C37C9C"/>

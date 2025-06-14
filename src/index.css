@@ -457,6 +457,10 @@
   }
 }
 
+.tv-lightweight-charts {
+  border-radius: 12px;
+  border: 1px solid #2c5283
+}
 /* Transition class */
 .transition-transform {
   transition-property: transform;

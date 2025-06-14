@@ -27,28 +27,28 @@
 		.s3 { fill: #1c1c1e } 
 		.s4 { fill: #ffffff } 
 		.s5 { fill: #a1a1a1 } 
-		.s6 { fill: none;stroke: #ffffff;stroke-linecap: round;stroke-linejoin: round;stroke-width: 3 } 
-		.s7 { opacity: .3;fill: none;stroke: #9f84eb;stroke-width: .5 } 
+		.s6 { fill: none;stroke: #ffffff;stroke-linecap: round;stroke-linejoin: round;strokeWidth: 3 } 
+		.s7 { opacity: .3;fill: none;stroke: #9f84eb;strokeWidth: .5 } 
 		.s8 { opacity: 0;fill: #c4c4c4 } 
-		.s9 { opacity: .1;fill: none;stroke: #ffffff;stroke-width: .4 } 
+		.s9 { opacity: .1;fill: none;stroke: #ffffff;strokeWidth: .4 } 
 		.s10 { fill: #27ae60 } 
-		.s11 { fill: none;stroke: #ffffff;stroke-width: .4 } 
+		.s11 { fill: none;stroke: #ffffff;strokeWidth: .4 } 
 		.s12 { opacity: .1;fill: #c4c4c4 } 
 		.s13 { fill: #c4c4c4 } 
 		.s14 { fill: #ff5757 } 
 		.s15 { fill: #eb5757 } 
 		.s16 { fill: #2f80ed } 
 		.s17 { opacity: .6;fill: #ffffff } 
-		.s18 { fill: none;stroke: #9f84eb;stroke-width: .4 } 
-		.s19 { opacity: .3;fill: none;stroke: #9f84eb;stroke-width: 1 } 
+		.s18 { fill: none;stroke: #9f84eb;strokeWidth: .4 } 
+		.s19 { opacity: .3;fill: none;stroke: #9f84eb;strokeWidth: 1 } 
 		.s20 { fill: #ff3a3a } 
 		.s21 { fill: #00ff0a } 
 		.s22 { fill: #727272 } 
-		.s23 { opacity: .3;fill: none;stroke: #9f84eb;stroke-width: .8 } 
+		.s23 { opacity: .3;fill: none;stroke: #9f84eb;strokeWidth: .8 } 
 		.s24 { fill: #5c5c5c } 
-		.s25 { opacity: .6;fill: none;stroke: #9f84eb;stroke-width: .4 } 
-		.s26 { fill: #d9d9d9;stroke: #9f84eb;stroke-width: 3.8 } 
-		.s27 { fill: none;stroke: #9f84eb;stroke-width: .8 } 
+		.s25 { opacity: .6;fill: none;stroke: #9f84eb;strokeWidth: .4 } 
+		.s26 { fill: #d9d9d9;stroke: #9f84eb;strokeWidth: 3.8 } 
+		.s27 { fill: none;stroke: #9f84eb;strokeWidth: .8 } 
 	</style>
 	<path class="s0" d="m911.5 70v508"/>
 	<g>
