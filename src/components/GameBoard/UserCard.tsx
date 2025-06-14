@@ -62,17 +62,16 @@ const UserCard = () => {
                                 className="relative scale-[0.85] sm:scale-100 w-[60px] h-[60px]"
                             >
                                 <img
-                                    src="/images/sols.png"
-                                    className="object-cover object-center w-full h-full relative z-[3] group-hover:scale-110 transition-transform duration-300 drop-shadow-[0px_10px_10px_rgba(0,0,0,0.75)]"
+                                    src="/images/rarities/coin.svg"
                                     alt=""
                                 />
-                                <div className="absolute inset-0 m-auto w-full h-full mix-blend-screen">
+                                {/* <div className="absolute inset-0 m-auto w-full h-full mix-blend-screen">
                                     <img
                                         src="/images/rarities/purple.webp"
                                         className="object-cover object-center w-full"
                                         alt=""
                                     />
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                         <div className="min-w-[80px] relative -left-1.5 sm:left-0">
@@ -107,7 +106,7 @@ const UserCard = () => {
                         <g filter="url(#filter0_d_1277_23299)">
                             <path
                                 d="M4 7.52179C4 6.80462 4.384 6.14235 5.00641 5.78606L7.5032 4.35681C8.16986 3.9752 9 4.45652 9 5.22468L9 58.7753C9 59.5435 8.16986 60.0248 7.5032 59.6432L5.00641 58.2139C4.384 57.8577 4 57.1954 4 56.4782L4 7.52179Z"
-                                fill="currentColor"
+                                fill="#4ba0e6"
                             ></path>
                             <path
                                 d="M4.2 7.52179C4.2 6.87634 4.5456 6.28029 5.10577 5.95963L7.60256 4.53039C8.13589 4.22509 8.8 4.61016 8.8 5.22468L8.8 58.7753C8.8 59.3898 8.13589 59.7749 7.60256 59.4696L5.10577 58.0404C4.5456 57.7197 4.2 57.1237 4.2 56.4782L4.2 7.52179Z"

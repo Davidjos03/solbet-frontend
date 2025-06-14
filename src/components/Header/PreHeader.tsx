@@ -46,7 +46,7 @@ const PreHeader = () => {
                                 <Icon icon="fa6-brands:x-twitter" width="16" height="16" style={{ color: "#FFFFFF" }} />
                             </button>
                         </a>
-                        <a href="https://discord.gg/solpot" target="_blank">
+                        <a href="https://discord.gg/yTQpvNwE" target="_blank">
                             <button className="group relative overflow-hidden transition duration-300 bg-[#303030] hover:bg-[#393939]/75 text-sm font-medium h-6 w-6 p-0 min-w-0 flex items-center justify-center text-[#A2A2A2] hover:text-[#E3E3E3] rounded-[6px] cursor-pointer">
                                 <Icon icon="ri:discord-fill" width="16" height="16" style={{ color: "#FFFFFF" }} />
                             </button>

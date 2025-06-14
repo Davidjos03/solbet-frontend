@@ -238,7 +238,7 @@ const Jackpot = () => {
                                         <div className="w-full bg-gradient-to-t from-[#0c1e2b]/15 to-[#00293b]/50 rounded-[14px] p-[3px]">
                                             <div className="flex flex-col shadow-bet h-full rounded-[11px]">
                                                 <div className="w-full rounded-t-[11px] bg-gradient-to-b from-[#122033] to-[#262f44] p-[3px] pb-0 grow relative">
-                                                    <div className="w-full h-full bg-gradient-to-b from-[#15161a] to-[150%] to-[#0a0f13] rounded-t-[8px] p-4">
+                                                    <div className="w-full h-full bg-gradient-to-b from-[#25272e] to-[150%] to-[#303847] rounded-t-[8px] p-4">
                                                         <img src="/images/download.webp" className="object-cover object-center w-full absolute top-0 left-0" alt=""></img>
                                                         <div className="relative z-[3]">
                                                             <div className="flex justify-between uppercase text-xs text-[#8C8C8C] mb-3">

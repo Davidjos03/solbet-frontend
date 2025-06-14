@@ -59,7 +59,7 @@ const Footer = () => {
                                 <img src="/img/dot-pattern-referral.webp" className="w-full object-cover object-center absolute top-0 -right-5" alt=""></img>
                             </div>
                         </a>
-                        <a href="https://discord.gg/solpot" target="_blank" rel="noreferrer" className="group relative p-[1px] bg-gradient-to-r from-[#303030] to-[#2B2B2B] rounded-xl w-full sm:w-[236px] hover:brightness-125 transition-[filter] cursor-pointer">
+                        <a href="https://discord.gg/yTQpvNwE" target="_blank" rel="noreferrer" className="group relative p-[1px] bg-gradient-to-r from-[#303030] to-[#2B2B2B] rounded-xl w-full sm:w-[236px] hover:brightness-125 transition-[filter] cursor-pointer">
                             <div className="absolute rounded-lg -top-1.5 -right-3 z-[3] rotate-3 p-[1px] group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:rotate-6 transition-transform duration-300 ease-[cubic-bezier(.17,1.66,.68,1.01)] bg-green-shine">
                                 <div className="text-sm font-book w-full h-full py-[5px] px-3 rounded-[7px] border-[00d289] bg-[#204E2D] text-white">Join</div>
                             </div>
