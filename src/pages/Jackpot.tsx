@@ -36,7 +36,7 @@ const Jackpot = () => {
                                                             <img src="/images/solana.png" className="object-cover object-center w-6 h-6 rounded-full" alt=""></img>
                                                         </div>
                                                         <input
-                                                            className="border-[1px] transition-colors duration-300 px-3 h-[44px] rounded-lg text-sm focus:outline-none focus:border-[#3c3c3c] pl-11 bg-[#13132b] border-[#292929] w-full lg:w-[220px] desktop:w-[260px] hide-input-arrows"
+                                                            className="border-[1px] transition-colors duration-300 px-3 h-[44px] rounded-lg text-sm focus:outline-none focus:border-[#3c3c3c] pl-11 bg-[#162135] border-[#292929] w-full lg:w-[220px] desktop:w-[260px] hide-input-arrows"
                                                             placeholder="0.00"
                                                             type="text"
                                                             value={value}

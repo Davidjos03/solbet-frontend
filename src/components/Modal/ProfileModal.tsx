@@ -18,8 +18,8 @@ const ProfileModal = () => {
         <div id="global-modal" className={`${isProfileModal ? "block" : "hidden"}`}>
             <div className="fixed top-0 left-0 w-full h-full bg-[#0D0D0D]/75 z-[1000] transition-opacity duration-300 opacity-100" onClick={() => setIsProfileModal(false)}></div>
             <div className="w-full sm:w-max max-w-[calc(100%-32px)] sm:max-w-full h-max absolute inset-0 m-auto z-[1001] transition-all duration-300 scale-100 opacity-100">
-                <div className="relative p-[2px] rounded-2xl overflow-hidden bg-gradient-to-b from-[#221E3A] to-[#232325]">
-                    <div className="relative w-full h-full bg-[#141414] rounded-2xl main-background">
+                <div className="relative p-[2px] rounded-2xl overflow-hidden bg-gradient-to-b from-[#1e293a] to-[#232425]">
+                    <div className="relative w-full h-full rounded-2xl main-background">
                         <div className="p-8 w-full md:w-[787px] h-[calc(100vh-275px)] sm:h-[650px] md:h-[800px] lg:h-auto overflow-y-scroll relative">
                             <div className="absolute top-0 right-0 cursor-pointer bg-[#222]/75 p-3 rounded-bl-xl block sm:hidden" onClick={() => setIsProfileModal(false)}>
                                 <Icon icon="mingcute:close-line" width="24" height="24" style={{ color: "#373d3f" }} />
@@ -52,7 +52,7 @@ const ProfileModal = () => {
                             <div className="mb-4">
                                 <p className="font-medium text-white text-sm mb-2.5">Statistics</p>
                                 <div className="w-full bg-blurp-gradient p-[1px] rounded-xl mx-auto">
-                                    <div className="flex flex-col md:flex-row justify-between md:items-center bg-gradient-to-t from-[#1F1F2D] to-[#171721] w-full h-full rounded-[11px] px-6 py-5 gap-3 relative">
+                                    <div className="flex flex-col md:flex-row justify-between md:items-center bg-gradient-to-t from-[#1f252d] to-[#171c21] w-full h-full rounded-[11px] px-6 py-5 gap-3 relative">
                                         <div>
                                             <p className="text-sm text-[#A2A2A2] font-medium mb-1">Net Profit</p>
                                             <div className="flex items-center gap-1.5">

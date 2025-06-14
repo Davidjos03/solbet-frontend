@@ -13,10 +13,10 @@ const Affiliates = () => {
                     <div className="flex flex-col md:flex-row gap-8">
                         <div className="w-full md:w-[340px] shrink-0">
                             <div className="relative bg-[#1d1d1d] h-[219px] rounded-xl">
-                                <div className="bg-[#6741ff] w-16 h-16 rounded-full absolute inset-0 m-auto blur-2xl z-[3]"></div>
+                                <div className="bg-[#2c5fbf] w-16 h-16 rounded-full absolute inset-0 m-auto blur-2xl z-[3]"></div>
                                 <button className="bg-gradient-to-t from-[#222222] to-[#303030] p-[3px] rounded-2xl transition-opacity duration-300 cursor-pointer absolute inset-0 m-auto z-[3] h-max w-32">
-                                    <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#957AFF] to-[#6741FF] border-[1px] border-[#1D1D1D]">
-                                        <div className="group flex items-center justify-center relative h-10 min-w-10 overflow-hidden rounded-[10px] transition duration-300 px-4 w-full bg-[#6741FF] hover:bg-[#6741FF]/75 text-sm font-bold text-white gap-1.5 cursor-pointer" style={{ textShadow: "rgba(0, 0, 0, 0.5) 0px 2px" }}>
+                                    <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#6797df] to-[#2a64cf] border-[1px] border-[#1D1D1D]">
+                                        <div className="group flex items-center justify-center relative h-10 min-w-10 overflow-hidden rounded-[10px] transition duration-300 px-4 w-full bg-[#2c5fbf] hover:bg-[#3b2cbf]/75 text-sm font-bold text-white gap-1.5 cursor-pointer" style={{ textShadow: "rgba(0, 0, 0, 0.5) 0px 2px" }}>
                                             <Icon icon="ion:wallet" width="16" height="16" style={{ color: "#FFFFFF" }} /> connect
                                             <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(68.53%_169.15%_at_50%_-27.56%,_#D787FF_0%,_#6741FF_100%)] transition-opacity duration-500 z-[1] opacity-0 group-hover:opacity-20 mix-blend-screen">
                                             </div>
@@ -91,8 +91,8 @@ const Affiliates = () => {
                                         </div>
                                         <div className="relative">
                                             <button className="bg-gradient-to-t from-[#222222] to-[#303030] p-[3px] rounded-2xl transition-opacity duration-300 opacity-50" disabled>
-                                                <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#957AFF] to-[#6741FF] border-[1px] border-[#1D1D1D]">
-                                                    <div className="group flex items-center justify-center relative h-10 min-w-10 overflow-hidden rounded-[10px] transition duration-300 px-4 w-full bg-[#6741FF] hover:bg-[#6741FF]/75 text-sm font-bold text-white opacity-50" style={{ textShadow: "#0000007f 0px 2px" }}>
+                                                <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#6797df] to-[#2a64cf] border-[1px] border-[#1D1D1D]">
+                                                    <div className="group flex items-center justify-center relative h-10 min-w-10 overflow-hidden rounded-[10px] transition duration-300 px-4 w-full bg-[#2c5fbf] hover:bg-[#3b2cbf]/75 text-sm font-bold text-white opacity-50" style={{ textShadow: "#0000007f 0px 2px" }}>
                                                         Claim <span className="hidden md:inline ml-1">Earnings</span>
                                                         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(68.53%_169.15%_at_50%_-27.56%,_#D787FF_0%,_#6741FF_100%)] transition-opacity duration-500 z-[1] opacity-0 group-hover:opacity-20 mix-blend-screen">
                                                         </div>
@@ -157,7 +157,7 @@ const Affiliates = () => {
                                 </div>
                                 <div className="w-full h-[1px] bg-[#222222] mt-6 mb-0"></div>
                             </div>
-                            <div>
+                            <div className="flex flex-col p-3 rounded-lg bg-[#1d1d1d]">
                                 <p className="text-white font-semibold mb-4">Top Depositors</p>
                                 <div className="flex flex-col gap-3">
                                     <div className="flex px-4 text-sm text-[#A2A2A2] w-full gap-2">
