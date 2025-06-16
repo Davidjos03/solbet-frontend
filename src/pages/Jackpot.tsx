@@ -149,7 +149,7 @@ const Jackpot = () => {
                             </div>
                             {/* <Bonus /> */}
                             <div className="w-full min-h-[600px] border-t border-[#22222D]/50">
-                                <div className="flex md:hidden justify-center mt-4 items-center gap-1.5 pl-2 pr-3 py-2 rounded-lg bg-[#307bc0]/40">
+                                <div className="flex md:hidden justify-center mt-4 items-center gap-1.5 pl-2 pr-3 py-2 rounded-lg bg-[#0f2030]/40">
                                     <img src="/images/solana.png" className="object-cover object-center w-5 h-5" alt=""></img>
                                     <p className="text-[#307bc0] font-medium text-sm">Payouts are settled in SOL</p>
                                 </div>
@@ -160,9 +160,9 @@ const Jackpot = () => {
                                             <p>2 Players</p>
                                         </div>
                                         <div className="h-2/3 w-[1px] bg-[#303030]/50 hidden md:block"></div>
-                                        <div className="hidden md:flex items-center gap-1.5 pl-2 pr-3 py-[5px] rounded-lg bg-[#307bc0]/20">
+                                        <div className="hidden md:flex items-center gap-1.5 pl-2 pr-3 py-[5px] rounded-lg bg-[#1b3146]/40">
                                             <img src="/images/solana.png" className="object-cover object-center w-4 h-4" alt=""></img>
-                                            <p className="text-[#307bc0] font-medium text-[13px]">Payouts are settled in SOL</p>
+                                            <p className="text-[#2d6da8] font-medium text-[13px]">Payouts are settled in SOL</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2">

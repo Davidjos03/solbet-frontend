@@ -295,10 +295,24 @@
     opacity: 0;
   }
 
+  @keyframes customSpin {
+    from {
+      transform: rotate(-15deg);
+    }
+    to {
+      transform: rotate(15deg);
+    }
+  }
+
+  .custom-spin {
+    animation: customSpin 2s linear infinite;
+  }
+
   .main-background {
     background-blend-mode: difference;
+    background: linear-gradient(90deg, #020024 0%, #010140 51%, #082075 100%);
     /* background-image: url("/images/main.gif"); */
-    background-image: url("/images/test-background.png");
+    /* background-image: url("/images/test-background.png"); */
     background-position: top;
     background-repeat: no-repeat;
     background-size: cover;

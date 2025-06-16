@@ -15,9 +15,11 @@ const Footer = () => {
             </div>
             <div className="flex flex-col py-9 px-6 md:px-10 lg:px-16 pb-[100px] md:pb-9">
                 <div className="w-full bg-blur p-gradient p-[1px] rounded-xl max-w-[1064px] mx-auto">
-                    <div className="flex flex-col md:flex-row items-center bg-blurp-card w-full h-full rounded-[11px] px-8 py-6 gap-6 text-center md:text-left">
-                        <div className="min-w-[140px] h-[103px]"></div>
-                        <p className="grow text-xs leading-[20px] font-[500] text-[#e6e6e6]">
+                    <div className="flex flex-col md:flex-row items-center bg-blurp-card w-full h-full rounded-[11px] px-2 py-1 gap-6 text-center md:text-left">
+                        <div className="min-w-[140px] h-[140px]">
+                            <img src="/images/logo.png" alt="" className='object-cover object-center w-[140px]' />
+                        </div>
+                        <p className="grow text-xs leading-[20px] font-[500] text-[#e6e6e6] pr-4">
                             SolBet is a next-generation Web3 gaming platform built on Solana. We bring excitement, transparency, and innovation to online betting through jackpots, NFTs, and social features. All draws are powered by smart contracts and verified on-chain. Join a new era of fair and engaging crypto entertainment.
                         </p>
                     </div>
@@ -25,7 +27,9 @@ const Footer = () => {
                 <div className="rounded-xl shadow-[0_4px_8px_0_rgba(0,0,0,0.24)] overflow-hidden border border-[#6e6e8c42] max-w-[1064px] mx-auto mt-5">
                     <div className="rounded-xl bg-[#1C1B24]/25 bg-[linear-gradient(91deg,_rgba(110,110,140,0.1)_0%,_rgba(110,110,140,0.05)_100%)]">
                         <div className="flex flex-row justify-center items-center py-4 px-6 gap-6">
-                            <div className="min-w-11 h-11"></div>
+                            <div className="min-w-20 h-20">
+                                <img src="/images/Number2.png" alt="" className='object-cover object-center w-20' />
+                            </div>
                             <p className="text-white/50 font-normal leading-[1.25rem] text-xs">
                                 SolBet is a decentralized platform operated by the SolBet team. All games on SolBet are powered by smart contracts on the Solana blockchain, ensuring transparency, fairness, and on-chain verification of results. SolBet does not currently operate under a gaming license and is offered as a community-based experimental Web3 platform. Use of the platform is at your own discretion and subject to applicable laws in your jurisdiction. By using SolBet, you agree to the platform’s Terms and Conditions and acknowledge the inherent risks of blockchain-based games.
                             </p>
