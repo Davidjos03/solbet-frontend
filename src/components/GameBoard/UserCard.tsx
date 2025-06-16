@@ -65,13 +65,6 @@ const UserCard = () => {
                                     src="/images/rarities/coin.svg"
                                     alt=""
                                 />
-                                {/* <div className="absolute inset-0 m-auto w-full h-full mix-blend-screen">
-                                    <img
-                                        src="/images/rarities/purple.webp"
-                                        className="object-cover object-center w-full"
-                                        alt=""
-                                    />
-                                </div> */}
                             </div>
                         </div>
                         <div className="min-w-[80px] relative -left-1.5 sm:left-0">

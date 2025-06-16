@@ -1,104 +1,85 @@
 import cn from "classnames";
-import { Icon } from "@iconify-icon/react";
+import { useWallet, Wallet } from "@solana/wallet-adapter-react";
+import { WalletIcon } from "@solana/wallet-adapter-react-ui";
+import { useEffect, useState } from "react";
 
-import { useUserProvider } from "@/contexts/UserContext";
-import WalletItem from "./WalletItem";
+interface CustomWalletModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+}
 
-const WalletModal = () => {
-    const { isWalletModal, setIsWalletModal } = useUserProvider();
+let AUTOCONNECT_ATTEMPTED = false;
 
-    const walletList: IWalletItem[] = [
-        {
-            title: "Crypto",
-            icon: "/images/user-logo-icon.png",
-            subtitle: "Bitcoin",
-            content: "~ $92,501.75",
-        },
-        {
-            title: " ",
-            icon: "/images/user-logo-icon.png",
-            subtitle: "Ethereum",
-            content: "~ $2,312.18",
-        },
-        {
-            title: " ",
-            icon: "/images/user-logo-icon.png",
-            subtitle: "Litecoin",
-            content: "~ $112.37",
-        },
-        {
-            title: "Credit Card",
-            icon: "/images/user-logo-icon.png",
-            subtitle: "Credit Card",
-            content: "Bank",
-        },
-        {
-            title: "Gift Cards",
-            icon: "/images/user-logo-icon.png",
-            subtitle: "Gift Cards",
-            content: "G2A / Kinguin",
-        },
-        {
-            title: "In-game Items",
-            icon: "/images/user-logo-icon.png",
-            subtitle: "Limiteds",
-            content: "Roblox",
-        },
-    ]
+const WalletModal: React.FC<CustomWalletModalProps> = ({
+    isOpen,
+    onClose,
+}) => {
+    const [customWallets, setCustomWallet] = useState<Wallet[]>([]);
+
+    const { wallets, select } = useWallet();
+
+    useEffect(() => {
+        if (typeof window == "undefined" || !window.location) return;
+
+        const url = new URL(window.location.href);
+        if (!url.searchParams.has("connectWallet")) return;
+
+        const connectWallet = url.searchParams.get("connectWallet");
+        for (const wallet of customWallets)
+            if (wallet.adapter.name === connectWallet) {
+                if (AUTOCONNECT_ATTEMPTED) break;
+                AUTOCONNECT_ATTEMPTED = true;
+                select(wallet.adapter.name);
+                url.searchParams.delete("connectWallet");
+                window.history.pushState(null, "", url.toString());
+                break;
+            }
+    }, [
+        typeof window == "undefined" ? undefined : window.location.search,
+        customWallets,
+    ]);
+
+    useEffect(() => {
+        setCustomWallet(wallets);
+    }, [wallets]);
 
     return (
         <div
-            className={`fixed inset-0 z-30 flex items-center justify-center transition-opacity duration-500 ${isWalletModal ? "" : "pointer-events-none"
-                }`}
+            id="global-modal"
+            className={cn(
+                `${isOpen ? "block" : "hidden"}`
+            )}
         >
             <div
-                className={`fixed inset-0 bg-black transition-opacity bg-[#000000E5] duration-500 ${isWalletModal ? "opacity-75" : "opacity-0"
-                    }`}
-                onClick={() => setIsWalletModal(false)}
+                className={`fixed top-0 left-0 w-full h-full bg-[#0D0D0D]/75 z-[1000] transition-opacity duration-300 opacity-100`}
+                onClick={() => onClose()}
             />
 
-            <div
-                className={cn(
-                    "flex flex-col",
-                    "w-[700px]",
-                    "items-center",
-                    "rounded-2xl",
-                    "bg-[#131123]",
-                    "absolute",
-                    "z-40",
-                    "duration-500 ease-in-out",
-                    `${isWalletModal ? "flex-none" : "scale-0"}`
-                )}
-            >
-                <div className="flex w-full items-center justify-between h-[60px] px-7">
-                    <div className="flex items-center gap-2">
-                        <img
-                            src="/images/wallet-icon.svg"
-                            alt="No wallet icon"
-                            className="w-[23px] h-[20px]"
-                        />
-                        <p className="font-bold w-full text-white text-center text-[1.5rem] leading-[1.5625rem]">
-                            Wallet
-                        </p>
+            <div className="w-fit h-max absolute inset-0 m-auto z-[1001] transition-all duration-300 scale-100 opacity-100">
+                <div className="relative p-[2px] rounded-2xl overflow-hidden bg-gradient-to-b from-[#1e293a] to-[#232425]">
+                    <div className="relative w-full h-full rounded-2xl main-background">
+                        <div className="flex flex-col p-8 gap-5 w-[320px] 3xs:w-[365px] md:w-[420px] h-auto overflow-y-scroll relative">
+                            <div className="flex items-center justify-between w-full">
+                                <h1 className="font-extrabold text-2xl text-white max-w-[200px]">Connection</h1>
+                                <img src="/images/icon.png" alt="" className='object-cover object-center w-[60px]' />
+                            </div>
+                            <div className="flex flex-col gap-3">
+                                {customWallets.map((wallet) => (
+                                    <button
+                                        key={wallet.adapter.name}
+                                        className="group relative min-w-10 overflow-hidden transition duration-300 text-sm font-medium text-white rounded-lg flex justify-start items-center gap-2 bg-[#222222] hover:bg-[#2b2b2b] border-0 w-full h-[44px] px-3 cursor-pointer"
+                                        onClick={() => {
+                                            select(wallet.adapter.name);
+                                            onClose();
+                                        }}
+                                    >
+                                        <WalletIcon wallet={wallet} className="w-6 h-6 mr-3" />
+                                        <span className="font-bold text-[18px] leading-5">{wallet.adapter.name}</span>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
                     </div>
-                    <button
-                        className="flex items-center justify-center"
-                        onClick={() => setIsWalletModal(false)}
-                    >
-                        <Icon icon="lets-icons:close-round" width="24" height="24" style={{ color: "#B5C3D580" }} />
-                    </button>
-                </div>
-                <div className="flex w-full border-b border-[#211C33]"></div>
-                <div className="grid grid-cols-3 gap-x-[9px] gap-y-9 pt-8 px-[22px] pb-[54px] w-full">
-                    {walletList.map((item, index) => (
-                        <WalletItem
-                            key={index}
-                            title={item.title}
-                            icon={item.icon}
-                            subtitle={item.subtitle}
-                            content={item.content}
-                        />
-                    ))}
                 </div>
             </div>
         </div >

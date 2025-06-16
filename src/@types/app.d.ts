@@ -3,6 +3,11 @@ interface ILanguageItem {
   logo: string;
 }
 
+interface IOptionList {
+  name: string;
+  icon: string;
+}
+
 interface IHomeItem {
   title: string;
   content: string;

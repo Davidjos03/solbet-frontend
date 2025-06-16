@@ -4,7 +4,7 @@ import { Icon } from "@iconify-icon/react";
 const Affiliates = () => {
     return (
         <div className="relative w-full min-h-[calc(100vh-110px)] h-full px-6 md:px-10 lg:px-16 py-12 mb-20 mt-12 md:mt-16 lg:mt-28">
-            <div className="opacity-1000 translate-y-2 animate-fade-y">
+            <div className="opacity-100 translate-y-2 animate-fade-y">
                 <div className="max-w-[1064px] mx-auto">
                     <div>
                         <h1 className="font-airstrike text-[40px] text-white m-0">Affiliates</h1>

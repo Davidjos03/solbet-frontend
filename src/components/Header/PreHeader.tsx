@@ -1,11 +1,21 @@
+import { useWalletProvider } from "@/contexts/WalletContext";
+// import api from "@/utils/auth";
+// import setAuthToken from "@/utils/setAuthToken";
 import { Icon } from "@iconify-icon/react";
+import { useWallet } from "@solana/wallet-adapter-react";
+import cn from "classnames";
 import { useEffect, useState } from "react";
+import { DropDownProfile } from "../Dropdown";
 
 const PreHeader = () => {
     const [isHidden, setIsHidden] = useState(false);
     const [isAtTop, setIsAtTop] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
     const SCROLL_THRESHOLD = 10;
+
+    const { setIsModalOpen } = useWalletProvider();
+
+    const wallet = useWallet();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -34,12 +44,32 @@ const PreHeader = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [isHidden, lastScrollY]);
 
+    useEffect(() => {
+        if (wallet.connected && !wallet.connecting) {
+            // const getUser = async () => {
+            //     try {
+            //         const res = await api.post("/v1/auth", {
+            //             wallet_address: wallet.publicKey?.toString(),
+            //         });
+            //         if (res) {
+            //             console.log("🚀 ~ getUser ~ res:", res);
+            //             // setAuthToken(res.data.token);
+            //         }
+            //     } catch (error) {
+            //         console.error(error);
+            //         disconnect();
+            //     }
+            // };
+            // getUser();
+        }
+    }, [wallet.connected]);
+
     return (
         <div className={`top-0 left-0 w-full h-full z-50 transition-all duration-300 ${isHidden ? 'border-b border-[#1D1D1D]' : 'translate-y-0'}`}>
             {/* Content */}
             <div className="relative flex flex-col w-full h-full">
                 {/* Top Row */}
-                <div className={`items-center w-full h-[40px] shrink-0 px-6 md:px-2.5 hidden lg:flex ${!isAtTop ? 'bg-[#0D0D0D]/80' : 'bg-[#0D0D0D]/20'}`}>
+                <div className={`items-center w-full h-[40px] shrink-0 px-6 md:px-2.5 hidden lg:flex ${!isAtTop ? 'bg-[#0D0D0D]/90' : 'bg-[#0D0D0D]/50'}`}>
                     <div className="flex gap-1 md:gap-2.5">
                         <a href="https://x.com/lunabetis" target="_blank">
                             <button className="group relative overflow-hidden transition duration-300 bg-[#303030] hover:bg-[#393939]/75 text-sm font-medium h-6 w-6 p-0 min-w-0 flex items-center justify-center text-[#A2A2A2] hover:text-[#E3E3E3] rounded-[6px] cursor-pointer">
@@ -67,7 +97,7 @@ const PreHeader = () => {
                 </div>
 
                 {/* Main Navigation */}
-                <div className={`flex items-center md:justify-between w-full grow px-6 ${!isAtTop ? 'bg-[#141414]/80' : 'bg-[#141414]/20'}`}>
+                <div className={`flex items-center md:justify-between w-full grow px-6 ${!isAtTop ? 'bg-[#141414]/90' : 'bg-[#141414]/50'}`}>
                     <div id="navigation" className="hidden md:flex items-center relative h-full">
                         <a href="/" className="flex justify-center items-center w-[110px] lg:w-[123px] text-base gap-1.5 transition-colors duration-300 text-[#6741FF]" aria-current="page">
                             <Icon icon="gravity-ui:target-dart" width="24" height="24" style={{ color: "#2c5fbf" }} />
@@ -86,13 +116,20 @@ const PreHeader = () => {
                             <img src="/images/3d-sol.webp" className="object-cover object-center w-8 2xl:w-[32px] h-auto" alt=""></img>
                             <span className="font-black text-xl text-white 2xl:text-base">0.251</span>
                         </div>
-                        <button className="bg-gradient-to-t from-[#10101f] to-[#121229] p-[3px] rounded-2xl transition-opacity duration-300 cursor-pointer">
-                            <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#6797df] to-[#2a64cf] border-[1px] border-[#1D1D1D]">
-                                <div className="group relative h-10 min-w-10 overflow-hidden rounded-[10px] transition duration-300 px-4 w-full bg-[#2c5fbf] hover:bg-[#3b2cbf]/75 text-sm font-bold text-[#E3E3E3] flex items-center justify-center gap-1.5 ml-auto cursor-pointer" style={{ textShadow: "rgba(0, 0, 0, 0.5) 0px 2px" }}>
-                                    <Icon icon="ion:wallet" width="16" height="16" style={{ color: "#FFFFFF" }} /> connect
+                        {wallet.connected ? (
+                            <DropDownProfile />
+                        ) : (
+                            <button
+                                className={cn("bg-gradient-to-t from-[#10101f] to-[#121229] p-[3px] rounded-2xl transition-opacity duration-300 cursor-pointer")}
+                                onClick={() => setIsModalOpen(true)}
+                            >
+                                <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#6797df] to-[#2a64cf] border-[1px] border-[#1D1D1D]">
+                                    <div className="group relative h-10 min-w-10 overflow-hidden rounded-[10px] transition duration-300 px-4 w-full bg-[#2c5fbf] hover:bg-[#3b2cbf]/75 text-sm font-bold text-[#E3E3E3] flex items-center justify-center gap-1.5 ml-auto cursor-pointer" style={{ textShadow: "rgba(0, 0, 0, 0.5) 0px 2px" }}>
+                                        <Icon icon="ion:wallet" width="16" height="16" style={{ color: "#FFFFFF" }} /> connect
+                                    </div>
                                 </div>
-                            </div>
-                        </button>
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>
