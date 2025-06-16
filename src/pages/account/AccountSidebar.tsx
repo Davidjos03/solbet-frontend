@@ -1,13 +1,13 @@
 import { Icon } from "@iconify-icon/react";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const AccountSidebar = () => {
     const [selected, setSelected] = useState<string>("Options")
 
     const navigate = useNavigate();
-
+    const location = useLocation();
     const { disconnect } = useWallet();
 
     const optList: IOptionList[] = [
@@ -20,7 +20,7 @@ const AccountSidebar = () => {
             icon: "streamline-plump:content-statistic-solid",
         },
         {
-            name: "Transations",
+            name: "Transactions",
             icon: "icon-park-solid:transaction",
         },
         {
@@ -38,7 +38,7 @@ const AccountSidebar = () => {
             case "Statistics":
                 navigate('/account/statistics');
                 break;
-            case "Transations":
+            case "Transactions":
                 navigate('/account/transactions');
                 break;
             case "Disconnect":
@@ -49,6 +49,13 @@ const AccountSidebar = () => {
                 break;
         }
     }
+    // Set initial selected state based on current path
+    useEffect(() => {
+        const path = location.pathname;
+        if (path.includes('/account/options')) setSelected("Options");
+        else if (path.includes('/account/statistics')) setSelected("Statistics");
+        else if (path.includes('/account/transactions')) setSelected("Transactions");
+    }, [location.pathname]);
 
     return (
         <div className="flex-none md:w-[190px] sm:px-4 py-3">

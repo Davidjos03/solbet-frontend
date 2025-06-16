@@ -8,6 +8,14 @@ interface IOptionList {
   icon: string;
 }
 
+interface IInput {
+  label: string;
+  type?: string;
+  edit?: boolean;
+  func?: string;
+  disabled?: boolean;
+}
+
 interface IHomeItem {
   title: string;
   content: string;

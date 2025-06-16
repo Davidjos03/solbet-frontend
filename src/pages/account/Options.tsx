@@ -1,3 +1,4 @@
+import Input from "@/components/Input";
 import { Icon } from "@iconify-icon/react";
 
 const OptionsPage = () => {
@@ -18,7 +19,7 @@ const OptionsPage = () => {
                 </div>
                 <div>
                     <div className="flex items-center gap-2">
-                        <h4 className="text-[20px] font-semibold leading-[28px] max-w-[200px] truncate">max_tonny</h4>
+                        <h4 className="text-[20px] font-semibold leading-[28px] max-w-[200px] truncate">shinny_leo</h4>
                         <div className="p-[1px] rounded-md overflow-hidden bg-[#616161] text-[#D2D2D2]">
                             <div className="flex items-center justify-center rounded-[5px] overflow-hidden bg-[#22222D]/80 font-semibold w-[28px] h-5 text-[11px]">1</div>
                         </div>
@@ -26,6 +27,11 @@ const OptionsPage = () => {
                     <p className="text-[#A2A2A2] text-sm mt-1">Joined June 16th, 2025</p>
                 </div>
             </div>
+            <Input label="Enter name" edit={true} />
+            <Input label="Enter email" edit={true} func="verify" />
+            <Input label="Client Seed" type="password" edit={true} func="show" />
+            <Input label="Connect Account" disabled={true} />
+            <Input label="Referred by" disabled={true} />
         </div>
     );
 };
