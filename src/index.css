@@ -343,8 +343,8 @@
     padding: 0 !important;
     margin: 0 !important;
     border: none;
-    bottom: 20px;
-    right: 20px;
+    bottom: 12px;
+    right: 12px;
     max-width: 48px;
     width: 48px;
     max-height: 48px;
@@ -459,7 +459,7 @@
 
 .tv-lightweight-charts {
   border-radius: 12px;
-  border: 1px solid #2c5283
+  border: 1px solid #2c5283;
 }
 /* Transition class */
 .transition-transform {

@@ -32,8 +32,8 @@ const Footer = () => {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col lg:flex-row justify-between items-center mt-[42px] max-w-[1064px] mx-auto w-full gap-12">
-                    <div className="flex gap-6 w-max text-center lg:text-left">
+                <div className="flex flex-col 1.5xl:flex-row justify-between items-center mt-[42px] max-w-[1064px] mx-auto w-full gap-12">
+                    <div className="flex flex-col xs:flex-row justify-between gap-6 w-full 1.5xl:px-0 sm:px-8 text-center lg:text-left">
                         <a className="" href="mailto:Solbetplay@gmail.com">
                             <p className="text-[#A2A2A2] text-sm mb-2 font-medium leading-[17px]">Contact Support:</p>
                             <div className="text-white transition-colors duration-300 cursor-pointer font-book leading-[19px]">Solbetplay@gmail.com</div>
@@ -43,7 +43,7 @@ const Footer = () => {
                             <div className="text-white transition-colors duration-300 cursor-pointer font-book leading-[19px]">lunabetis@hotmail.com</div>
                         </a>
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-6 w-3/4 sm:w-max">
+                    <div className="flex flex-col sm:justify-between sm:flex-row 1.5xl:px-0 px-8 gap-6 w-3/4 sm:w-full">
                         <a href="https://x.com/lunabetis" target="_blank" rel="noreferrer" className="group relative p-[1px] bg-gradient-to-r from-[#303030] to-[#2B2B2B] rounded-xl w-full sm:w-[236px] hover:brightness-125 transition-[filter] cursor-pointer">
                             <div className="absolute rounded-lg -top-1.5 -right-3 z-[3] rotate-3 p-[1px] group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:rotate-6 transition-transform duration-300 ease-[cubic-bezier(.17,1.66,.68,1.01)] bg-green-shine">
                                 <div className="text-sm font-book w-full h-full py-[5px] px-3 rounded-[7px] border-[#00d289] bg-[#204E2D] text-white">Follow now</div>
@@ -76,8 +76,8 @@ const Footer = () => {
                         </a>
                     </div>
                 </div>
-                <div className="flex items-center justify-between mt-[42px] max-w-[1064px] mx-auto w-full">
-                    <p className="text-sm text-[#A2A2A25C] font-book mr-2">© 2025 SolBet — Powered by Solana. All rights reserved.</p>
+                <div className="flex lg:flex-row gap-3 flex-col-reverse items-center justify-between mt-[42px] max-w-[1064px] mx-auto w-full">
+                    <p className="text-sm text-center text-[#A2A2A25C] font-book mr-2">© 2025 SolBet — Powered by Solana. All rights reserved.</p>
                     <LanguageDropdown />
                 </div>
             </div>

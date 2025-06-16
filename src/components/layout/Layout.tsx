@@ -7,7 +7,7 @@ import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 
 const Layout = () => {
-  const { setIsToggle } = useUserProvider()
+  const { isToggle, setIsToggle } = useUserProvider()
 
   return (
     <div className="h-full min-h-screen w-full pt-0 pb-0 block main-background">
@@ -33,7 +33,7 @@ const Layout = () => {
       <Header />
       <div className="flex w-full h-full relative">
         <Sidebar />
-        <div className="relative w-full h-max overflow-hidden transition-[padding,opacity] will-change-[padding,opacity] duration-300 xl:pl-[300px] 2xl:pl-[350px]">
+        <div className={`relative w-full h-max ${isToggle ? "xl:pl-[300px] 2xl:pl-[350px]" : ""} overflow-hidden transition-[padding,opacity] will-change-[padding,opacity] duration-300`}>
           <div className="absolute h-full top-[70px] lg:top-[109px] transition-[width,left] duration-300 mix-blend-difference will-change-[padding,width] w-full xl:w-[calc(100%-300px)] 2xl:w-[calc(100%-350px)] xl:left-[300px] 2xl:left-[350px]"></div>
           <Outlet />
           <Footer />

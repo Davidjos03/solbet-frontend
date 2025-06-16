@@ -67,7 +67,7 @@ const PreHeader = () => {
                 </div>
 
                 {/* Main Navigation */}
-                <div className={`flex items-center justify-end md:justify-between w-full grow px-6 ${!isAtTop ? 'bg-[#141414]/80' : 'bg-[#141414]/20'}`}>
+                <div className={`flex items-center md:justify-between w-full grow px-6 ${!isAtTop ? 'bg-[#141414]/80' : 'bg-[#141414]/20'}`}>
                     <div id="navigation" className="hidden md:flex items-center relative h-full">
                         <a href="/" className="flex justify-center items-center w-[110px] lg:w-[123px] text-base gap-1.5 transition-colors duration-300 text-[#6741FF]" aria-current="page">
                             <Icon icon="gravity-ui:target-dart" width="24" height="24" style={{ color: "#2c5fbf" }} />
@@ -78,7 +78,7 @@ const PreHeader = () => {
                             <h1 className="transition-colors duration-300 font-semibold text-base block text-[#A2A2A2]">Affiliates</h1>
                         </a>
                     </div>
-                    <div className="flex items-center gap-1.5 sm:gap-3 w-full md:w-auto h-full ml-auto md:m-0">
+                    <div className="flex justify-end items-center gap-1.5 sm:gap-3 w-full md:w-auto h-full ml-auto md:m-0">
                         <button className="flex flex-col justify-center items-center w-[40px] text-base gap-0.5 transition-colors duration-300 text-[#6741FF] mx-2 relative h-full">
                             <Icon icon="uiw:setting" width="28" height="28" style={{ color: "#2c5fbf" }} />
                         </button>

@@ -1,4 +1,4 @@
-import React, { ReactNode, createContext, useContext, useState } from "react";
+import React, { ReactNode, createContext, useContext, useEffect, useState } from "react";
 
 // Define the shape of the context
 interface UserContextProps {
@@ -27,6 +27,27 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [isProfileModal, setIsProfileModal] = useState<boolean>(false);
   const [state, setState] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<IUser>({ name: 'skinfeg11', icon: '/images/user-logo-icon.png' });
+
+
+  useEffect(() => {
+    // Function to check and update `isToggle` based on window width
+    const handleResize = () => {
+      const shouldToggle = window.innerWidth < 1280;
+      setIsToggle(!shouldToggle);
+    };
+
+    // Initial check on mount
+    handleResize();
+
+    // Add event listener for window resize
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup: Remove event listener on unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []); // Empty dependency array ensures this runs only once on mount
+
   return (
     <UserContext.Provider
       value={{

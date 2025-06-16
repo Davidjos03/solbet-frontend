@@ -17,7 +17,7 @@ const Jackpot = () => {
                                     <div className="flex flex-col">
                                         <div className="flex items-center gap-2 mb-2.5">
                                             <Icon icon="gravity-ui:target-dart" width="24" height="24" style={{ color: "#2c5fbf" }} />
-                                            <h2 className="font-airstrike text-[28px] 2xl:text-[32px] leading-[28px] my-0 text-white">Jackpot</h2>
+                                            <h2 className="font-airstrike text-[28px] 2xl:text-[32px] leading-[28px] my-0 text-white">Jackbet</h2>
                                         </div>
                                         <h4 className="text-[#BFBFCD] text-xs 2xl:text-sm font-medium whitespace-nowrap">Winner takes all...</h4>
                                     </div>
