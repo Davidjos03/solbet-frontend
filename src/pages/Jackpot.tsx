@@ -1,4 +1,5 @@
 // import Bonus from "@/components/GameBoard/Bonus";
+import SmoothCardCarousel from "@/components/GameBoard/SmoothCardCarousel";
 import UserCard from "@/components/GameBoard/UserCard";
 import { Icon } from "@iconify-icon/react";
 import { useState } from "react";
@@ -147,6 +148,7 @@ const Jackpot = () => {
                                     </div>
                                 </div>
                             </div>
+                            <SmoothCardCarousel />
                             {/* <Bonus /> */}
                             <div className="w-full min-h-[600px] border-t border-[#22222D]/50">
                                 <div className="flex md:hidden justify-center mt-4 items-center gap-1.5 pl-2 pr-3 py-2 rounded-lg bg-[#0f2030]/40">
