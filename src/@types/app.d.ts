@@ -17,10 +17,10 @@ interface IInput {
 }
 
 interface IChatItem {
-  image: string;
-  time: string;
   user: string;
-  msg: string;
+  content: string;
+  avatar: string;
+  time: string;
 }
 
 interface IUser {

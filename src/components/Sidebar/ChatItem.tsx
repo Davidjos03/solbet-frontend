@@ -1,6 +1,6 @@
 import { useUserProvider } from "@/contexts/UserContext"
 
-const ChatItem: React.FC<IChatItem> = ({ image, time, user, msg }) => {
+const ChatItem: React.FC<IChatItem> = ({ avatar, time, user, content }) => {
     const { setIsProfileModal } = useUserProvider();
 
     return (
@@ -11,7 +11,7 @@ const ChatItem: React.FC<IChatItem> = ({ image, time, user, msg }) => {
                 >
                     <div className="w-full h-full p-0.5 rounded-[8px] border-[1px] border-[#222222] bg-gradient-to-b from-[#8A8A8A] to-[#5A5A5A]">
                         <div className="w-full h-full rounded-[8px] border-[1px] border-[#222222] overflow-hidden bg-black/75 shadow-avatar-emboss relative">
-                            <img src={`/images/avatars/${image}`} className="object-cover object-center w-full h-full" alt=""></img>
+                            <img src={`/images/avatars/${avatar}`} className="object-cover object-center w-full h-full" alt=""></img>
                         </div>
                     </div>
                 </div>
@@ -25,7 +25,7 @@ const ChatItem: React.FC<IChatItem> = ({ image, time, user, msg }) => {
                             <div className="flex items-center justify-center rounded-[5px] overflow-hidden bg-[#22222D]/80 font-semibold w-[28px] h-5 text-[11px]">27</div>
                         </div>
                     </div>
-                    <p className="text-sm lg:text-xs 2xl:text-sm text-[#A2A2A2] mt-1 2xl:mt-0.5 word-break select-text">{msg}</p>
+                    <p className="text-sm lg:text-xs 2xl:text-sm text-[#A2A2A2] mt-1 2xl:mt-0.5 word-break select-text">{content}</p>
                 </div>
             </div>
         </div>

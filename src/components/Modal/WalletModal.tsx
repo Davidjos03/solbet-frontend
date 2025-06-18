@@ -67,7 +67,7 @@ const WalletModal: React.FC<CustomWalletModalProps> = ({
                                 {customWallets.map((wallet) => (
                                     <button
                                         key={wallet.adapter.name}
-                                        className="group relative min-w-10 overflow-hidden transition duration-300 text-sm font-medium text-white rounded-lg flex justify-start items-center gap-2 bg-[#222222] hover:bg-[#2b2b2b] border-0 w-full h-[44px] px-3 cursor-pointer"
+                                        className="group relative min-w-10 overflow-hidden transition duration-300 text-sm font-medium text-white rounded-lg flex justify-start items-center gap-2 bg-[#070f27] hover:bg-[#2b2b2b] border-0 w-full h-[44px] px-3 cursor-pointer"
                                         onClick={() => {
                                             select(wallet.adapter.name);
                                             onClose();

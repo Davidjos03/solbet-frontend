@@ -1,6 +1,6 @@
 import { useUserProvider } from "@/contexts/UserContext";
 import { useSocket } from "@/hooks/useSocket";
-import { EChatEvent } from "@/types/socket";
+import { EChatEvent } from "@/types/socket.d";
 import { Icon } from "@iconify-icon/react";
 import { useState } from "react";
 

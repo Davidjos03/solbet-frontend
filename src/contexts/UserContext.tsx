@@ -6,6 +6,8 @@ interface UserContextProps {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   isToggle: boolean;
   setIsToggle: React.Dispatch<React.SetStateAction<boolean>>;
+  isSign: boolean;
+  setIsSign: React.Dispatch<React.SetStateAction<boolean>>;
   isProfileModal: boolean;
   setIsProfileModal: React.Dispatch<React.SetStateAction<boolean>>;
   state: boolean;
@@ -21,6 +23,7 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isToggle, setIsToggle] = useState<boolean>(true);
+  const [isSign, setIsSign] = useState<boolean>(false);
   const [isProfileModal, setIsProfileModal] = useState<boolean>(false);
   const [state, setState] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<IUser | undefined>();
@@ -52,6 +55,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setIsLoading,
         isToggle,
         setIsToggle,
+        isSign,
+        setIsSign,
         isProfileModal,
         setIsProfileModal,
         state,

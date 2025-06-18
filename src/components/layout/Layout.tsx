@@ -5,6 +5,7 @@ import { useUserProvider } from "@/contexts/UserContext";
 import ProfileModal from "../Modal/ProfileModal";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
+import RegisterModal from "../Modal/RegisterModal";
 
 const Layout = () => {
   const { isToggle, setIsToggle } = useUserProvider()
@@ -47,6 +48,7 @@ const Layout = () => {
         </div>
       </div>
       <ProfileModal />
+      <RegisterModal />
     </div>
   );
 };

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ChatItem from "./ChatItem"
 import { useUserProvider } from "@/contexts/UserContext";
 import { useSocket } from "@/hooks/useSocket";
-import { EChatEvent } from "@/types/socket";
+import { EChatEvent } from "@/types/socket.d";
 
 const Chat = () => {
     const [messages, setMessages] = useState<IChatItem[]>([]);
@@ -39,7 +39,7 @@ const Chat = () => {
         <div className="overflow-y-scroll overscroll-contain h-full mt-[90px] py-3">
             <div className="flex flex-col justify-end gap-2.5 px-6 pb-0">
                 {messages && messages.map((chat, index) => (
-                    <ChatItem key={index} image={chat.image} time={chat.time} user={chat.user} msg={chat.msg} />
+                    <ChatItem key={index} avatar={chat.avatar} time={chat.time} user={chat.user} content={chat.content} />
                 ))}
             </div>
         </div>

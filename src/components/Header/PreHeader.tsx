@@ -6,6 +6,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import cn from "classnames";
 import { useEffect, useState } from "react";
 import { DropDownProfile } from "../Dropdown";
+import { useUserProvider } from "@/contexts/UserContext";
 
 const PreHeader = () => {
     const [isHidden, setIsHidden] = useState(false);
@@ -13,8 +14,8 @@ const PreHeader = () => {
     const [lastScrollY, setLastScrollY] = useState(0);
     const SCROLL_THRESHOLD = 10;
 
+    const { userInfo, setIsSign } = useUserProvider();
     const { setIsModalOpen } = useWalletProvider();
-
     const wallet = useWallet();
 
     useEffect(() => {
@@ -46,6 +47,7 @@ const PreHeader = () => {
 
     useEffect(() => {
         if (wallet.connected && !wallet.connecting) {
+            setIsSign(true);
             // const getUser = async () => {
             //     try {
             //         const res = await api.post("/v1/auth", {
@@ -116,7 +118,7 @@ const PreHeader = () => {
                             <img src="/images/3d-sol.webp" className="object-cover object-center w-8 2xl:w-[32px] h-auto" alt=""></img>
                             <span className="font-black text-xl text-white 2xl:text-base">0.251</span>
                         </div>
-                        {wallet.connected ? (
+                        {userInfo ? (
                             <DropDownProfile />
                         ) : (
                             <button
