@@ -1,7 +1,11 @@
+import { useState } from "react";
 import Input from "@/components/Input";
 import { Icon } from "@iconify-icon/react";
 
 const OptionsPage = () => {
+    const [username, setUsername] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+
     return (
         <div className="w-full sm:px-4 md:px-8 md:pt-14 opacity-100 translate-y-2 animate-fade-y">
             <div className="flex items-center gap-6">
@@ -27,8 +31,8 @@ const OptionsPage = () => {
                     <p className="text-[#A2A2A2] text-sm mt-1">Joined June 16th, 2025</p>
                 </div>
             </div>
-            <Input label="Enter name" edit={true} />
-            <Input label="Enter email" edit={true} func="verify" />
+            <Input label="Enter name" edit={true} state={username} setState={setUsername} />
+            <Input label="Enter email" edit={true} func="verify" state={email} setState={setEmail} />
             <Input label="Client Seed" type="password" edit={true} func="show" />
             <Input label="Connect Account" disabled={true} />
             <Input label="Referred by" disabled={true} />

@@ -7,6 +7,8 @@ import cn from "classnames";
 import { useEffect, useState } from "react";
 import { DropDownProfile } from "../Dropdown";
 import { useUserProvider } from "@/contexts/UserContext";
+import setAuthToken from "@/utils/setAuthToken";
+import api from "@/utils/auth";
 
 const PreHeader = () => {
     const [isHidden, setIsHidden] = useState(false);
@@ -14,7 +16,7 @@ const PreHeader = () => {
     const [lastScrollY, setLastScrollY] = useState(0);
     const SCROLL_THRESHOLD = 10;
 
-    const { userInfo, setIsSign } = useUserProvider();
+    const { userInfo, setUserInfo, setIsSign } = useUserProvider();
     const { setIsModalOpen } = useWalletProvider();
     const wallet = useWallet();
 
@@ -47,22 +49,18 @@ const PreHeader = () => {
 
     useEffect(() => {
         if (wallet.connected && !wallet.connecting) {
-            setIsSign(true);
-            // const getUser = async () => {
-            //     try {
-            //         const res = await api.post("/v1/auth", {
-            //             wallet_address: wallet.publicKey?.toString(),
-            //         });
-            //         if (res) {
-            //             console.log("🚀 ~ getUser ~ res:", res);
-            //             // setAuthToken(res.data.token);
-            //         }
-            //     } catch (error) {
-            //         console.error(error);
-            //         disconnect();
-            //     }
-            // };
-            // getUser();
+            const getUser = async () => {
+                const address = wallet.publicKey?.toBase58();
+                const res = await api.get(`/auth/check/${address}`);
+                if (res) {
+                    console.log("🚀 ~ getUser ~ res:", res);
+                    setAuthToken(res.data.token);
+                    setUserInfo(res.data)
+                } else {
+                    setIsSign(true);
+                }
+            }
+            getUser();
         }
     }, [wallet.connected]);
 
@@ -122,7 +120,7 @@ const PreHeader = () => {
                             <DropDownProfile />
                         ) : (
                             <button
-                                className={cn("bg-gradient-to-t from-[#10101f] to-[#121229] p-[3px] rounded-2xl transition-opacity duration-300 cursor-pointer")}
+                                className={cn("bg-gradient-to-t from-[#192130] to-[#162231] p-[3px] rounded-2xl transition-opacity duration-300 cursor-pointer")}
                                 onClick={() => setIsModalOpen(true)}
                             >
                                 <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#6797df] to-[#2a64cf] border-[1px] border-[#1D1D1D]">

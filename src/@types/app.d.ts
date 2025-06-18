@@ -13,6 +13,8 @@ interface IInput {
   type?: string;
   edit?: boolean;
   func?: string;
+  state?: string;
+  setState?: (data: string) => void
   disabled?: boolean;
 }
 

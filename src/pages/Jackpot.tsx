@@ -1,11 +1,14 @@
 // import Bonus from "@/components/GameBoard/Bonus";
 import SmoothCardCarousel from "@/components/GameBoard/SmoothCardCarousel";
 import UserCard from "@/components/GameBoard/UserCard";
+import { useUserProvider } from "@/contexts/UserContext";
 import { Icon } from "@iconify-icon/react";
 import { useState } from "react";
 
 const Jackpot = () => {
     const [value, setValue] = useState<string>("");
+
+    const { userInfo } = useUserProvider();
 
     return (
         <div className="relative w-full min-h-[calc(100vh-110px)] h-full px-6 md:px-10 lg:px-16 py-12 mb-20 mt-12 md:mt-16 lg:mt-28">
@@ -58,7 +61,7 @@ const Jackpot = () => {
                                                 </div>
                                             </button>
                                             <div className="relative w-full h-max hidden sm:block">
-                                                <button className="bg-gradient-to-t from-[#10101f] to-[#121229] p-[3px] rounded-2xl transition-opacity duration-300 opacity-50 w-full" disabled>
+                                                <button className="bg-gradient-to-t from-[#192130] to-[#162231] p-[3px] rounded-2xl transition-opacity duration-300 opacity-50 w-full" disabled={userInfo ? true : false}>
                                                     <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#6797df] to-[#2a64cf] border-[1px] border-[#1D1D1D]">
                                                         <div className="group flex items-center justify-center relative min-w-10 overflow-hidden rounded-[10px] transition duration-300 px-4 w-full bg-[#2c5fbf] hover:bg-[#2c5fbf]/75 text-sm font-bold text-white h-[32px] whitespace-nowrap font-book opacity-50 [text-shadow: rgba(0, 0, 0, 0.5) 0px 2px]">
                                                             <span className="hidden sm:inline mr-1">Place</span> Bet

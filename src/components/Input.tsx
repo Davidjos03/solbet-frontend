@@ -1,8 +1,7 @@
 import { Icon } from "@iconify-icon/react";
 import { useState } from "react";
 
-const Input: React.FC<IInput> = ({ label, type, edit, func, disabled }) => {
-    const [value, setValue] = useState("shinny_leo");
+const Input: React.FC<IInput> = ({ label, type, edit, func, state, setState, disabled }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [showValue, setShowValue] = useState(false);
     const [isVerified, setIsVerified] = useState(false);
@@ -10,7 +9,7 @@ const Input: React.FC<IInput> = ({ label, type, edit, func, disabled }) => {
     const handleEditClick = () => {
         if (isEditing) {
             // Save logic here
-            console.log("Value saved:", value);
+            console.log("Value saved:", state);
         }
         setIsEditing(!isEditing);
     };
@@ -27,7 +26,7 @@ const Input: React.FC<IInput> = ({ label, type, edit, func, disabled }) => {
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(e.target.value);
+        setState!(e.target.value);
     };
 
     return (
@@ -38,7 +37,7 @@ const Input: React.FC<IInput> = ({ label, type, edit, func, disabled }) => {
                     disabled={disabled || (edit && !isEditing)}
                     type={showValue ? "text" : type || "text"}
                     className="border-[1px] border-[#222222] bg-dark bg-opacity-40 transition-colors duration-300 px-3 h-[44px] rounded-lg w-full text-sm focus:outline-none focus:border-[#3c3c3c] bg-transparent pr-[80px]"
-                    value={value}
+                    value={state}
                     onChange={handleInputChange}
                 />
                 {edit && (
