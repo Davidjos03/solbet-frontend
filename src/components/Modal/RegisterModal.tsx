@@ -2,9 +2,8 @@ import { useUserProvider } from "@/contexts/UserContext";
 import Input from "../Input";
 import cn from "classnames";
 import { useState } from "react";
-import api from "@/utils/auth";
 import { useWallet } from "@solana/wallet-adapter-react";
-import setAuthToken from "@/utils/setAuthToken";
+import { fetchWithAuth, setAuthToken } from "@/utils/setAuthToken";
 
 const RegisterModal = () => {
     const [username, setUsername] = useState<string>("");
@@ -17,18 +16,22 @@ const RegisterModal = () => {
 
     const handleSignup = async () => {
         try {
-            const data = {
+            const userData = {
                 username,
-                address: wallet.publicKey?.toBase58(),
+                address: wallet.publicKey!.toBase58(),
                 email,
                 refferal
             };
 
-            const res = await api.post("/auth/register", data);
+            const res = await fetchWithAuth(`/api/auth/register`, {
+                method: 'POST',
+                body: JSON.stringify(userData)
+            })
             if (res) {
                 console.log("🚀 ~ getUser ~ res:", res);
-                setAuthToken(res.data.token);
-                setUserInfo(res.data)
+                setAuthToken(res.token);
+                setUserInfo(res.user)
+                setIsSign(false);
             }
         } catch (error) {
             console.error(error);

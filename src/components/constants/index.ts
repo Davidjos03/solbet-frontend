@@ -7,7 +7,7 @@ const endpoint = import.meta.env.VITE_RPC_ENDPOINT
 
 const connection = new Connection(endpoint, "confirmed");
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
 export {
     endpoint,

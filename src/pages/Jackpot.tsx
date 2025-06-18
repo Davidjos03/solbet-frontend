@@ -10,6 +10,10 @@ const Jackpot = () => {
 
     const { userInfo } = useUserProvider();
 
+    const handleDeposit = async () => {
+        
+    }
+
     return (
         <div className="relative w-full min-h-[calc(100vh-110px)] h-full px-6 md:px-10 lg:px-16 py-12 mb-20 mt-12 md:mt-16 lg:mt-28">
             <div className="opacity-100 translate-y-2 animate-fade-y">
@@ -61,9 +65,13 @@ const Jackpot = () => {
                                                 </div>
                                             </button>
                                             <div className="relative w-full h-max hidden sm:block">
-                                                <button className="bg-gradient-to-t from-[#192130] to-[#162231] p-[3px] rounded-2xl transition-opacity duration-300 opacity-50 w-full" disabled={userInfo ? true : false}>
+                                                <button
+                                                    className="bg-gradient-to-t from-[#192130] to-[#162231] p-[3px] rounded-2xl transition-opacity duration-300 opacity-100 w-full"
+                                                    disabled={userInfo ? true : false}
+                                                    onClick={handleDeposit}
+                                                >
                                                     <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#6797df] to-[#2a64cf] border-[1px] border-[#1D1D1D]">
-                                                        <div className="group flex items-center justify-center relative min-w-10 overflow-hidden rounded-[10px] transition duration-300 px-4 w-full bg-[#2c5fbf] hover:bg-[#2c5fbf]/75 text-sm font-bold text-white h-[32px] whitespace-nowrap font-book opacity-50 [text-shadow: rgba(0, 0, 0, 0.5) 0px 2px]">
+                                                        <div className="group flex items-center justify-center relative min-w-10 overflow-hidden rounded-[10px] transition duration-300 px-4 w-full bg-[#2c5fbf] hover:bg-[#2c5fbf]/75 text-sm font-bold text-white h-[32px] whitespace-nowrap font-book opacity-100 [text-shadow: rgba(0, 0, 0, 0.5) 0px 2px]">
                                                             <span className="hidden sm:inline mr-1">Place</span> Bet
                                                             <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(68.53%_169.15%_at_50%_-27.56%,_#D787FF_0%,_#5B2CBF_100%)] transition-opacity duration-500 z-[1] opacity-0 group-hover:opacity-20 mix-blend-screen"></div>
                                                         </div>

@@ -19,14 +19,18 @@ interface IInput {
 }
 
 interface IChatItem {
-  user: string;
+  _id: string;
+  user_id: {
+    _id: string;
+    username: string;
+    avatar: string;
+  };
   content: string;
-  avatar: string;
-  time: string;
+  timestamp: string;
 }
 
 interface IUser {
-  id: string;
+  _id: string;
   username: string;
   address: string;
   avatar: string;

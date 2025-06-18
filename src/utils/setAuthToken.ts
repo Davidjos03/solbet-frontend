@@ -1,16 +1,38 @@
-import api from './auth';
+import { BACKEND_URL } from "@/components/constants";
 
-// store our JWT in LS and set axios headers if we do have a token
+// authToken.ts
+let authToken = '';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const setAuthToken = (token: any) => {
+export const setAuthToken = (token: string) => {
     if (token) {
-        api.defaults.headers.common['x-auth-token'] = token;
+        authToken = token;
         localStorage.setItem('token', token);
     } else {
-        delete api.defaults.headers.common['x-auth-token'];
+        authToken = '';
         localStorage.removeItem('token');
     }
 };
 
-export default setAuthToken;
+export const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
+    const token = authToken || localStorage.getItem('token');
+    
+    const headers = new Headers(options.headers || {});
+    headers.set('Content-Type', 'application/json');
+    
+    if (token) {
+        headers.set('x-auth-token', token);
+    }
+
+    const response = await fetch(`${BACKEND_URL}${url}`, {
+        ...options,
+        headers,
+        credentials: 'include' // if using cookies
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || 'Request failed');
+    }
+
+    return response.json();
+};

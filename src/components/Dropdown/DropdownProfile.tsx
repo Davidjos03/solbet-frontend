@@ -3,7 +3,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const DropdownProfile = () => {
+const DropdownProfile: React.FC<{ user: IUser }> = ({ user }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [selected, setSelected] = useState<string>("Options")
 
@@ -85,7 +85,7 @@ const DropdownProfile = () => {
                                 className="w-full h-full border-[1px] rounded-[8px] border-[#222222] rounded-2 overflow-hidden shadow-avatar-emboss relative z-[3] bg-[#595959]"
                             >
                                 <img
-                                    src="/images/avatars/9fddb4e7b9f48a521886e34bd22474b9ae8da2665a6983b2923f5a3a6e60d81b.jpeg"
+                                    src={`/images/avatars/${user.avatar}`}
                                     className="object-cover object-center w-full h-full"
                                     alt=""
                                 />
@@ -112,14 +112,14 @@ const DropdownProfile = () => {
                                         className="w-full h-full border-[1px] rounded-[8px] border-[#222222] rounded-2 overflow-hidden shadow-avatar-emboss relative z-[3] bg-[#595959]"
                                     >
                                         <img
-                                            src="/images/avatars/9fddb4e7b9f48a521886e34bd22474b9ae8da2665a6983b2923f5a3a6e60d81b.jpeg"
+                                            src={`/images/avatars/${user.avatar}`}
                                             className="object-cover object-center w-full h-full"
                                             alt=""
                                         />
                                     </div>
                                 </div>
                             </div>
-                            <p className="text-base font-semibold max-w-[70px] truncate">sdfsfsd</p>
+                            <p className="text-base font-semibold max-w-[70px] truncate">{user.username}</p>
                         </div>
                         <div className="p-[1px] rounded-md overflow-hidden bg-[#616161] text-[#D2D2D2]">
                             <div className="flex items-center justify-center rounded-[5px] overflow-hidden bg-[#22222D]/80 font-semibold w-[28px] h-5 text-[11px]">1</div>

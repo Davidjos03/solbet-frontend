@@ -7,8 +7,7 @@ import cn from "classnames";
 import { useEffect, useState } from "react";
 import { DropDownProfile } from "../Dropdown";
 import { useUserProvider } from "@/contexts/UserContext";
-import setAuthToken from "@/utils/setAuthToken";
-import api from "@/utils/auth";
+import { setAuthToken, fetchWithAuth } from "@/utils/setAuthToken";
 
 const PreHeader = () => {
     const [isHidden, setIsHidden] = useState(false);
@@ -51,16 +50,23 @@ const PreHeader = () => {
         if (wallet.connected && !wallet.connecting) {
             const getUser = async () => {
                 const address = wallet.publicKey?.toBase58();
-                const res = await api.get(`/auth/check/${address}`);
+                const res = await fetchWithAuth(`/api/auth/check/${address}`, {
+                    method: 'GET',
+                })
+                console.log("🚀 ~ getUser ~ res:", res)
+
                 if (res) {
-                    console.log("🚀 ~ getUser ~ res:", res);
-                    setAuthToken(res.data.token);
-                    setUserInfo(res.data)
+                    setAuthToken(res.token);
+                    setUserInfo(res.user)
                 } else {
                     setIsSign(true);
                 }
             }
-            getUser();
+            if (!userInfo) {
+                getUser();
+            }
+        } else {
+            setUserInfo(undefined)
         }
     }, [wallet.connected]);
 
@@ -117,7 +123,7 @@ const PreHeader = () => {
                             <span className="font-black text-xl text-white 2xl:text-base">0.251</span>
                         </div>
                         {userInfo ? (
-                            <DropDownProfile />
+                            <DropDownProfile user={userInfo} />
                         ) : (
                             <button
                                 className={cn("bg-gradient-to-t from-[#192130] to-[#162231] p-[3px] rounded-2xl transition-opacity duration-300 cursor-pointer")}

@@ -11,10 +11,10 @@ const SendChat = () => {
     const { socket } = useSocket();
 
     const sendMessage = () => {
-        if (input.trim() && socket) {
+        if (input.trim() && socket && userInfo) {
             socket.emit(EChatEvent.MESSAGE, {
                 content: input,
-                sender: userInfo!.id
+                sender: userInfo._id
             });
             setInput('');
         }
@@ -44,14 +44,16 @@ const SendChat = () => {
                         }}
                         onChange={(e) => setInput(e.target.value)}
                     ></textarea>
-                    <div className="absolute inset-y-0 my-auto right-1.5 h-max w-max mt-1.5">
+                    <div
+                        className="absolute inset-y-0 my-auto right-1.5 h-max w-max mt-1.5"
+                        onClick={sendMessage}
+                    >
                         <div className="flex items-center gap-1.5 cursor-pointer text-[#A2A2A2] transition-colors">
                             <button
                                 className="w-8 h-8 flex items-center justify-center outline-none bg-transparent hover:bg-[#446ab1]/15 transition-colors duration-300 rounded-full p-1"
                                 type="button"
                                 aria-expanded="false"
                                 id="headlessui-popover-button-:rk9:"
-                                onClick={() => sendMessage}
                             >
                                 <Icon icon="mdi:emoji" width="24" height="24" style={{ color: "#446ab1" }} />
                             </button>
