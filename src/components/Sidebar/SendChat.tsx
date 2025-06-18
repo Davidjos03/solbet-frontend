@@ -1,6 +1,24 @@
+import { useUserProvider } from "@/contexts/UserContext";
+import { useSocket } from "@/hooks/useSocket";
+import { EChatEvent } from "@/types/socket";
 import { Icon } from "@iconify-icon/react";
+import { useState } from "react";
 
 const SendChat = () => {
+    const [input, setInput] = useState<string>("");
+
+    const { userInfo } = useUserProvider()
+    const { socket } = useSocket();
+
+    const sendMessage = () => {
+        if (input.trim() && socket) {
+            socket.emit(EChatEvent.MESSAGE, {
+                content: input,
+                sender: userInfo!.id
+            });
+            setInput('');
+        }
+    };
 
     return (
         <div className="relative opacity-100 animate-fade-in">
@@ -19,10 +37,12 @@ const SendChat = () => {
                         id="sendMsg"
                         placeholder="Type Message Here..."
                         maxLength={160}
+                        value={input}
                         className="bg-transparent border-[1px] border-[#222222] bg-[#162135] transition-colors duration-300 px-3 rounded-lg w-full text-sm focus:outline-none focus:border-[#3c3c3c] min-h-[44px] py-2.5 align-bottom resize-none overflow-hidden h-auto focus:placeholder:text-white/10 placeholder:transition-colors placeholder:duration-300 pr-10"
                         style={{
                             height: "42px"
                         }}
+                        onChange={(e) => setInput(e.target.value)}
                     ></textarea>
                     <div className="absolute inset-y-0 my-auto right-1.5 h-max w-max mt-1.5">
                         <div className="flex items-center gap-1.5 cursor-pointer text-[#A2A2A2] transition-colors">
@@ -31,6 +51,7 @@ const SendChat = () => {
                                 type="button"
                                 aria-expanded="false"
                                 id="headlessui-popover-button-:rk9:"
+                                onClick={() => sendMessage}
                             >
                                 <Icon icon="mdi:emoji" width="24" height="24" style={{ color: "#446ab1" }} />
                             </button>

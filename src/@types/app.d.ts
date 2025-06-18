@@ -16,11 +16,6 @@ interface IInput {
   disabled?: boolean;
 }
 
-interface IHomeItem {
-  title: string;
-  content: string;
-}
-
 interface IChatItem {
   image: string;
   time: string;
@@ -29,9 +24,14 @@ interface IChatItem {
 }
 
 interface IUser {
-  name: string;
-  icon: string;
-  email?: string;
+  id: string;
+  username: string;
+  address: string;
+  avatar: string;
+  email: string;
+  refferal: string;
+  inviteLink: string;
+  joinTime: string;
 }
 
 interface IWalletItem {

@@ -10,8 +10,8 @@ interface UserContextProps {
   setIsProfileModal: React.Dispatch<React.SetStateAction<boolean>>;
   state: boolean;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
-  userInfo: IUser;
-  setUserInfo: React.Dispatch<React.SetStateAction<IUser>>;
+  userInfo: IUser | undefined;
+  setUserInfo: React.Dispatch<React.SetStateAction<IUser | undefined>>;
 }
 
 // Create the User context with a default value
@@ -23,7 +23,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [isToggle, setIsToggle] = useState<boolean>(true);
   const [isProfileModal, setIsProfileModal] = useState<boolean>(false);
   const [state, setState] = useState<boolean>(false);
-  const [userInfo, setUserInfo] = useState<IUser>({ name: 'skinfeg11', icon: '/images/user-logo-icon.png' });
+  const [userInfo, setUserInfo] = useState<IUser | undefined>();
 
 
   useEffect(() => {
