@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { DropDownProfile } from "../Dropdown";
 import { useUserProvider } from "@/contexts/UserContext";
 import { setAuthToken, fetchWithAuth } from "@/utils/setAuthToken";
+import { getBalance } from "@/utils/common";
 
 const PreHeader = () => {
     const [isHidden, setIsHidden] = useState(false);
@@ -15,7 +16,7 @@ const PreHeader = () => {
     const [lastScrollY, setLastScrollY] = useState(0);
     const SCROLL_THRESHOLD = 10;
 
-    const { userInfo, setUserInfo, setIsSign } = useUserProvider();
+    const { userInfo, solBalance, setSolBalance, setUserInfo, setIsSign } = useUserProvider();
     const { setIsModalOpen } = useWalletProvider();
     const wallet = useWallet();
 
@@ -57,7 +58,9 @@ const PreHeader = () => {
 
                 if (res) {
                     setAuthToken(res.token);
-                    setUserInfo(res.user)
+                    setUserInfo(res.user);
+                    const balance = await getBalance(wallet.publicKey!)
+                    setSolBalance(balance)
                 } else {
                     setIsSign(true);
                 }
@@ -103,7 +106,7 @@ const PreHeader = () => {
                 </div>
 
                 {/* Main Navigation */}
-                <div className={`flex items-center md:justify-between w-full grow px-6 ${!isAtTop ? 'bg-[#141414]/90' : 'bg-[#141414]/50'}`}>
+                <div className={`flex items-center justify-end md:justify-between w-full grow px-6 ${!isAtTop ? 'bg-[#141414]/90' : 'bg-[#141414]/50'}`}>
                     <div id="navigation" className="hidden md:flex items-center relative h-full">
                         <a href="/" className="flex justify-center items-center w-[110px] lg:w-[123px] text-base gap-1.5 transition-colors duration-300 text-[#6741FF]" aria-current="page">
                             <Icon icon="gravity-ui:target-dart" width="24" height="24" style={{ color: "#2c5fbf" }} />
@@ -118,9 +121,9 @@ const PreHeader = () => {
                         <button className="flex flex-col justify-center items-center w-[40px] text-base gap-0.5 transition-colors duration-300 text-[#6741FF] mx-2 relative h-full">
                             <Icon icon="uiw:setting" width="28" height="28" style={{ color: "#2c5fbf" }} />
                         </button>
-                        <div className="flex items-center drop-shadow-icon gap-2 px-2">
+                        <div className="flex w-[72] items-center drop-shadow-icon gap-2 px-2">
                             <img src="/images/3d-sol.webp" className="object-cover object-center w-8 2xl:w-[32px] h-auto" alt=""></img>
-                            <span className="font-black text-xl text-white 2xl:text-base">0.251</span>
+                            <span className="font-black text-xl text-white 2xl:text-base">{solBalance.toFixed(3)}</span>
                         </div>
                         {userInfo ? (
                             <DropDownProfile user={userInfo} />
@@ -130,7 +133,7 @@ const PreHeader = () => {
                                 onClick={() => setIsModalOpen(true)}
                             >
                                 <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#6797df] to-[#2a64cf] border-[1px] border-[#1D1D1D]">
-                                    <div className="group relative h-10 min-w-10 overflow-hidden rounded-[10px] transition duration-300 px-4 w-full bg-[#2c5fbf] hover:bg-[#3b2cbf]/75 text-sm font-bold text-[#E3E3E3] flex items-center justify-center gap-1.5 ml-auto cursor-pointer" style={{ textShadow: "rgba(0, 0, 0, 0.5) 0px 2px" }}>
+                                    <div className="group relative h-10 min-w-10 overflow-hidden rounded-[10px] transition duration-300 px-4 w-full bg-[#2c5fbf] hover:bg-[#2c5fbf]/75 text-sm font-bold text-[#E3E3E3] flex items-center justify-center gap-1.5 ml-auto cursor-pointer" style={{ textShadow: "rgba(0, 0, 0, 0.5) 0px 2px" }}>
                                         <Icon icon="ion:wallet" width="16" height="16" style={{ color: "#FFFFFF" }} /> connect
                                     </div>
                                 </div>

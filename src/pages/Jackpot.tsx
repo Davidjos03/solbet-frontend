@@ -1,18 +1,98 @@
-// import Bonus from "@/components/GameBoard/Bonus";
 import SmoothCardCarousel from "@/components/GameBoard/SmoothCardCarousel";
 import UserCard from "@/components/GameBoard/UserCard";
+import { connection } from "@/constants/envConstants";
 import { useUserProvider } from "@/contexts/UserContext";
+import { joinGame } from "@/contract/solbet";
+import { useGameSocket } from "@/hooks/useGameSocket";
+import { EGameEvent } from "@/types/socket";
 import { Icon } from "@iconify-icon/react";
-import { useState } from "react";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { Transaction } from "@solana/web3.js";
+import { useEffect, useState } from "react";
 
 const Jackpot = () => {
     const [value, setValue] = useState<string>("");
+    const [remainingTime, setRemainingTime] = useState<number>(60);
 
-    const { userInfo } = useUserProvider();
+    const { userInfo, round, isDuration, setIsDuration, setRound } = useUserProvider();
+    const { publicKey, sendTransaction } = useWallet();
+    const { gameSocket } = useGameSocket();
 
     const handleDeposit = async () => {
-        
+        console.log("object")
+        console.log("🚀 ~ Jackpot ~ value:", value)
+        console.log("🚀 ~ Jackpot ~ publicKey:", publicKey?.toBase58())
+        console.log("🚀 ~ handleDeposit ~ round:", round)
+        try {
+            if (publicKey && value != "" && round) {
+                const depositIx = await joinGame(publicKey, round, Number(value))
+                console.log("🚀 ~ handleDeposit ~ depositIx:", depositIx)
+
+                if (depositIx) {
+                    const transaction = new Transaction().add(
+                        depositIx
+                    )
+
+                    // Get recent blockhash
+                    const { blockhash } = await connection.getRecentBlockhash();
+                    transaction.recentBlockhash = blockhash;
+                    transaction.feePayer = publicKey;
+
+                    console.log(await connection.simulateTransaction(transaction))
+
+                    // Send transaction and await for signature
+                    const signature = await sendTransaction(transaction, connection);
+
+                    // Confirm transaction
+                    await connection.confirmTransaction(signature, 'processed');
+                } else {
+                    console.log("Deposit failed.")
+                }
+            }
+        } catch (err) {
+            console.log("Deposit failed.", err)
+        }
     }
+
+    // Format seconds into MM:SS
+    const formatTime = (seconds: number): string => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins.toString().padStart(2, '0')} : ${secs.toString().padStart(2, '0')}`;
+    };
+
+    useEffect(() => {
+        if (!gameSocket) return
+
+        gameSocket.on(EGameEvent.UPDATE_ROUND, (data: number) => {
+            console.log("🚀 ~ gameSocket.on ~ data:", data)
+            setRound(data);
+        })
+
+        gameSocket.on(EGameEvent.DURATION_STATE, (data: boolean) => {
+            setIsDuration(data);
+        })
+    }, [gameSocket])
+
+    useEffect(() => {
+        let intervalId: NodeJS.Timeout;
+
+        if (isDuration && remainingTime > 0) {
+            intervalId = setInterval(() => {
+                setRemainingTime(prevTime => {
+                    if (prevTime <= 1) {
+                        setIsDuration(false); // Set isDuration to false when time reaches 0
+                        return 0;
+                    }
+                    return prevTime - 1;
+                });
+            }, 1000);
+        }
+
+        return () => {
+            if (intervalId) clearInterval(intervalId);
+        };
+    }, [isDuration, remainingTime]);
 
     return (
         <div className="relative w-full min-h-[calc(100vh-110px)] h-full px-6 md:px-10 lg:px-16 py-12 mb-20 mt-12 md:mt-16 lg:mt-28">
@@ -34,9 +114,9 @@ const Jackpot = () => {
                                 <div className="flex flex-col-reverse sm:flex-row items-end ml-auto shrink gap-2 sm:gap-0.5 md:gap-1 mt-auto">
                                     <div className="w-full md:w-auto mr-auto">
                                         <div className="flex gap-1 md:gap-1.5 h-[44px] w-full sm:w-auto">
-                                            <div className="relative w-max hidden sm:block">
+                                            <div className="relative w-max block">
                                                 <div className="w-full relative">
-                                                    <p className="mb-2 text-[#A2A2A2] text-xs font-book absolute -top-[24px] gap-1 hidden sm:flex">Bet Amount
+                                                    <p className="mb-2 text-[#A2A2A2] text-xs font-book absolute -top-[24px] gap-1 flex">Bet Amount
                                                         <span className="text-white">~$0</span>
                                                     </p>
                                                     <div className="relative w-full">
@@ -44,7 +124,7 @@ const Jackpot = () => {
                                                             <img src="/images/solana.png" className="object-cover object-center w-6 h-6 rounded-full" alt=""></img>
                                                         </div>
                                                         <input
-                                                            className="border-[1px] transition-colors duration-300 px-3 h-[44px] rounded-lg text-sm focus:outline-none focus:border-[#3c3c3c] pl-11 bg-[#162135] border-[#292929] w-full lg:w-[220px] desktop:w-[260px] hide-input-arrows"
+                                                            className="border-[1px] transition-colors duration-300 px-3 h-[44px] rounded-lg text-sm focus:outline-none focus:border-[#3c3c3c] pl-11 bg-[#162135] border-[#292929] w-[120px] sm:w-full lg:w-[220px] desktop:w-[260px] hide-input-arrows"
                                                             placeholder="0.00"
                                                             type="text"
                                                             value={value}
@@ -54,7 +134,7 @@ const Jackpot = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button className="bg-gradient-to-t from-[#161629] to-[#181836] p-[3px] rounded-2xl transition-opacity duration-300 cursor-pointer block sm:ml-1">
+                                            <button className="bg-gradient-to-t from-[#161629] to-[#181836] p-[3px] rounded-2xl transition-opacity duration-300 cursor-pointer hidden xs:block xs:ml-1">
                                                 <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#454545] to-[#232323] border-[1px] border-[#1D1D1D]">
                                                     <div className="group flex items-center justify-center relative min-w-10 overflow-hidden transition duration-300 px-4 bg-[#2e2e42] hover:bg-[#343449]/75 text-sm font-medium rounded-lg h-full w-[48px] text-[#C4C4C4] cursor-pointer [text-shadow: rgba(0, 0, 0, 0.5) 0px 2px]">+0.1</div>
                                                 </div>
@@ -64,20 +144,19 @@ const Jackpot = () => {
                                                     <div className="group flex items-center justify-center relative min-w-10 overflow-hidden transition duration-300 px-4 bg-[#2e2e42] hover:bg-[#343449]/75 text-sm font-medium rounded-lg h-full w-[48px] text-[#C4C4C4] cursor-pointer [text-shadow: rgba(0, 0, 0, 0.5) 0px 2px]">+1</div>
                                                 </div>
                                             </button>
-                                            <div className="relative w-full h-max hidden sm:block">
-                                                <button
-                                                    className="bg-gradient-to-t from-[#192130] to-[#162231] p-[3px] rounded-2xl transition-opacity duration-300 opacity-100 w-full"
-                                                    disabled={userInfo ? true : false}
-                                                    onClick={handleDeposit}
-                                                >
-                                                    <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#6797df] to-[#2a64cf] border-[1px] border-[#1D1D1D]">
-                                                        <div className="group flex items-center justify-center relative min-w-10 overflow-hidden rounded-[10px] transition duration-300 px-4 w-full bg-[#2c5fbf] hover:bg-[#2c5fbf]/75 text-sm font-bold text-white h-[32px] whitespace-nowrap font-book opacity-100 [text-shadow: rgba(0, 0, 0, 0.5) 0px 2px]">
-                                                            <span className="hidden sm:inline mr-1">Place</span> Bet
-                                                            <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(68.53%_169.15%_at_50%_-27.56%,_#D787FF_0%,_#5B2CBF_100%)] transition-opacity duration-500 z-[1] opacity-0 group-hover:opacity-20 mix-blend-screen"></div>
-                                                        </div>
+                                            <button
+                                                className="bg-gradient-to-t from-[#192130] to-[#162231] p-[3px] rounded-2xl transition-opacity duration-300 opacity-100 w-fit sm:w-full cursor-pointer"
+                                                disabled={userInfo ? false : true}
+                                                // onClick={() => console.log("object")}
+                                                onClick={() => handleDeposit()}
+                                            >
+                                                <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#6797df] to-[#2a64cf] border-[1px] border-[#1D1D1D]">
+                                                    <div className="group flex items-center justify-center relative min-w-10 overflow-hidden rounded-[10px] transition duration-300 px-4 w-full bg-[#2c5fbf] hover:bg-[#2c5fbf]/75 text-sm font-bold text-white h-[32px] whitespace-nowrap font-book opacity-100 [text-shadow: rgba(0, 0, 0, 0.5) 0px 2px]">
+                                                        <span className="hidden sm:inline mr-1">Place</span> Bet
+                                                        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(68.53%_169.15%_at_50%_-27.56%,_#D787FF_0%,_#5B2CBF_100%)] transition-opacity duration-500 z-[1] opacity-0 group-hover:opacity-20 mix-blend-screen"></div>
                                                     </div>
-                                                </button>
-                                            </div>
+                                                </div>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -128,25 +207,8 @@ const Jackpot = () => {
                                                     <div className="flex overflow-hidden tabular-nums">
                                                         <div className="opacity-100">
                                                             <div>
-                                                                <div id="0" className="relative inline-flex items-center justify-center gap-1 animate-timer-digit w-[13px]">
-                                                                    <span className="text-white absolute -top-full">0</span>
-                                                                    <span className="text-white">0</span>
-                                                                </div>
-                                                                <div id="0" className="relative inline-flex items-center justify-center gap-1 animate-timer-digit w-[13px]">
-                                                                    <span className="text-white absolute -top-full">0</span>
-                                                                    <span className="text-white">0</span>
-                                                                </div>
-                                                                <div id=":" className="relative inline-flex items-center justify-center gap-1 animate-timer-digit w-[13px] -top-[2px]">
-                                                                    <span className="text-white absolute -top-full">:</span>
-                                                                    <span className="text-white">:</span>
-                                                                </div>
-                                                                <div id="0" className="relative inline-flex items-center justify-center gap-1 animate-timer-digit w-[13px]">
-                                                                    <span className="text-white absolute -top-full">0</span>
-                                                                    <span className="text-white">0</span>
-                                                                </div>
-                                                                <div id="0" className="relative inline-flex items-center justify-center gap-1 animate-timer-digit w-[13px]">
-                                                                    <span className="text-white absolute -top-full">0</span>
-                                                                    <span className="text-white">1</span>
+                                                                <div id="0" className="relative inline-flex items-center justify-center gap-1 animate-timer-digit w-[95px]">
+                                                                    {formatTime(remainingTime)}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -180,7 +242,7 @@ const Jackpot = () => {
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <p className="text-[16px] text-[#2c5fbf]">#</p>
-                                        <p className="text-[#E3E3E3]">Round: <strong className="text-white font-bold">57518</strong></p>
+                                        <p className="text-[#E3E3E3]">Round: <strong className="text-white font-bold">{round}</strong></p>
                                     </div>
                                 </div>
                                 <div className="min-h-[92px]">

@@ -4,6 +4,7 @@ import cn from "classnames";
 import { useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { fetchWithAuth, setAuthToken } from "@/utils/setAuthToken";
+import { getBalance } from "@/utils/common";
 
 const RegisterModal = () => {
     const [username, setUsername] = useState<string>("");
@@ -11,7 +12,7 @@ const RegisterModal = () => {
     const [refferal, setRefferal] = useState<string>("");
     const [isCheck, setIsCheck] = useState<boolean>(false)
 
-    const { isSign, setUserInfo, setIsSign } = useUserProvider();
+    const { isSign, setSolBalance, setUserInfo, setIsSign } = useUserProvider();
     const wallet = useWallet();
 
     const handleSignup = async () => {
@@ -32,6 +33,8 @@ const RegisterModal = () => {
                 setAuthToken(res.token);
                 setUserInfo(res.user)
                 setIsSign(false);
+                const balance = await getBalance(wallet.publicKey!)
+                setSolBalance(balance)
             }
         } catch (error) {
             console.error(error);

@@ -16,7 +16,7 @@ import {
 } from "@solana/wallet-adapter-wallets";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { WalletModal } from "@/components/Modal";
-import { endpoint } from "@/components/constants";
+import { RPC_ENDPOINT } from "@/constants/envConstants";
 
 interface WalletProviderProps {
     isModalOpen: boolean;
@@ -44,7 +44,7 @@ export const WalletProvider: React.FC<{ children: ReactNode }> = ({
 
     return (
         <WalletContext.Provider value={{ isModalOpen, setIsModalOpen }}>
-            <ConnectionProvider endpoint={endpoint}>
+            <ConnectionProvider endpoint={RPC_ENDPOINT}>
                 <SolanaWalletProvider wallets={wallets} autoConnect>
                     {children}
                     <WalletModal

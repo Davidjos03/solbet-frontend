@@ -1,4 +1,4 @@
-import { BACKEND_URL } from "@/components/constants";
+import { BACKEND_URL } from "@/constants/envConstants";
 
 // authToken.ts
 let authToken = '';
@@ -15,10 +15,10 @@ export const setAuthToken = (token: string) => {
 
 export const fetchWithAuth = async (url: string, options: RequestInit = {}) => {
     const token = authToken || localStorage.getItem('token');
-    
+
     const headers = new Headers(options.headers || {});
     headers.set('Content-Type', 'application/json');
-    
+
     if (token) {
         headers.set('x-auth-token', token);
     }

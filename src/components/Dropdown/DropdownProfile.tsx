@@ -1,3 +1,4 @@
+import { useUserProvider } from "@/contexts/UserContext";
 import { Icon } from "@iconify-icon/react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useEffect, useRef, useState } from "react";
@@ -7,6 +8,7 @@ const DropdownProfile: React.FC<{ user: IUser }> = ({ user }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [selected, setSelected] = useState<string>("Options")
 
+    const { setSolBalance } = useUserProvider();
     const navigate = useNavigate();
 
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -47,6 +49,7 @@ const DropdownProfile: React.FC<{ user: IUser }> = ({ user }) => {
                 break;
             case "Disconnect":
                 disconnect();
+                setSolBalance(0)
                 navigate('/');
                 break;
             default:
@@ -69,7 +72,7 @@ const DropdownProfile: React.FC<{ user: IUser }> = ({ user }) => {
     }, []);
 
     return (
-        <div className="w-full md:w-auto relative inline-block text-left" ref={dropdownRef}>
+        <div className="w-fit md:w-auto relative inline-block text-left" ref={dropdownRef}>
             <button className="outline-none" onClick={() => setIsOpen(true)}>
                 <div className="flex items-center gap-3 transition-colors cursor-pointer lg:-mr-0.5">
                     <div

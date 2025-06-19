@@ -12,8 +12,16 @@ interface UserContextProps {
   setIsProfileModal: React.Dispatch<React.SetStateAction<boolean>>;
   state: boolean;
   setState: React.Dispatch<React.SetStateAction<boolean>>;
+  solBalance: number;
+  setSolBalance: React.Dispatch<React.SetStateAction<number>>;
+  round: number;
+  setRound: React.Dispatch<React.SetStateAction<number>>;
   userInfo: IUser | undefined;
   setUserInfo: React.Dispatch<React.SetStateAction<IUser | undefined>>;
+  isDuration: boolean;
+  setIsDuration: React.Dispatch<React.SetStateAction<boolean>>;
+  winner: number;
+  setWinner: React.Dispatch<React.SetStateAction<number>>;
 }
 
 // Create the User context with a default value
@@ -27,6 +35,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [isProfileModal, setIsProfileModal] = useState<boolean>(false);
   const [state, setState] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<IUser | undefined>();
+  const [solBalance, setSolBalance] = useState<number>(0);
+  const [round, setRound] = useState<number>(0);
+  const [isDuration, setIsDuration] = useState<boolean>(false);
+  const [winner, setWinner] = useState<number>(0);
 
 
   useEffect(() => {
@@ -63,6 +75,14 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setState,
         userInfo,
         setUserInfo,
+        solBalance,
+        setSolBalance,
+        round,
+        setRound,
+        isDuration,
+        setIsDuration,
+        winner,
+        setWinner,
       }}
     >
       {children}

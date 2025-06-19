@@ -1,40 +1,40 @@
 import { useEffect, useState } from "react";
 import ChatItem from "./ChatItem"
 import { useUserProvider } from "@/contexts/UserContext";
-import { useSocket } from "@/hooks/useSocket";
-import { EChatEvent } from "@/types/socket.d";
+import { useChatSocket } from "@/hooks/useChatSocket";
+import { EChatEvent } from "@/types/socket";
 
 const Chat = () => {
     const [messages, setMessages] = useState<IChatItem[]>([]);
 
     const { userInfo } = useUserProvider();
-    const { socket } = useSocket();
+    const { chatSocket } = useChatSocket();
 
     // Socket event handlers
     useEffect(() => {
-        if (!socket || !userInfo?._id) return;
+        if (!chatSocket || !userInfo?._id) return;
 
-        socket.emit(EChatEvent.JOIN, userInfo._id);
+        chatSocket.emit(EChatEvent.JOIN, userInfo._id);
 
-        socket.on(EChatEvent.MESSAGE_HISTORY, (data: IChatItem[]) => {
+        chatSocket.on(EChatEvent.MESSAGE_HISTORY, (data: IChatItem[]) => {
             setMessages(data);
         });
 
-        socket.on(EChatEvent.NEW_MESSAGE, (message: IChatItem) => {
-            console.log("🚀 ~ socket.on ~ message:", message)
+        chatSocket.on(EChatEvent.NEW_MESSAGE, (message: IChatItem) => {
+            console.log("🚀 ~ chatSocket.on ~ message:", message)
             setMessages(prev => [...prev, message]);
         });
 
-        // socket.on('user-list', (userList) => {
+        // chatSocket.on('user-list', (userList) => {
         //     setUsers(userList);
         // });
 
         return () => {
-            socket.off(EChatEvent.MESSAGE_HISTORY);
-            socket.off(EChatEvent.NEW_MESSAGE);
-            // socket.off('user-list');
+            chatSocket.off(EChatEvent.MESSAGE_HISTORY);
+            chatSocket.off(EChatEvent.NEW_MESSAGE);
+            // chatSocket.off('user-list');
         };
-    }, [socket, userInfo]);
+    }, [chatSocket, userInfo]);
 
     return (
         <div className="overflow-y-scroll overscroll-contain h-full mt-[90px] py-3">

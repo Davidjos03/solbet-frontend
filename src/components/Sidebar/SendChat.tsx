@@ -1,6 +1,6 @@
 import { useUserProvider } from "@/contexts/UserContext";
-import { useSocket } from "@/hooks/useSocket";
-import { EChatEvent } from "@/types/socket.d";
+import { useChatSocket } from "@/hooks/useChatSocket";
+import { EChatEvent } from "@/types/socket";
 import { Icon } from "@iconify-icon/react";
 import { useState } from "react";
 
@@ -8,11 +8,11 @@ const SendChat = () => {
     const [input, setInput] = useState<string>("");
 
     const { userInfo } = useUserProvider()
-    const { socket } = useSocket();
+    const { chatSocket } = useChatSocket();
 
     const sendMessage = () => {
-        if (input.trim() && socket && userInfo) {
-            socket.emit(EChatEvent.MESSAGE, {
+        if (input.trim() && chatSocket && userInfo) {
+            chatSocket.emit(EChatEvent.MESSAGE, {
                 content: input,
                 sender: userInfo._id
             });
