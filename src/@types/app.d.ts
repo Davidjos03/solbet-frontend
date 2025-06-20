@@ -29,6 +29,26 @@ interface IChatItem {
   timestamp: string;
 }
 
+interface IPlayer {
+  _id: string;
+  user_id: {
+    _id: string;
+    username: string;
+    avatar: string;
+  };
+  price: number;
+}
+
+interface IHistory {
+  sig: string;
+  price: number;
+  type: string;
+  status: string;
+  create_at: Date;
+  round: number;
+  user_id: ObjectId;
+}
+
 interface IUser {
   _id: string;
   username: string;

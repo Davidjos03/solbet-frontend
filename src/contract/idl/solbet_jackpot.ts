@@ -5,7 +5,7 @@
  * IDL can be found at `target/idl/solbet_jackpot_smart_contract.json`.
  */
 export type SolbetJackpotSmartContract = {
-  "address": "BojfNnBTYUrLsutBCXZaq9vieMeitYtVRSVpoHj9Guqe",
+  "address": "14GTLHUQyg5JQtWwg3LNhfedLHvKnhrWTYnb8nvAtWyH",
   "metadata": {
     "name": "solbetJackpotSmartContract",
     "version": "0.1.0",

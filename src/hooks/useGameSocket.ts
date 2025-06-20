@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { SOCKET_URL } from '@/constants/envConstants';
-import { ESOCKET_NAMESPACE, IGameServerToClientEvents } from '@/types/socket';
+import { ESOCKET_NAMESPACE, IGameClientToServerEvents, IGameServerToClientEvents } from '@/types/socket';
 
 export const useGameSocket = () => {
     const [gameSocket, setGameSocket] = useState<Socket<
-        IGameServerToClientEvents
+        IGameServerToClientEvents,
+        IGameClientToServerEvents
     > | null>(null);
     const [isGConnected, setIsConnected] = useState(false);
 

@@ -14,17 +14,14 @@ const Jackpot = () => {
     const [value, setValue] = useState<string>("");
     const [remainingTime, setRemainingTime] = useState<number>(60);
 
-    const { userInfo, round, isDuration, setIsDuration, setRound } = useUserProvider();
+    const { userInfo, round, isDuration, totalAmount, players, setPlayers, setTotalAmount, setIsDuration, setRound } = useUserProvider();
     const { publicKey, sendTransaction } = useWallet();
     const { gameSocket } = useGameSocket();
 
     const handleDeposit = async () => {
-        console.log("object")
-        console.log("🚀 ~ Jackpot ~ value:", value)
-        console.log("🚀 ~ Jackpot ~ publicKey:", publicKey?.toBase58())
         console.log("🚀 ~ handleDeposit ~ round:", round)
         try {
-            if (publicKey && value != "" && round) {
+            if (publicKey && value != "") {
                 const depositIx = await joinGame(publicKey, round, Number(value))
                 console.log("🚀 ~ handleDeposit ~ depositIx:", depositIx)
 
@@ -42,9 +39,20 @@ const Jackpot = () => {
 
                     // Send transaction and await for signature
                     const signature = await sendTransaction(transaction, connection);
+                    console.log("🚀 ~ handleDeposit ~ signature:", signature)
 
-                    // Confirm transaction
-                    await connection.confirmTransaction(signature, 'processed');
+                    const historyData: IHistory = {
+                        sig: "signature",
+                        price: Number(value),
+                        type: "deposite",
+                        status: "success",
+                        create_at: new Date(),
+                        round: round + 1,
+                        user_id: userInfo!._id
+                    }
+
+                    gameSocket?.emit(EGameEvent.SAVE_HISTORY, historyData)
+
                 } else {
                     console.log("Deposit failed.")
                 }
@@ -65,12 +73,25 @@ const Jackpot = () => {
         if (!gameSocket) return
 
         gameSocket.on(EGameEvent.UPDATE_ROUND, (data: number) => {
-            console.log("🚀 ~ gameSocket.on ~ data:", data)
             setRound(data);
         })
 
         gameSocket.on(EGameEvent.DURATION_STATE, (data: boolean) => {
             setIsDuration(data);
+        })
+
+        gameSocket.on(EGameEvent.UPDATE_TOTAL_AMOUNT, (data: { players: IPlayer[]; totalAmount: number }) => {
+            console.log("🚀 ~ gameSocket.on ~ data:", data)
+            setTotalAmount(data.totalAmount);
+            setPlayers(prev => {
+                // Create a new array that:
+                // 1. Takes the incoming players (up to the length of prev array)
+                // 2. Fills the rest with the remaining players from prev array
+                return [
+                    ...data.players.slice(0, prev.length), // Take new players (up to original length)
+                    ...prev.slice(data.players.length)     // Fill remainder with existing players
+                ];
+            });
         })
     }, [gameSocket])
 
@@ -170,7 +191,7 @@ const Jackpot = () => {
                                             <img src="/images/dot-pattern-stat.webp" className="object-cover object-center absolute top-0 left-0 w-full h-full" alt=""></img>
                                             <div className="flex items-center gap-1.5">
                                                 <img src="/images/solana.png" className="object-cover object-center w-6 h-6" alt=""></img>
-                                                <div className="my-0 font-bold text-xl text-white"><span>0.146</span></div>
+                                                <div className="my-0 font-bold text-xl text-white"><span>{totalAmount}</span></div>
                                             </div>
                                             <p className="text-sm text-[#A2A2A2] font-medium">Jackpot Value</p>
                                         </div>
@@ -221,7 +242,7 @@ const Jackpot = () => {
                                     </div>
                                 </div>
                             </div>
-                            <SmoothCardCarousel />
+                            <SmoothCardCarousel cards={players} />
                             {/* <Bonus /> */}
                             <div className="w-full min-h-[600px] border-t border-[#22222D]/50">
                                 <div className="flex md:hidden justify-center mt-4 items-center gap-1.5 pl-2 pr-3 py-2 rounded-lg bg-[#0f2030]/40">
@@ -242,7 +263,7 @@ const Jackpot = () => {
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <p className="text-[16px] text-[#2c5fbf]">#</p>
-                                        <p className="text-[#E3E3E3]">Round: <strong className="text-white font-bold">{round}</strong></p>
+                                        <p className="text-[#E3E3E3]">Round: <strong className="text-white font-bold">{round + 1}</strong></p>
                                     </div>
                                 </div>
                                 <div className="min-h-[92px]">
