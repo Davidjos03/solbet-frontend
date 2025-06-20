@@ -1,7 +1,7 @@
 import { useUserProvider } from "@/contexts/UserContext"
 
-const UserCard = () => {
-    const { setIsProfileModal } = useUserProvider()
+const UserCard: React.FC<{ player: IPlayer }> = ({ player }) => {
+    const { totalAmount, setIsProfileModal } = useUserProvider()
 
     return (
         <div
@@ -29,7 +29,7 @@ const UserCard = () => {
                                         className="w-full h-full border-[1px] rounded-[8px] border-[#222222] rounded-2 overflow-hidden shadow-avatar-emboss relative z-[3] bg-[#595959]"
                                     >
                                         <img
-                                            src="/images/avatars/9fddb4e7b9f48a521886e34bd22474b9ae8da2665a6983b2923f5a3a6e60d81b.jpeg"
+                                            src={`/images/avatars/${player.user_id.avatar}`}
                                             className="object-cover object-center w-full h-full"
                                             alt=""
                                         />
@@ -41,7 +41,7 @@ const UserCard = () => {
                             <p
                                 className="font-bold text-sm font-book text-[#C4C4C4] w-[50px] sm:w-[75px] truncate"
                             >
-                                XSpEN
+                                {player.user_id.username}
                             </p>
                             <div
                                 className="p-[1px] rounded-md overflow-hidden bg-[#307293] text-[#75D1FF]"
@@ -68,20 +68,20 @@ const UserCard = () => {
                             </div>
                         </div>
                         <div className="min-w-[80px] relative -left-1.5 sm:left-0">
-                            <p className="text-xl text-white font-extrabold leading-7">0.001</p>
+                            <p className="text-xl text-white font-extrabold leading-7">{player.price.toFixed(4)}</p>
                             <p className="text-sm font-medium font-book text-[#C4C4C4]">~$0.15</p>
                         </div>
                     </div>
                     <div className="text-right">
                         <p className="text-sm font-book font-bold text-[#C4C4C4]">Chance</p>
-                        <p className="font-bold text-white leading-7">0.43%</p>
+                        <p className="font-bold text-white leading-7">{player.price / totalAmount}%</p>
                     </div>
                 </div>
                 <div
                     className="w-12 h-12 absolute -top-6 -left-6 rounded-full blur-[60px] pointer-events-none text-[#39c4ff]"
                 ></div>
                 <div
-                    className="absolute right-0 inset-y-0 m-auto w-max h-max text-[#9176ff]"
+                    className="absolute right-0 inset-y-0 m-auto w-max h-max text-[#7696ff]"
                 >
                     <div
                         className="bg-gradient-to-b from-transparent via-white to-transparent absolute right-0 w-1/2 h-full mix-blend-plus-lighter transition-opacity opacity-10 z-[3] duration-[1s]"

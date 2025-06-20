@@ -5,6 +5,7 @@ import { useUserProvider } from "@/contexts/UserContext";
 import { joinGame } from "@/contract/solbet";
 import { useGameSocket } from "@/hooks/useGameSocket";
 import { EGameEvent } from "@/types/socket";
+import { initialArray } from "@/utils/utils";
 import { Icon } from "@iconify-icon/react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Transaction } from "@solana/web3.js";
@@ -12,9 +13,9 @@ import { useEffect, useState } from "react";
 
 const Jackpot = () => {
     const [value, setValue] = useState<string>("");
-    const [remainingTime, setRemainingTime] = useState<number>(60);
+    const [remainingTime, setRemainingTime] = useState<number>(59);
 
-    const { userInfo, round, isDuration, totalAmount, players, setPlayers, setTotalAmount, setIsDuration, setRound } = useUserProvider();
+    const { userInfo, round, isDuration, totalAmount, players, winner, setWinner, setPlayers, setTotalAmount, setIsDuration, setRound } = useUserProvider();
     const { publicKey, sendTransaction } = useWallet();
     const { gameSocket } = useGameSocket();
 
@@ -42,7 +43,7 @@ const Jackpot = () => {
                     console.log("🚀 ~ handleDeposit ~ signature:", signature)
 
                     const historyData: IHistory = {
-                        sig: "signature",
+                        sig: signature,
                         price: Number(value),
                         type: "deposite",
                         status: "success",
@@ -76,12 +77,23 @@ const Jackpot = () => {
             setRound(data);
         })
 
-        gameSocket.on(EGameEvent.DURATION_STATE, (data: boolean) => {
-            setIsDuration(data);
+        gameSocket.on(EGameEvent.DURATION_STATE, (durationState: boolean) => {
+            console.log("🚀 ~ gameSocket.on ~ durationState:", durationState);
+            setIsDuration(durationState);
+        })
+
+        gameSocket.on(EGameEvent.WINNER, (winIndex: number) => {
+            console.log("🚀 ~ gameSocket.on ~ winIndex:", winIndex);
+            setWinner(players[winIndex]);
+        })
+
+        gameSocket.on(EGameEvent.UPDATE_REMAIN_TIME, (time: number) => {
+            console.log("🚀 ~ gameSocket.on ~ time:", time);
+            setRemainingTime(time);
         })
 
         gameSocket.on(EGameEvent.UPDATE_TOTAL_AMOUNT, (data: { players: IPlayer[]; totalAmount: number }) => {
-            console.log("🚀 ~ gameSocket.on ~ data:", data)
+            console.log("🚀 ~ gameSocket.on ~ data:", data);
             setTotalAmount(data.totalAmount);
             setPlayers(prev => {
                 // Create a new array that:
@@ -97,7 +109,6 @@ const Jackpot = () => {
 
     useEffect(() => {
         let intervalId: NodeJS.Timeout;
-
         if (isDuration && remainingTime > 0) {
             intervalId = setInterval(() => {
                 setRemainingTime(prevTime => {
@@ -114,6 +125,13 @@ const Jackpot = () => {
             if (intervalId) clearInterval(intervalId);
         };
     }, [isDuration, remainingTime]);
+
+    useEffect(() => {
+        setIsDuration(false);
+        setWinner(null);
+        setRemainingTime(59);
+        setPlayers(initialArray);
+    }, [round])
 
     return (
         <div className="relative w-full min-h-[calc(100vh-110px)] h-full px-6 md:px-10 lg:px-16 py-12 mb-20 mt-12 md:mt-16 lg:mt-28">
@@ -168,7 +186,6 @@ const Jackpot = () => {
                                             <button
                                                 className="bg-gradient-to-t from-[#192130] to-[#162231] p-[3px] rounded-2xl transition-opacity duration-300 opacity-100 w-fit sm:w-full cursor-pointer"
                                                 disabled={userInfo ? false : true}
-                                                // onClick={() => console.log("object")}
                                                 onClick={() => handleDeposit()}
                                             >
                                                 <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#6797df] to-[#2a64cf] border-[1px] border-[#1D1D1D]">
@@ -242,7 +259,11 @@ const Jackpot = () => {
                                     </div>
                                 </div>
                             </div>
-                            <SmoothCardCarousel cards={players} />
+                            <SmoothCardCarousel
+                                cards={players}
+                                remainingTime={remainingTime}
+                                selectCard={winner}
+                            />
                             {/* <Bonus /> */}
                             <div className="w-full min-h-[600px] border-t border-[#22222D]/50">
                                 <div className="flex md:hidden justify-center mt-4 items-center gap-1.5 pl-2 pr-3 py-2 rounded-lg bg-[#0f2030]/40">
@@ -253,7 +274,7 @@ const Jackpot = () => {
                                     <div className="flex items-center gap-3">
                                         <div className="flex items-center gap-2">
                                             <Icon icon="material-symbols:person-rounded" width="24" height="24" style={{ color: "#2c5fbf" }} />
-                                            <p>2 Players</p>
+                                            <p>{players.filter(player => player._id != "").length} Players</p>
                                         </div>
                                         <div className="h-2/3 w-[1px] bg-[#303030]/50 hidden md:block"></div>
                                         <div className="hidden md:flex items-center gap-1.5 pl-2 pr-3 py-[5px] rounded-lg bg-[#1b3146]/40">
@@ -266,8 +287,14 @@ const Jackpot = () => {
                                         <p className="text-[#E3E3E3]">Round: <strong className="text-white font-bold">{round + 1}</strong></p>
                                     </div>
                                 </div>
-                                <div className="min-h-[92px]">
-                                    <UserCard />
+                                <div className="flex flex-col min-h-[92px] gap-4">
+                                    {players.map((player, index) =>
+                                        player._id ?
+                                            <UserCard key={`${player.user_id._id}-${index}`} player={player} />
+                                            : <div key={index} className={`${index ? "hidden" : "flex"} w-full items-center justify-center border-dashed border-[2px] border-[#444444] rounded-xl p-6 text-white`}>
+                                                Waiting <Icon icon="eos-icons:three-dots-loading" width="24" height="24" style={{ color: "#fff" }} />
+                                            </div>
+                                    )}
                                 </div>
                             </div>
                         </div>

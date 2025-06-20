@@ -1,3 +1,4 @@
+import { initialArray } from "@/utils/utils";
 import React, { ReactNode, createContext, useContext, useEffect, useState } from "react";
 
 // Define the shape of the context
@@ -20,8 +21,8 @@ interface UserContextProps {
   setUserInfo: React.Dispatch<React.SetStateAction<IUser | undefined>>;
   isDuration: boolean;
   setIsDuration: React.Dispatch<React.SetStateAction<boolean>>;
-  winner: number;
-  setWinner: React.Dispatch<React.SetStateAction<number>>;
+  winner: IPlayer | null;
+  setWinner: React.Dispatch<React.SetStateAction<IPlayer | null>>;
   totalAmount: number;
   setTotalAmount: React.Dispatch<React.SetStateAction<number>>;
   players: IPlayer[];
@@ -42,19 +43,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [solBalance, setSolBalance] = useState<number>(0);
   const [round, setRound] = useState<number>(0);
   const [isDuration, setIsDuration] = useState<boolean>(false);
-  const [winner, setWinner] = useState<number>(0);
+  const [winner, setWinner] = useState<IPlayer | null>(null);
   const [totalAmount, setTotalAmount] = useState<number>(0);
-
-  const initialArray: IPlayer[] = Array.from({ length: 50 }, () => ({
-    _id: "",
-    user_id: {
-      _id: "",
-      username: "",
-      avatar: "",
-    },
-    price: 0,
-  }));
-
   const [players, setPlayers] = useState<IPlayer[]>(initialArray)
 
 

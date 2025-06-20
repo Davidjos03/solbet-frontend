@@ -64,3 +64,14 @@ export const getTokenHistoryData = async (params: Params) => {
         return [];
     }
 };
+
+
+export const initialArray: IPlayer[] = Array.from({ length: 5 }, () => ({
+    _id: "",
+    user_id: {
+        _id: "",
+        username: "Waiting...",
+        avatar: "avatar.svg",
+    },
+    price: 0.00000,
+}));
