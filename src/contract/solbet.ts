@@ -97,8 +97,8 @@ export const joinGame = async (userPk: PublicKey, round: number, depositsAmount:
         user: userPk,
         config: configPda,
         roundAcc: roundPda,
+        vault: vaultPda,
         systemProgram: SystemProgram.programId,
-        vault: vaultPda
       })
       .instruction();
     console.log("🚀 ~ joinGame ~ depositIx:", depositIx)
@@ -204,20 +204,20 @@ export const transferFees = async (teamWalPk: PublicKey, adminPk: PublicKey, rou
   return transferFeesIx
 }
 
-export const roundCompleted = async (round: number) => {
-  while (true) {
-    // Derive round PDA
-    console.log("🚀 ~ roundCompleted ~ program.programId:", program.programId)
-    const [roundPda] = PublicKey.findProgramAddressSync(
-      [ROUND_SEED, new BN(round).toArrayLike(Buffer, "le", 8)],
-      program.programId
-    );
+// export const roundCompleted = async (round: number) => {
+//   while (true) {
+//     // Derive round PDA
+//     console.log("🚀 ~ roundCompleted ~ program.programId:", program.programId)
+//     const [roundPda] = PublicKey.findProgramAddressSync(
+//       [ROUND_SEED, new BN(round).toArrayLike(Buffer, "le", 8)],
+//       program.programId
+//     );
 
-    const currentRound = await program.account.gameRound.fetch(roundPda);
-    const isCompleted = currentRound.isCompleted;
-    if (isCompleted) {
-      return isCompleted;
-    }
-  }
-}
+//     const currentRound = await program.account.gameRound.fetch(roundPda);
+//     const isCompleted = currentRound.isCompleted;
+//     if (isCompleted) {
+//       return isCompleted;
+//     }
+//   }
+// }
 

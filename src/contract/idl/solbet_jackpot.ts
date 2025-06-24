@@ -5,7 +5,7 @@
  * IDL can be found at `target/idl/solbet_jackpot_smart_contract.json`.
  */
 export type SolbetJackpotSmartContract = {
-  "address": "CMnSj9HyMTZ36cAC72Sp4pnJpEAonXTE5K3yuREm8PiX",
+  "address": "CzEkmB9HxD5ciRd2ZeTvCXwEEFeCJXepisEP2gGTAz8K",
   "metadata": {
     "name": "solbetJackpotSmartContract",
     "version": "0.1.0",
@@ -180,9 +180,8 @@ export type SolbetJackpotSmartContract = {
                 ]
               },
               {
-                "kind": "account",
-                "path": "config.round_counter",
-                "account": "config"
+                "kind": "arg",
+                "path": "round"
               }
             ]
           }
@@ -673,6 +672,10 @@ export type SolbetJackpotSmartContract = {
           {
             "name": "minDepositAmount",
             "type": "u64"
+          },
+          {
+            "name": "isCompleted",
+            "type": "bool"
           }
         ]
       }
@@ -752,10 +755,6 @@ export type SolbetJackpotSmartContract = {
           },
           {
             "name": "isExpired",
-            "type": "bool"
-          },
-          {
-            "name": "isCompleted",
             "type": "bool"
           },
           {

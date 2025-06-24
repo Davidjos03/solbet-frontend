@@ -1,5 +1,5 @@
 {
-  "address": "CMnSj9HyMTZ36cAC72Sp4pnJpEAonXTE5K3yuREm8PiX",
+  "address": "CzEkmB9HxD5ciRd2ZeTvCXwEEFeCJXepisEP2gGTAz8K",
   "metadata": {
     "name": "solbet_jackpot_smart_contract",
     "version": "0.1.0",
@@ -174,9 +174,8 @@
                 ]
               },
               {
-                "kind": "account",
-                "path": "config.round_counter",
-                "account": "Config"
+                "kind": "arg",
+                "path": "round"
               }
             ]
           }
@@ -667,6 +666,10 @@
           {
             "name": "min_deposit_amount",
             "type": "u64"
+          },
+          {
+            "name": "is_completed",
+            "type": "bool"
           }
         ]
       }
@@ -746,10 +749,6 @@
           },
           {
             "name": "is_expired",
-            "type": "bool"
-          },
-          {
-            "name": "is_completed",
             "type": "bool"
           },
           {

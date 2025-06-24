@@ -74,7 +74,7 @@ const UserCard: React.FC<{ player: IPlayer }> = ({ player }) => {
                     </div>
                     <div className="text-right">
                         <p className="text-sm font-book font-bold text-[#C4C4C4]">Chance</p>
-                        <p className="font-bold text-white leading-7">{player.price / totalAmount}%</p>
+                        <p className="font-bold text-white leading-7">{(player.price / totalAmount).toFixed(2)}%</p>
                     </div>
                 </div>
                 <div

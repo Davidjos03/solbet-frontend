@@ -66,7 +66,7 @@ export const getTokenHistoryData = async (params: Params) => {
 };
 
 
-export const initialArray: IPlayer[] = Array.from({ length: 5 }, () => ({
+export const initialArray: IPlayer[] = Array.from({ length: 15 }, () => ({
     _id: "",
     user_id: {
         _id: "",
@@ -75,3 +75,18 @@ export const initialArray: IPlayer[] = Array.from({ length: 5 }, () => ({
     },
     price: 0.00000,
 }));
+
+
+// Format seconds into MM:SS
+export const formatTime = (seconds: number): string => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')} : ${secs.toString().padStart(2, '0')}`;
+};
+
+export const formatCompactNumber = (num: number): string => {
+    if (num < 1000) return num.toFixed(2);
+    if (num < 1_000_000) return `${(num / 1000).toFixed(2)}K`;
+    if (num < 1_000_000_000) return `${(num / 1_000_000).toFixed(2)}M`;
+    return `${(num / 1_000_000_000).toFixed(2)}B`;
+};

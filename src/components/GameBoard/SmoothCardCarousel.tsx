@@ -57,7 +57,9 @@ const SmoothCardCarousel: React.FC<{
   // Center the selectCard when it changes
   useEffect(() => {
     if (selectCard) {
+      console.log("🚀 ~ useEffect ~ selectCard:", selectCard)
       const selectedIndex = cards.findIndex(c => c._id === selectCard._id);
+      console.log("🚀 ~ useEffect ~ selectedIndex:", selectedIndex)
       if (selectedIndex !== -1) {
         setCurrentIndex(selectedIndex);
         stopAutoRotation();
@@ -69,17 +71,17 @@ const SmoothCardCarousel: React.FC<{
 
   // Handle timer changes
   useEffect(() => {
-    if (remainingTime <= 0) {
+    if (remainingTime <= 0 && remainingTime == 59) {
       stopAutoRotation();
-    } else if (!selectCard && isAutoRotating) {
+    } else if (isAutoRotating) {
       startAutoRotation();
     }
-  }, [remainingTime, selectCard]);
+  }, [remainingTime]);
 
-  useEffect(() => {
-    startAutoRotation();
-    return () => stopAutoRotation();
-  }, []);
+  // useEffect(() => {
+  //   startAutoRotation();
+  //   return () => stopAutoRotation();
+  // }, []);
 
   const visibleCards = getVisibleCards();
   const containerWidth = CARD_WIDTH * VISIBLE_CARDS;
@@ -114,7 +116,7 @@ const SmoothCardCarousel: React.FC<{
                   className={`absolute transition-all duration-${BASE_TRANSITION_DURATION} 
                     flex items-center justify-center ${card._id ? "bg-[#182644]" : "bg-[#38393b]"} rounded-lg shadow-md
                     ${isCenter ? 'text-white' : 'text-[#2e2e2e]'}
-                    ${isSelected ? 'ring-2 ring-yellow-400' : ''}`}
+                    ${isSelected ? 'ring-2 ring-[#ce3030]' : ''}`}
                   style={{
                     width: `${CARD_WIDTH}px`,
                     height: `${CARD_HEIGHT}px`,

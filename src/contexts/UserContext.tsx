@@ -1,3 +1,4 @@
+import { getSolPrice } from "@/utils/common";
 import { initialArray } from "@/utils/utils";
 import React, { ReactNode, createContext, useContext, useEffect, useState } from "react";
 
@@ -27,6 +28,10 @@ interface UserContextProps {
   setTotalAmount: React.Dispatch<React.SetStateAction<number>>;
   players: IPlayer[];
   setPlayers: React.Dispatch<React.SetStateAction<IPlayer[]>>;
+  winnerIndex: number | null;
+  setWinnerIndex: React.Dispatch<React.SetStateAction<number | null>>;
+  solPrice: number;
+  setSolPrice: React.Dispatch<React.SetStateAction<number>>;
 }
 
 // Create the User context with a default value
@@ -46,7 +51,30 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [winner, setWinner] = useState<IPlayer | null>(null);
   const [totalAmount, setTotalAmount] = useState<number>(0);
   const [players, setPlayers] = useState<IPlayer[]>(initialArray)
+  const [winnerIndex, setWinnerIndex] = useState<number | null>(null);
+  const [solPrice, setSolPrice] = useState<number>(0);
 
+  useEffect(() => {
+    const fetchPrice = async () => {
+      try {
+        const price = await getSolPrice();
+        if (price) setSolPrice(price);
+      } catch (error) {
+        console.error("Error fetching SOL price:", error);
+      }
+    };
+
+    // Fetch immediately on mount
+    fetchPrice();
+
+    // Then set up interval for every 3 seconds
+    const intervalId = setInterval(fetchPrice, 3000);
+
+    // Clean up interval on unmount
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, []);
 
   useEffect(() => {
     // Function to check and update `isToggle` based on window width
@@ -93,7 +121,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         totalAmount,
         setTotalAmount,
         players,
-        setPlayers
+        setPlayers,
+        winnerIndex,
+        setWinnerIndex,
+        solPrice,
+        setSolPrice
       }}
     >
       {children}

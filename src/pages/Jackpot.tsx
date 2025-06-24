@@ -1,3 +1,4 @@
+// import CardCarousel3D from "@/components/GameBoard/CardCarousel3D";
 import SmoothCardCarousel from "@/components/GameBoard/SmoothCardCarousel";
 import UserCard from "@/components/GameBoard/UserCard";
 import { connection } from "@/constants/envConstants";
@@ -5,7 +6,8 @@ import { useUserProvider } from "@/contexts/UserContext";
 import { joinGame } from "@/contract/solbet";
 import { useGameSocket } from "@/hooks/useGameSocket";
 import { EGameEvent } from "@/types/socket";
-import { initialArray } from "@/utils/utils";
+import { getBalance } from "@/utils/common";
+import { formatCompactNumber, formatTime, initialArray } from "@/utils/utils";
 import { Icon } from "@iconify-icon/react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Transaction } from "@solana/web3.js";
@@ -14,8 +16,11 @@ import { useEffect, useState } from "react";
 const Jackpot = () => {
     const [value, setValue] = useState<string>("");
     const [remainingTime, setRemainingTime] = useState<number>(59);
+    const [latestWinner, setLatestWinner] = useState<IPlayer>(initialArray[0]);
+    const [betAmount, setBetAmount] = useState<number>(0);
+    // const [luckyPlayer, setLuckyPlayer] = useState<IPlayer>(initialArray[0]);
 
-    const { userInfo, round, isDuration, totalAmount, players, winner, setWinner, setPlayers, setTotalAmount, setIsDuration, setRound } = useUserProvider();
+    const { userInfo, round, isDuration, totalAmount, players, winner, winnerIndex, solPrice, setSolBalance, setWinnerIndex, setWinner, setPlayers, setTotalAmount, setIsDuration, setRound } = useUserProvider();
     const { publicKey, sendTransaction } = useWallet();
     const { gameSocket } = useGameSocket();
 
@@ -40,7 +45,9 @@ const Jackpot = () => {
 
                     // Send transaction and await for signature
                     const signature = await sendTransaction(transaction, connection);
-                    console.log("🚀 ~ handleDeposit ~ signature:", signature)
+
+                    await connection.confirmTransaction(signature, "confirmed");
+                    console.log("🚀 ~ handleDeposit ~ signature:", signature);
 
                     const historyData: IHistory = {
                         sig: signature,
@@ -48,12 +55,15 @@ const Jackpot = () => {
                         type: "deposite",
                         status: "success",
                         create_at: new Date(),
-                        round: round + 1,
+                        round: round,
                         user_id: userInfo!._id
                     }
 
                     gameSocket?.emit(EGameEvent.SAVE_HISTORY, historyData)
 
+                    setValue("");
+                    const balance = await getBalance(publicKey);
+                    setSolBalance(balance);
                 } else {
                     console.log("Deposit failed.")
                 }
@@ -63,12 +73,25 @@ const Jackpot = () => {
         }
     }
 
-    // Format seconds into MM:SS
-    const formatTime = (seconds: number): string => {
-        const mins = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-        return `${mins.toString().padStart(2, '0')} : ${secs.toString().padStart(2, '0')}`;
+    const handleValueChange = (input: string) => {
+        // Allows:
+        // - Single "0"
+        // - Numbers without leading zeros (123)
+        // - Floats (1.23, 0.25)
+        // - Naked decimals (.5)
+        // - Empty string
+        if (
+            input === "" ||
+            input === "0" ||
+            /^(?!0\d)([1-9]\d*|0?)(\.\d*)?$/.test(input)
+        ) {
+            setValue(input);
+        }
     };
+
+    useEffect(() => {
+        setBetAmount(Number(value) * solPrice);
+    }, [value, solPrice])
 
     useEffect(() => {
         if (!gameSocket) return
@@ -84,8 +107,10 @@ const Jackpot = () => {
 
         gameSocket.on(EGameEvent.WINNER, (winIndex: number) => {
             console.log("🚀 ~ gameSocket.on ~ winIndex:", winIndex);
-            setWinner(players[winIndex]);
+            setWinnerIndex(winIndex);
+            // setWinner(players[winIndex]);
         })
+
 
         gameSocket.on(EGameEvent.UPDATE_REMAIN_TIME, (time: number) => {
             console.log("🚀 ~ gameSocket.on ~ time:", time);
@@ -100,7 +125,7 @@ const Jackpot = () => {
                 // 1. Takes the incoming players (up to the length of prev array)
                 // 2. Fills the rest with the remaining players from prev array
                 return [
-                    ...data.players.slice(0, prev.length), // Take new players (up to original length)
+                    ...data.players, // Take new players (up to original length)
                     ...prev.slice(data.players.length)     // Fill remainder with existing players
                 ];
             });
@@ -127,11 +152,24 @@ const Jackpot = () => {
     }, [isDuration, remainingTime]);
 
     useEffect(() => {
-        setIsDuration(false);
+        console.log('clear-------------')
+        if (winner)
+            setLatestWinner(winner)
         setWinner(null);
+        setWinnerIndex(null);
+        setIsDuration(false);
         setRemainingTime(59);
         setPlayers(initialArray);
+        setTotalAmount(0);
     }, [round])
+
+    useEffect(() => {
+        console.log("🚀 ~ Jackpot ~ players:", players, '\n', winnerIndex)
+        if (winnerIndex != null) {
+            console.log("🚀 ~ useEffect ~ players[winnerIndex]:", players[winnerIndex])
+            setWinner(players[winnerIndex])
+        }
+    }, [players, winnerIndex])
 
     return (
         <div className="relative w-full min-h-[calc(100vh-110px)] h-full px-6 md:px-10 lg:px-16 py-12 mb-20 mt-12 md:mt-16 lg:mt-28">
@@ -155,8 +193,8 @@ const Jackpot = () => {
                                         <div className="flex gap-1 md:gap-1.5 h-[44px] w-full sm:w-auto">
                                             <div className="relative w-max block">
                                                 <div className="w-full relative">
-                                                    <p className="mb-2 text-[#A2A2A2] text-xs font-book absolute -top-[24px] gap-1 flex">Bet Amount
-                                                        <span className="text-white">~$0</span>
+                                                    <p className="w-full mb-2 text-[#A2A2A2] text-xs font-book absolute -top-[24px] gap-1 flex">Bet Amount
+                                                        <span className="text-white">~${formatCompactNumber(betAmount)} = {Number(value).toFixed(3)}SOL</span>
                                                     </p>
                                                     <div className="relative w-full">
                                                         <div className="absolute inset-y-0 my-auto left-2.5 h-max w-max">
@@ -167,18 +205,25 @@ const Jackpot = () => {
                                                             placeholder="0.00"
                                                             type="text"
                                                             value={value}
-                                                            onChange={(e) => setValue(e.target.value)}
+                                                            onChange={(e) => handleValueChange(e.target.value)}
+                                                            pattern="-?[0-9]*\.?[0-9]*"
                                                         >
                                                         </input>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button className="bg-gradient-to-t from-[#161629] to-[#181836] p-[3px] rounded-2xl transition-opacity duration-300 cursor-pointer hidden xs:block xs:ml-1">
+                                            <button
+                                                className="bg-gradient-to-t from-[#161629] to-[#181836] p-[3px] rounded-2xl transition-opacity duration-300 cursor-pointer hidden xs:block xs:ml-1"
+                                                onClick={() => handleValueChange((Number(value) + 0.1).toFixed(4))}
+                                            >
                                                 <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#454545] to-[#232323] border-[1px] border-[#1D1D1D]">
                                                     <div className="group flex items-center justify-center relative min-w-10 overflow-hidden transition duration-300 px-4 bg-[#2e2e42] hover:bg-[#343449]/75 text-sm font-medium rounded-lg h-full w-[48px] text-[#C4C4C4] cursor-pointer [text-shadow: rgba(0, 0, 0, 0.5) 0px 2px]">+0.1</div>
                                                 </div>
                                             </button>
-                                            <button className="bg-gradient-to-t from-[#161629] to-[#181836] p-[3px] rounded-2xl transition-opacity duration-300 cursor-pointer hidden min-[1440px]:block">
+                                            <button
+                                                className="bg-gradient-to-t from-[#161629] to-[#181836] p-[3px] rounded-2xl transition-opacity duration-300 cursor-pointer hidden min-[1440px]:block"
+                                                onClick={() => handleValueChange((Number(value) + 1).toFixed(4))}
+                                            >
                                                 <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#454545] to-[#232323] border-[1px] border-[#1D1D1D]">
                                                     <div className="group flex items-center justify-center relative min-w-10 overflow-hidden transition duration-300 px-4 bg-[#2e2e42] hover:bg-[#343449]/75 text-sm font-medium rounded-lg h-full w-[48px] text-[#C4C4C4] cursor-pointer [text-shadow: rgba(0, 0, 0, 0.5) 0px 2px]">+1</div>
                                                 </div>
@@ -208,7 +253,7 @@ const Jackpot = () => {
                                             <img src="/images/dot-pattern-stat.webp" className="object-cover object-center absolute top-0 left-0 w-full h-full" alt=""></img>
                                             <div className="flex items-center gap-1.5">
                                                 <img src="/images/solana.png" className="object-cover object-center w-6 h-6" alt=""></img>
-                                                <div className="my-0 font-bold text-xl text-white"><span>{totalAmount}</span></div>
+                                                <div className="my-0 font-bold text-xl text-white"><span>{totalAmount.toFixed(3)}</span></div>
                                             </div>
                                             <p className="text-sm text-[#A2A2A2] font-medium">Jackpot Value</p>
                                         </div>
@@ -264,6 +309,7 @@ const Jackpot = () => {
                                 remainingTime={remainingTime}
                                 selectCard={winner}
                             />
+                            {/* <CardCarousel3D /> */}
                             {/* <Bonus /> */}
                             <div className="w-full min-h-[600px] border-t border-[#22222D]/50">
                                 <div className="flex md:hidden justify-center mt-4 items-center gap-1.5 pl-2 pr-3 py-2 rounded-lg bg-[#0f2030]/40">
@@ -284,7 +330,7 @@ const Jackpot = () => {
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <p className="text-[16px] text-[#2c5fbf]">#</p>
-                                        <p className="text-[#E3E3E3]">Round: <strong className="text-white font-bold">{round + 1}</strong></p>
+                                        <p className="text-[#E3E3E3]">Round: <strong className="text-white font-bold">{round}</strong></p>
                                     </div>
                                 </div>
                                 <div className="flex flex-col min-h-[92px] gap-4">
@@ -312,21 +358,21 @@ const Jackpot = () => {
                                                         <div className="relative z-[3]">
                                                             <div className="flex justify-between uppercase text-xs text-[#8C8C8C] mb-3">
                                                                 <p>Round</p>
-                                                                <p>#57534</p>
+                                                                <p>#{round - 1}</p>
                                                             </div>
                                                         </div>
                                                         <div className="rounded-[18px] overflow-hidden border-[1px] border-[#222222] aspect-square hover:brightness-125 transition-[filter] duration-300 cursor-pointer w-[72px] h-[72px] mx-auto bg-[#303045] p-[1px] border-none">
                                                             <div className="w-full h-full p-0.5 border-[1px] border-[#222222] rounded-[18px] bg-gradient-to-b from-[#8A8A8A] to-[#5A5A5A]">
                                                                 <div className="w-full h-full border-[1px] border-[#222222] rounded-[18px] overflow-hidden bg-black/75 shadow-avatar-emboss relative">
-                                                                    <img src="/images/avatar.svg" className="object-cover object-center w-full h-full" alt=""></img>
+                                                                    <img src={`/images/avatars/${latestWinner?.user_id.avatar}`} className="object-cover object-center w-full h-full" alt=""></img>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div className="flex items-center gap-1 mt-3 mx-auto w-max mb-3">
-                                                            <p className="text-sm font-semibold max-w-[75px] truncate text-white">Tommy9081</p>
-                                                            <div className="p-[1px] rounded-md overflow-hidden bg-[#307293] text-[#75D1FF]">
+                                                            <p className="text-sm font-semibold max-w-[75px] truncate text-white">{latestWinner?.user_id.username}</p>
+                                                            {/* <div className="p-[1px] rounded-md overflow-hidden bg-[#307293] text-[#75D1FF]">
                                                                 <div className="flex items-center justify-center rounded-[5px] overflow-hidden bg-[#22222D]/80 font-semibold w-[28px] h-5 text-[11px]">10</div>
-                                                            </div>
+                                                            </div> */}
                                                         </div>
                                                         <div className="relative">
                                                             <span className="text-[11px] italic absolute inset-0 m-auto w-max h-max uppercase text-white">Last Winner</span>
