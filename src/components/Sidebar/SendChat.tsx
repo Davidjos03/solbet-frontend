@@ -7,7 +7,7 @@ import { useState } from "react";
 const SendChat = () => {
     const [input, setInput] = useState<string>("");
 
-    const { userInfo } = useUserProvider()
+    const { userInfo, messages } = useUserProvider()
     const { chatSocket } = useChatSocket();
 
     const sendMessage = () => {
@@ -67,7 +67,7 @@ const SendChat = () => {
                     </div>
                     <div className="flex items-center gap-1.5 cursor-pointer text-[#A2A2A2] transition-colors">
                         <Icon icon="tabler:message-filled" width="16" height="16" style={{ color: "#A2A2A2" }} />
-                        <p className="text-sm font-medium leading-[21px]">160</p>
+                        <p className="text-sm font-medium leading-[21px]">{messages.length}</p>
                     </div>
                 </div>
             </div>

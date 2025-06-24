@@ -114,7 +114,7 @@ const SmoothCardCarousel: React.FC<{
                 <div
                   key={`${card.user_id._id}-${index}`}
                   className={`absolute transition-all duration-${BASE_TRANSITION_DURATION} 
-                    flex items-center justify-center ${card._id ? "bg-[#182644]" : "bg-[#38393b]"} rounded-lg shadow-md
+                    flex items-center justify-center ${card._id.length ? "bg-[#1e325c]" : "bg-[#272727]"} rounded-lg shadow-md
                     ${isCenter ? 'text-white' : 'text-[#2e2e2e]'}
                     ${isSelected ? 'ring-2 ring-[#ce3030]' : ''}`}
                   style={{
@@ -134,20 +134,20 @@ const SmoothCardCarousel: React.FC<{
                           <div className="w-full h-full border-[1px] border-[#222222] rounded-[18px] overflow-hidden bg-black/75 shadow-avatar-emboss relative">
                             <img
                               src={`/images/avatars/${card.user_id.avatar}`}
-                              className="object-cover object-center w-full h-full"
+                              className={`object-cover ${card._id.length ? "opacity-100" : "opacity-30"} object-center w-full h-full`}
                               alt=""
                             />
                           </div>
                         </div>
                       </div>
                       <div className="flex items-center gap-1 mt-3 mx-auto w-max">
-                        <p className="text-sm font-semibold max-w-[75px] truncate text-white">
+                        <p className={`text-sm font-semibold max-w-[75px] truncate ${card._id.length ? "text-white" : "text-[#cacaca]"}`}>
                           {card.user_id.username}
                         </p>
                       </div>
                       <div className="flex items-center gap-1 mt-3 mx-auto w-max">
                         <img src="/images/solana.png" className="object-cover object-center w-6 h-6" alt="" />
-                        <p className="text-sm font-semibold max-w-[75px] truncate text-white">
+                        <p className={`text-sm font-semibold max-w-[75px] truncate ${card._id.length ? "text-white" : "text-[#cacaca]"}`}>
                           {card.price.toFixed(4)}
                         </p>
                       </div>

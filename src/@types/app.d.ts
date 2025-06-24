@@ -40,6 +40,20 @@ interface IPlayer {
   price: number;
 }
 
+interface IWaiting {
+  _id: string;
+  round: number;
+  won: number;
+  chance: number;
+  user_id: {
+    _id: string;
+    username: string;
+    avatar: string;
+    created_at: Date;
+  };
+  create_at: Date;
+}
+
 interface IHistory {
   sig: string;
   price: number;

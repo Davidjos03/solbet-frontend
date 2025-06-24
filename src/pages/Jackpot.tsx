@@ -7,6 +7,7 @@ import { joinGame } from "@/contract/solbet";
 import { useGameSocket } from "@/hooks/useGameSocket";
 import { EGameEvent } from "@/types/socket";
 import { getBalance } from "@/utils/common";
+import { fetchWithAuth } from "@/utils/setAuthToken";
 import { formatCompactNumber, formatTime, initialArray } from "@/utils/utils";
 import { Icon } from "@iconify-icon/react";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -16,13 +17,11 @@ import { useEffect, useState } from "react";
 const Jackpot = () => {
     const [value, setValue] = useState<string>("");
     const [remainingTime, setRemainingTime] = useState<number>(59);
-    const [latestWinner, setLatestWinner] = useState<IPlayer>(initialArray[0]);
     const [betAmount, setBetAmount] = useState<number>(0);
     const [wager, setWager] = useState<number>(0);
     const [chance, setChance] = useState<number>(0);
-    // const [luckyPlayer, setLuckyPlayer] = useState<IPlayer>(initialArray[0]);
 
-    const { userInfo, round, isDuration, totalAmount, players, winner, winnerIndex, solPrice, setSolBalance, setWinnerIndex, setWinner, setPlayers, setTotalAmount, setIsDuration, setRound } = useUserProvider();
+    const { userInfo, round, isDuration, totalAmount, players, winner, latestWinner, luckyUser, winnerIndex, solPrice, setSolBalance, setWinnerIndex, setWinner, setLatestWinner, setLuckyUser, setPlayers, setTotalAmount, setIsDuration, setRound } = useUserProvider();
     const { publicKey, sendTransaction } = useWallet();
     const { gameSocket } = useGameSocket();
 
@@ -120,6 +119,11 @@ const Jackpot = () => {
             setRemainingTime(time);
         })
 
+        gameSocket.on(EGameEvent.WAGER, (wager: number) => {
+            console.log("🚀 ~ gameSocket.on ~ wager:", wager);
+            setWager(wager)
+        })
+
         gameSocket.on(EGameEvent.UPDATE_TOTAL_AMOUNT, (data: { players: IPlayer[]; totalAmount: number }) => {
             console.log("🚀 ~ gameSocket.on ~ data:", data);
             setTotalAmount(data.totalAmount);
@@ -156,8 +160,23 @@ const Jackpot = () => {
 
     useEffect(() => {
         console.log('clear-------------')
-        if (winner)
-            setLatestWinner(winner)
+        const fetchWinner = async () => {
+            if (winner) {
+                const winner = await fetchWithAuth(`/api/round/winner/${round - 1}`, {
+                    method: 'GET',
+                })
+                console.log("🚀 ~ getUser ~ winner:", winner)
+                setLatestWinner(winner);
+
+                const lucky = await fetchWithAuth(`/api/round/luck`, {
+                    method: 'GET',
+                })
+                console.log("🚀 ~ getUser ~ lucky:", lucky)
+                setLuckyUser(lucky);
+            }
+        };
+        fetchWinner();
+
         setWinner(null);
         setWinnerIndex(null);
         setIsDuration(false);
@@ -175,8 +194,17 @@ const Jackpot = () => {
     }, [players, winnerIndex])
 
     useEffect(() => {
-        setChance(wager / totalAmount * 100)
-    }, [wager, totalAmount])
+        if (gameSocket && userInfo) {
+            gameSocket.emit(EGameEvent.GET_WAGER, userInfo._id)
+        }
+        console.log("🚀 ~ Jackpot ~ totalAmount:", totalAmount)
+        console.log("🚀 ~ Jackpot ~ wager:", wager)
+        if (totalAmount) {
+            setChance(wager / totalAmount * 100)
+        } else {
+            setChance(0);
+        }
+    }, [wager, totalAmount, gameSocket, userInfo])
 
     return (
         <div className="relative w-full min-h-[calc(100vh-110px)] h-full px-6 md:px-10 lg:px-16 py-12 mb-20 mt-12 md:mt-16 lg:mt-28">
@@ -365,18 +393,18 @@ const Jackpot = () => {
                                                         <div className="relative z-[3]">
                                                             <div className="flex justify-between uppercase text-xs text-[#8C8C8C] mb-3">
                                                                 <p>Round</p>
-                                                                <p>#{round - 1}</p>
+                                                                <p>#{latestWinner.round}</p>
                                                             </div>
                                                         </div>
                                                         <div className="rounded-[18px] overflow-hidden border-[1px] border-[#222222] aspect-square hover:brightness-125 transition-[filter] duration-300 cursor-pointer w-[72px] h-[72px] mx-auto bg-[#303045] p-[1px] border-none">
                                                             <div className="w-full h-full p-0.5 border-[1px] border-[#222222] rounded-[18px] bg-gradient-to-b from-[#8A8A8A] to-[#5A5A5A]">
                                                                 <div className="w-full h-full border-[1px] border-[#222222] rounded-[18px] overflow-hidden bg-black/75 shadow-avatar-emboss relative">
-                                                                    <img src={`/images/avatars/${latestWinner?.user_id.avatar}`} className="object-cover object-center w-full h-full" alt=""></img>
+                                                                    <img src={`/images/avatars/${latestWinner.user_id.avatar}`} className="object-cover object-center w-full h-full" alt=""></img>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div className="flex items-center gap-1 mt-3 mx-auto w-max mb-3">
-                                                            <p className="text-sm font-semibold max-w-[75px] truncate text-white">{latestWinner?.user_id.username}</p>
+                                                            <p className="text-sm font-semibold max-w-[75px] truncate text-white">{latestWinner.user_id.username}</p>
                                                             {/* <div className="p-[1px] rounded-md overflow-hidden bg-[#307293] text-[#75D1FF]">
                                                                 <div className="flex items-center justify-center rounded-[5px] overflow-hidden bg-[#22222D]/80 font-semibold w-[28px] h-5 text-[11px]">10</div>
                                                             </div> */}
@@ -394,12 +422,12 @@ const Jackpot = () => {
                                                             <p className="text-xs text-[#C4C4C4]">Won</p>
                                                             <div className="flex items-center gap-1.5">
                                                                 <img src="/images/solana.png" alt="" className="w-3 h-3" />
-                                                                <p className="text-sm font-semibold text-white">0.275</p>
+                                                                <p className="text-sm font-semibold text-white">{latestWinner.won}</p>
                                                             </div>
                                                         </div>
                                                         <div className="flex items-center w-full justify-between relative z-[3]">
                                                             <p className="text-xs text-[#C4C4C4]">Chance</p>
-                                                            <p className="text-sm font-semibold text-white">27.62%</p>
+                                                            <p className="text-sm font-semibold text-white">{latestWinner.chance.toFixed(2)}%</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -419,24 +447,24 @@ const Jackpot = () => {
                                                         <div className="relative z-[3]">
                                                             <div className="flex justify-between uppercase text-xs text-[#8C8C8C] mb-3">
                                                                 <p>Round</p>
-                                                                <p>#57534</p>
+                                                                <p>#{luckyUser.round}</p>
                                                             </div>
                                                         </div>
                                                         <div className="rounded-[18px] overflow-hidden border-[1px] border-[#222222] aspect-square hover:brightness-125 transition-[filter] duration-300 cursor-pointer w-[72px] h-[72px] mx-auto bg-[#303045] p-[1px] border-none">
                                                             <div className="w-full h-full p-0.5 border-[1px] border-[#222222] rounded-[18px] bg-gradient-to-b from-[#8A8A8A] to-[#5A5A5A]">
                                                                 <div className="w-full h-full border-[1px] border-[#222222] rounded-[18px] overflow-hidden bg-black/75 shadow-avatar-emboss relative">
-                                                                    <img src="/images/avatar.svg" className="object-cover object-center w-full h-full" alt=""></img>
+                                                                    <img src={`/images/${luckyUser.user_id.avatar}`} className="object-cover object-center w-full h-full" alt=""></img>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div className="flex items-center gap-1 mt-3 mx-auto w-max mb-3">
-                                                            <p className="text-sm font-semibold max-w-[75px] truncate text-white">Tommy9081</p>
+                                                            <p className="text-sm font-semibold max-w-[75px] truncate text-white">{luckyUser.user_id.username}</p>
                                                             <div className="p-[1px] rounded-md overflow-hidden bg-[#307293] text-[#75D1FF]">
                                                                 <div className="flex items-center justify-center rounded-[5px] overflow-hidden bg-[#22222D]/80 font-semibold w-[28px] h-5 text-[11px]">10</div>
                                                             </div>
                                                         </div>
                                                         <div className="relative">
-                                                            <span className="text-[11px] italic absolute inset-0 m-auto w-max h-max uppercase text-white">Last Winner</span>
+                                                            <span className="text-[11px] italic absolute inset-0 m-auto w-max h-max uppercase text-white">LUCK OF THE DAY</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -448,12 +476,12 @@ const Jackpot = () => {
                                                             <p className="text-xs text-[#C4C4C4]">Won</p>
                                                             <div className="flex items-center gap-1.5">
                                                                 <img src="/images/solana.png" alt="" className="w-3 h-3" />
-                                                                <p className="text-sm font-semibold text-white">0.275</p>
+                                                                <p className="text-sm font-semibold text-white">{luckyUser.won}</p>
                                                             </div>
                                                         </div>
                                                         <div className="flex items-center w-full justify-between relative z-[3]">
                                                             <p className="text-xs text-[#C4C4C4]">Chance</p>
-                                                            <p className="text-sm font-semibold text-white">27.62%</p>
+                                                            <p className="text-sm font-semibold text-white">{luckyUser.chance.toFixed(2)}%</p>
                                                         </div>
                                                     </div>
                                                 </div>

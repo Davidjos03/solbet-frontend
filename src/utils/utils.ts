@@ -9,6 +9,20 @@ export const initialArray: IPlayer[] = Array.from({ length: 15 }, () => ({
     price: 0.00000,
 }));
 
+export const waiting: IWaiting = {
+    _id: "",
+    round: 0,
+    won: 0,
+    chance: 0,
+    user_id: {
+        _id: "",
+        username: "Waiting...",
+        avatar: "avatar.svg",
+        created_at: new Date(),
+    },
+    create_at: new Date(),
+}
+
 
 // Format seconds into MM:SS
 export const formatTime = (seconds: number): string => {

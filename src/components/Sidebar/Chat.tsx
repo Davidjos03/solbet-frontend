@@ -1,13 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ChatItem from "./ChatItem"
 import { useUserProvider } from "@/contexts/UserContext";
 import { useChatSocket } from "@/hooks/useChatSocket";
 import { EChatEvent } from "@/types/socket";
 
 const Chat = () => {
-    const [messages, setMessages] = useState<IChatItem[]>([]);
-
-    const { userInfo } = useUserProvider();
+    const { userInfo, messages, setMessages } = useUserProvider();
     const { chatSocket } = useChatSocket();
 
     // Socket event handlers

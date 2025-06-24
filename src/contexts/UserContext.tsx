@@ -1,5 +1,5 @@
 import { getSolPrice } from "@/utils/common";
-import { initialArray } from "@/utils/utils";
+import { initialArray, waiting } from "@/utils/utils";
 import React, { ReactNode, createContext, useContext, useEffect, useState } from "react";
 
 // Define the shape of the context
@@ -16,6 +16,8 @@ interface UserContextProps {
   setState: React.Dispatch<React.SetStateAction<boolean>>;
   solBalance: number;
   setSolBalance: React.Dispatch<React.SetStateAction<number>>;
+  messages: IChatItem[];
+  setMessages: React.Dispatch<React.SetStateAction<IChatItem[]>>;
   round: number;
   setRound: React.Dispatch<React.SetStateAction<number>>;
   userInfo: IUser | undefined;
@@ -24,6 +26,10 @@ interface UserContextProps {
   setIsDuration: React.Dispatch<React.SetStateAction<boolean>>;
   winner: IPlayer | null;
   setWinner: React.Dispatch<React.SetStateAction<IPlayer | null>>;
+  latestWinner: IWaiting;
+  setLatestWinner: React.Dispatch<React.SetStateAction<IWaiting>>;
+  luckyUser: IWaiting;
+  setLuckyUser: React.Dispatch<React.SetStateAction<IWaiting>>;
   selectedUser: IPlayer | null;
   setSelectedUser: React.Dispatch<React.SetStateAction<IPlayer | null>>;
   totalAmount: number;
@@ -48,9 +54,12 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [state, setState] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<IUser | undefined>();
   const [solBalance, setSolBalance] = useState<number>(0);
+  const [messages, setMessages] = useState<IChatItem[]>([]);
   const [round, setRound] = useState<number>(0);
   const [isDuration, setIsDuration] = useState<boolean>(false);
   const [winner, setWinner] = useState<IPlayer | null>(null);
+  const [latestWinner, setLatestWinner] = useState<IWaiting>(waiting);
+  const [luckyUser, setLuckyUser] = useState<IWaiting>(waiting);
   const [totalAmount, setTotalAmount] = useState<number>(0);
   const [players, setPlayers] = useState<IPlayer[]>(initialArray)
   const [winnerIndex, setWinnerIndex] = useState<number | null>(null);
@@ -115,12 +124,18 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setUserInfo,
         solBalance,
         setSolBalance,
+        messages,
+        setMessages,
         round,
         setRound,
         isDuration,
         setIsDuration,
         winner,
         setWinner,
+        latestWinner,
+        setLatestWinner,
+        luckyUser,
+        setLuckyUser,
         totalAmount,
         setTotalAmount,
         players,
