@@ -18,6 +18,8 @@ const Jackpot = () => {
     const [remainingTime, setRemainingTime] = useState<number>(59);
     const [latestWinner, setLatestWinner] = useState<IPlayer>(initialArray[0]);
     const [betAmount, setBetAmount] = useState<number>(0);
+    const [wager, setWager] = useState<number>(0);
+    const [chance, setChance] = useState<number>(0);
     // const [luckyPlayer, setLuckyPlayer] = useState<IPlayer>(initialArray[0]);
 
     const { userInfo, round, isDuration, totalAmount, players, winner, winnerIndex, solPrice, setSolBalance, setWinnerIndex, setWinner, setPlayers, setTotalAmount, setIsDuration, setRound } = useUserProvider();
@@ -61,6 +63,7 @@ const Jackpot = () => {
 
                     gameSocket?.emit(EGameEvent.SAVE_HISTORY, historyData)
 
+                    setWager(Number(value));
                     setValue("");
                     const balance = await getBalance(publicKey);
                     setSolBalance(balance);
@@ -171,6 +174,10 @@ const Jackpot = () => {
         }
     }, [players, winnerIndex])
 
+    useEffect(() => {
+        setChance(wager / totalAmount * 100)
+    }, [wager, totalAmount])
+
     return (
         <div className="relative w-full min-h-[calc(100vh-110px)] h-full px-6 md:px-10 lg:px-16 py-12 mb-20 mt-12 md:mt-16 lg:mt-28">
             <div className="opacity-100 translate-y-2 animate-fade-y">
@@ -264,7 +271,7 @@ const Jackpot = () => {
                                         <div className="flex flex-col items-center justify-center w-full h-full bg-[#2c5fbf]/10 rounded-[7px] relative z-[3] overflow-hidden">
                                             <div className="flex items-center gap-1.5">
                                                 <img src="/images/solana.png" className="object-cover object-center w-6 h-6" alt=""></img>
-                                                <div className="my-0 font-bold text-xl text-white"><span>0.000</span></div>
+                                                <div className="my-0 font-bold text-xl text-white"><span>{wager.toFixed(3)}</span></div>
                                             </div>
                                             <p className="text-sm text-[#A2A2A2] font-medium">Your Wager</p>
                                         </div>
@@ -275,7 +282,7 @@ const Jackpot = () => {
                                     <div className="p-[1px] h-full rounded-lg relative overflow-hidden">
                                         <div className="flex flex-col items-center justify-center w-full h-full bg-[#2c5fbf]/10 rounded-[7px] relative z-[3] overflow-hidden">
                                             <div className="flex items-center gap-1.5">
-                                                <div className="my-0 font-bold text-xl text-white"><span>0.00</span>%</div>
+                                                <div className="my-0 font-bold text-xl text-white"><span>{chance.toFixed(2)}</span>%</div>
                                             </div>
                                             <p className="text-sm text-[#A2A2A2] font-medium">Your Chance</p>
                                         </div>

@@ -1,12 +1,17 @@
 import { useUserProvider } from "@/contexts/UserContext"
 
 const UserCard: React.FC<{ player: IPlayer }> = ({ player }) => {
-    const { totalAmount, setIsProfileModal } = useUserProvider()
+    const { totalAmount, setSelectedUser, setIsProfileModal } = useUserProvider()
+
+    const handleSetUser = () => {
+        setSelectedUser(player);
+        setIsProfileModal(true);
+    }
 
     return (
         <div
             className="group w-full bg-gradient-to-t from-[#2c303b] to-[#1c222c] rounded-[15px] p-[3px] cursor-pointer mb-4 pointer-events-none md:pointer-events-auto opacity-100 "
-            onClick={() => setIsProfileModal(true)}
+            onClick={handleSetUser}
         >
             <div
                 className="w-full h-[92px] shadow-bet rounded-[13px] bg-gradient-to-b from-[#30343d] to-[#202733] p-[3px] relative overflow-hidden"

@@ -1,17 +1,42 @@
+import { useEffect, useState } from "react";
 import ChartComponent from "@/components/charts/ohlc";
 import { DuringDropdown } from "@/components/Dropdown";
-import { Params, useTokenHistory } from "@/utils/utils";
+import { useUserProvider } from "@/contexts/UserContext";
+import { fetchWithAuth } from "@/utils/setAuthToken";
 import { Icon } from "@iconify-icon/react";
 
-const initialParams: Params = {
-    symbol: "Crypto.SOL/USD",
-    resolution: "1",
-    from: 1684137600,
-    to: 1684141200,
-};
+const duringList: string[] = [
+    "All Time",
+    "Last 7 Days",
+    "Last 30 Days",
+    "Last 90 Days",
+]
 
 const StatisticsPage = () => {
-    const { data: ohlc } = useTokenHistory(initialParams);
+    const [date, setDate] = useState<string>(duringList[1])
+    const [ohlc, setohlc] = useState([])
+
+    const { userInfo } = useUserProvider();
+
+    const getHistoryData = async (user: IUser) => {
+        const res = await fetchWithAuth(`/api/game/ohlc`, {
+            method: 'POST',
+            body: JSON.stringify({ id: user._id, date })
+        })
+        console.log("🚀 ~ getUser ~ res:", res)
+        if (res) {
+            setohlc(res);
+        }
+    }
+
+    useEffect(() => {
+        if (userInfo) {
+            const fetchData = async () => {
+                await getHistoryData(userInfo);
+            };
+            fetchData();
+        }
+    }, [])
 
     return (
         <div className="w-full sm:px-4 md:px-8 md:pt-14 opacity-100 translate-y-2 animate-fade-y">
@@ -32,7 +57,7 @@ const StatisticsPage = () => {
             </div>
             <div className="flex justify-between items-center my-6">
                 <p className="text-white font-semibold">Wager Stats</p>
-                <DuringDropdown />
+                <DuringDropdown duringList={duringList} duringTime={date} setDuringTime={() => setDate} />
             </div>
             <div className={`flex justify-between gap-2 w-full h-[315px] mb-4 border-b border-[#222222] relative`}>
                 <div className="flex w-full rounded-lg bg-[#272c33">

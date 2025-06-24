@@ -26,7 +26,7 @@ interface IChatItem {
     avatar: string;
   };
   content: string;
-  timestamp: string;
+  timestamp: Date;
 }
 
 interface IPlayer {
@@ -35,6 +35,7 @@ interface IPlayer {
     _id: string;
     username: string;
     avatar: string;
+    created_at: Date;
   };
   price: number;
 }

@@ -24,6 +24,8 @@ interface UserContextProps {
   setIsDuration: React.Dispatch<React.SetStateAction<boolean>>;
   winner: IPlayer | null;
   setWinner: React.Dispatch<React.SetStateAction<IPlayer | null>>;
+  selectedUser: IPlayer | null;
+  setSelectedUser: React.Dispatch<React.SetStateAction<IPlayer | null>>;
   totalAmount: number;
   setTotalAmount: React.Dispatch<React.SetStateAction<number>>;
   players: IPlayer[];
@@ -53,6 +55,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [players, setPlayers] = useState<IPlayer[]>(initialArray)
   const [winnerIndex, setWinnerIndex] = useState<number | null>(null);
   const [solPrice, setSolPrice] = useState<number>(0);
+  const [selectedUser, setSelectedUser] = useState<IPlayer | null>(null);
 
   useEffect(() => {
     const fetchPrice = async () => {
@@ -125,7 +128,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         winnerIndex,
         setWinnerIndex,
         solPrice,
-        setSolPrice
+        setSolPrice,
+        selectedUser,
+        setSelectedUser
       }}
     >
       {children}

@@ -1,16 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Icon } from "@iconify-icon/react";
 
-const duringList: string[] = [
-    "All Time",
-    "Last 7 Days",
-    "Last 30 Days",
-    "Last 90 Days",
-]
-
-const DuringDropdown = () => {
+const DuringDropdown: React.FC<{ duringList: string[]; duringTime: string; setDuringTime: (str: string) => void }> = ({ duringList, duringTime, setDuringTime }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const [duringTime, setDuringTime] = useState<string>(duringList[1]);
 
     const dropdownRef = useRef<HTMLDivElement>(null);
 

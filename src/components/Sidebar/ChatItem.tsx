@@ -16,7 +16,7 @@ const ChatItem: React.FC<IChatItem> = (data) => {
                     </div>
                 </div>
                 <div className="absolute top-0 right-0 px-1.5 py-0.5 bg-[#2a3c58] rounded-bl-md rounded-tr-lg">
-                    <p className="text-[11px] leading-[16px] text-[#cecece]">{data.timestamp}</p>
+                    <p className="text-[11px] leading-[16px] text-[#cecece]">{new Date(data.timestamp).toISOString().split('T')[0]}</p>
                 </div>
                 <div className="relative z-[3]">
                     <div className="flex items-center gap-1.5">
