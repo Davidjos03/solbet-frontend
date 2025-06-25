@@ -18,10 +18,14 @@ const ProfileModal = () => {
 
     const { isProfileModal, selectedUser, setIsProfileModal } = useUserProvider();
 
-    const getHistoryData = async (user: IPlayer) => {
+    const handleSetData = (data: string) => {
+        setDate(data);
+    }
+
+    const getHistoryData = async (user: IProfileModal, date: string) => {
         const res = await fetchWithAuth(`/api/game/ohlc`, {
             method: 'POST',
-            body: JSON.stringify({ id: user.user_id._id, date })
+            body: JSON.stringify({ id: user._id, date })
         })
         console.log("🚀 ~ getUser ~ res:", res)
         if (res) {
@@ -32,11 +36,11 @@ const ProfileModal = () => {
     useEffect(() => {
         if (selectedUser) {
             const fetchData = async () => {
-                await getHistoryData(selectedUser);
+                await getHistoryData(selectedUser, date);
             };
             fetchData();
         }
-    }, [selectedUser])
+    }, [date, selectedUser])
 
     return (
         <div id="global-modal" className={`${isProfileModal ? "block" : "hidden"}`}>
@@ -59,7 +63,7 @@ const ProfileModal = () => {
                                     </div>
                                     <div>
                                         <div className="flex items-center gap-2">
-                                            <h4 className="font-semibold text-xl text-white max-w-[200px] truncate">{selectedUser && selectedUser.user_id.username}</h4>
+                                            <h4 className="font-semibold text-xl text-white max-w-[200px] truncate">{selectedUser && selectedUser.username}</h4>
                                             <div className="p-[1px] rounded-md overflow-hidden bg-[#307293] text-[#75D1FF]">
                                                 <div className="flex items-center justify-center rounded-[5px] overflow-hidden bg-[#22222D]/80 font-semibold w-[28px] h-5 text-[11px]">11</div>
                                             </div>
@@ -69,7 +73,7 @@ const ProfileModal = () => {
                                 <div className="flex ml-auto mb-auto gap-2 w-full md:w-auto">
                                     <button className="group flex items-center justify-center relative min-w-10 overflow-hidden transition duration-300 px-4 w-full hover:bg-[#393939]/75 text-sm rounded-lg bg-[#222222] h-[36px] border-transparent text-[#A2A2A2] font-medium cursor-pointer">
                                         Joined
-                                        <span className="font-semibold text-[#C4C4C4] ml-1">{selectedUser && new Date(selectedUser.user_id.created_at).toISOString().split('T')[0]}</span>
+                                        <span className="font-semibold text-[#C4C4C4] ml-1">{selectedUser && new Date(selectedUser.created_at).toISOString().split('T')[0]}</span>
                                     </button>
                                 </div>
                             </div>
@@ -87,7 +91,7 @@ const ProfileModal = () => {
                                                 <h4 className="font-bold text-[24px] text-white">0.6913</h4>
                                             </div>
                                         </div>
-                                        <DuringDropdown duringList={duringList} duringTime={date} setDuringTime={() => setDate} />
+                                        <DuringDropdown duringList={duringList} duringTime={date} setDuringTime={handleSetData} />
                                     </div>
                                 </div>
                             </div>

@@ -32,7 +32,7 @@ const OptionsPage = () => {
                             <div className="flex items-center justify-center rounded-[5px] overflow-hidden bg-[#22222D]/80 font-semibold w-[28px] h-5 text-[11px]">1</div>
                         </div>
                     </div>
-                    <p className="text-[#A2A2A2] text-sm mt-1">{new Date(userInfo!.joinTime).toISOString().split('T')[0]}</p>
+                    <p className="text-[#A2A2A2] text-sm mt-1">{new Date(userInfo!.created_at).toISOString().split('T')[0]}</p>
                 </div>
             </div>
             <Input label="Enter name" edit={true} state={username} setState={setUsername} />

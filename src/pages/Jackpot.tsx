@@ -62,7 +62,7 @@ const Jackpot = () => {
 
                     gameSocket?.emit(EGameEvent.SAVE_HISTORY, historyData)
 
-                    setWager(Number(value));
+                    setWager((prev) => prev + Number(value));
                     setValue("");
                     const balance = await getBalance(publicKey);
                     setSolBalance(balance);
@@ -161,19 +161,18 @@ const Jackpot = () => {
     useEffect(() => {
         console.log('clear-------------')
         const fetchWinner = async () => {
-            if (winner) {
-                const winner = await fetchWithAuth(`/api/round/winner/${round - 1}`, {
-                    method: 'GET',
-                })
-                console.log("🚀 ~ getUser ~ winner:", winner)
-                setLatestWinner(winner);
+            console.log("🚀 ~ fetchWinner ~ round:", round)
+            const winner = await fetchWithAuth(`/api/round/winner/${round - 1}`, {
+                method: 'GET',
+            })
+            console.log("🚀 ~ getUser ~ winner:", winner)
+            setLatestWinner(winner);
 
-                const lucky = await fetchWithAuth(`/api/round/luck`, {
-                    method: 'GET',
-                })
-                console.log("🚀 ~ getUser ~ lucky:", lucky)
-                setLuckyUser(lucky);
-            }
+            const lucky = await fetchWithAuth(`/api/round/luck`, {
+                method: 'GET',
+            })
+            console.log("🚀 ~ getUser ~ lucky:", lucky)
+            setLuckyUser(lucky);
         };
         fetchWinner();
 
@@ -453,7 +452,7 @@ const Jackpot = () => {
                                                         <div className="rounded-[18px] overflow-hidden border-[1px] border-[#222222] aspect-square hover:brightness-125 transition-[filter] duration-300 cursor-pointer w-[72px] h-[72px] mx-auto bg-[#303045] p-[1px] border-none">
                                                             <div className="w-full h-full p-0.5 border-[1px] border-[#222222] rounded-[18px] bg-gradient-to-b from-[#8A8A8A] to-[#5A5A5A]">
                                                                 <div className="w-full h-full border-[1px] border-[#222222] rounded-[18px] overflow-hidden bg-black/75 shadow-avatar-emboss relative">
-                                                                    <img src={`/images/${luckyUser.user_id.avatar}`} className="object-cover object-center w-full h-full" alt=""></img>
+                                                                    <img src={`/images/avatars/${luckyUser.user_id.avatar}`} className="object-cover object-center w-full h-full" alt=""></img>
                                                                 </div>
                                                             </div>
                                                         </div>

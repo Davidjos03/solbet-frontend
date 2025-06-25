@@ -18,7 +18,11 @@ const StatisticsPage = () => {
 
     const { userInfo } = useUserProvider();
 
-    const getHistoryData = async (user: IUser) => {
+    const handleSetData = (data: string) => {
+        setDate(data);
+    }
+
+    const getHistoryData = async (user: IProfileModal, date: string) => {
         const res = await fetchWithAuth(`/api/game/ohlc`, {
             method: 'POST',
             body: JSON.stringify({ id: user._id, date })
@@ -32,11 +36,11 @@ const StatisticsPage = () => {
     useEffect(() => {
         if (userInfo) {
             const fetchData = async () => {
-                await getHistoryData(userInfo);
+                await getHistoryData(userInfo, date);
             };
             fetchData();
         }
-    }, [])
+    }, [date])
 
     return (
         <div className="w-full sm:px-4 md:px-8 md:pt-14 opacity-100 translate-y-2 animate-fade-y">
@@ -57,7 +61,7 @@ const StatisticsPage = () => {
             </div>
             <div className="flex justify-between items-center my-6">
                 <p className="text-white font-semibold">Wager Stats</p>
-                <DuringDropdown duringList={duringList} duringTime={date} setDuringTime={() => setDate} />
+                <DuringDropdown duringList={duringList} duringTime={date} setDuringTime={handleSetData} />
             </div>
             <div className={`flex justify-between gap-2 w-full h-[315px] mb-4 border-b border-[#222222] relative`}>
                 <div className="flex w-full rounded-lg bg-[#272c33">

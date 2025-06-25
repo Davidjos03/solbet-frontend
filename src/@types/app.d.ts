@@ -24,6 +24,7 @@ interface IChatItem {
     _id: string;
     username: string;
     avatar: string;
+    created_at: Date;
   };
   content: string;
   timestamp: Date;
@@ -38,6 +39,13 @@ interface IPlayer {
     created_at: Date;
   };
   price: number;
+}
+
+interface IProfileModal {
+  _id: string;
+  username: string;
+  avatar: string;
+  created_at: Date;
 }
 
 interface IWaiting {
@@ -55,6 +63,7 @@ interface IWaiting {
 }
 
 interface IHistory {
+  _id?: string;
   sig: string;
   price: number;
   type: string;
@@ -72,7 +81,8 @@ interface IUser {
   email: string;
   refferal: string;
   inviteLink: string;
-  joinTime: string;
+  created_at: Date;
+  updated_at: Date;
 }
 
 interface IWalletItem {

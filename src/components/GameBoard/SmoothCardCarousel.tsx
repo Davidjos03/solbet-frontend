@@ -160,12 +160,12 @@ const SmoothCardCarousel: React.FC<{
         </div>
 
         {/* Controls and Status */}
-        <div className="flex flex-col items-center mt-6 gap-4">
+        {/* <div className="flex flex-col items-center mt-6 gap-4">
           <div className="text-center py-2">
             {currentIndex + 1} / {cards.length} •
             Time: {remainingTime > 0 ? `${remainingTime}s` : 'Selection made'}
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -21,7 +21,7 @@ const DuringDropdown: React.FC<{ duringList: string[]; duringTime: string; setDu
     }, []);
 
     return (
-        <div className="w-full md:w-auto relative inline-block text-left" ref={dropdownRef}>
+        <div className="w-full md:w-auto relative inline-block text-left cursor-pointer z-[4000]" ref={dropdownRef}>
             <button className="group justify-center relative h-10 min-w-10 overflow-hidden transition duration-300 px-4 w-full bg-[#303030] hover:bg-[#393939]/75 text-sm font-medium text-white rounded-lg flex items-center border-[#3B3B3B] cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
                 <p className="text-white font-istok">{duringTime}</p>
                 <Icon icon="ic:baseline-keyboard-arrow-down" width="24" height="24" style={{ color: "#fff" }} />
