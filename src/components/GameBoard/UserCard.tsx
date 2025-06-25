@@ -4,7 +4,7 @@ const UserCard: React.FC<{ player: IPlayer }> = ({ player }) => {
     const { totalAmount, setSelectedUser, setIsProfileModal } = useUserProvider()
 
     const handleSetUser = () => {
-        setSelectedUser(player);
+        setSelectedUser(player.user_id);
         setIsProfileModal(true);
     }
 

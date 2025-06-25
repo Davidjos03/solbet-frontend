@@ -11,7 +11,6 @@ const TransactionsPage = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [totalCnt, setTotalCnt] = useState<number>(0);
     const [totalPage, setTotalPage] = useState<number>(0);
-    const [open, setOpen] = useState<boolean>(false);
 
     const { userInfo } = useUserProvider();
 
@@ -25,10 +24,6 @@ const TransactionsPage = () => {
         if (totalPage != currentPage) {
             setCurrentPage(currentPage + 1);
         }
-    }
-
-    const handleOpen = (data: boolean) => {
-        setOpen(data);
     }
 
     const getTransactions = async (user: IUser, page: number) => {
@@ -66,7 +61,7 @@ const TransactionsPage = () => {
                 </div>
                 <div className="w-full max-h-[550px] px-3 bg-[#22222250] border border-[#9999997a] rounded-xl">
                     {transactions && transactions.map((transaction, index) => (
-                        <Transactions key={index} transaction={transaction} open={open} setOpen={handleOpen} />
+                        <Transactions key={index} transaction={transaction} />
                     ))}
                 </div>
                 <div className="flex justify-between items-center w-full mt-4">

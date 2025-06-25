@@ -228,7 +228,7 @@ const Jackpot = () => {
                                             <div className="relative w-max block">
                                                 <div className="w-full relative">
                                                     <p className="w-full mb-2 text-[#A2A2A2] text-xs font-book absolute -top-[24px] gap-1 flex">Bet Amount
-                                                        <span className="text-white">~${formatCompactNumber(betAmount)} = {Number(value).toFixed(3)}SOL</span>
+                                                        <span className="text-white">~${formatCompactNumber(betAmount)}{value && ` = ${Number(value).toFixed(3)}SOL`}</span>
                                                     </p>
                                                     <div className="relative w-full">
                                                         <div className="absolute inset-y-0 my-auto left-2.5 h-max w-max">

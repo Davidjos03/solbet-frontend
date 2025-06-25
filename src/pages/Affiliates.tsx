@@ -1,7 +1,21 @@
+import { useState } from "react";
 import DuringDropdown from "@/components/Dropdown/DuringDropdown";
 import { Icon } from "@iconify-icon/react";
 
+const duringList: string[] = [
+    "All Time",
+    "Last 7 Days",
+    "Last 30 Days",
+    "Last 90 Days",
+]
+
 const Affiliates = () => {
+    const [date, setDate] = useState<string>(duringList[1])
+
+    const handleSetData = (data: string) => {
+        setDate(data);
+    }
+
     return (
         <div className="relative w-full min-h-[calc(100vh-110px)] h-full px-6 md:px-10 lg:px-16 py-12 mb-20 mt-12 md:mt-16 lg:mt-28">
             <div className="opacity-100 translate-y-2 animate-fade-y">
@@ -152,7 +166,7 @@ const Affiliates = () => {
                                 <div className="mb-4">
                                     <div className="flex justify-between items-center">
                                         <p className="text-white font-semibold">Wager Stats</p>
-                                        <DuringDropdown />
+                                        <DuringDropdown duringList={duringList} duringTime={date} setDuringTime={handleSetData} />
                                     </div>
                                 </div>
                                 <div className="w-full h-[1px] bg-[#222222] mt-6 mb-0"></div>
