@@ -2,13 +2,31 @@ import { useUserProvider } from "@/contexts/UserContext";
 import { useChatSocket } from "@/hooks/useChatSocket";
 import { EChatEvent } from "@/types/socket";
 import { Icon } from "@iconify-icon/react";
+import Picker from 'emoji-picker-react';
 import { useState } from "react";
 
 const SendChat = () => {
     const [input, setInput] = useState<string>("");
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
     const { userInfo, messages } = useUserProvider()
     const { chatSocket } = useChatSocket();
+
+    const handleEmojiPickerhideShow = () => {
+        setShowEmojiPicker(!showEmojiPicker);
+        const fuc = () => {
+            setShowEmojiPicker(false);
+            document.getElementsByClassName('chat-messages')[0].removeEventListener('click', fuc)
+        }
+        document.getElementsByClassName('chat-messages')[0].addEventListener('click', fuc)
+    };
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const handleEmojiClick = (event: any, emojiObject: any) => {
+        let message = input;
+        message += emojiObject.emoji;
+        setInput(message);
+    };
 
     const sendMessage = () => {
         if (input.trim() && chatSocket && userInfo) {
@@ -43,10 +61,17 @@ const SendChat = () => {
                             height: "42px"
                         }}
                         onChange={(e) => setInput(e.target.value)}
+                        onKeyDownCapture={(e) => {
+                            if (e.key === 'Enter' && !e.shiftKey) {
+                                e.preventDefault(); // Prevent new line
+                                // Call your send message function here
+                                sendMessage();
+                            }
+                        }}
                     ></textarea>
                     <div
                         className="absolute inset-y-0 my-auto right-1.5 h-max w-max mt-1.5"
-                        onClick={sendMessage}
+                        onClick={handleEmojiPickerhideShow}
                     >
                         <div className="flex items-center gap-1.5 cursor-pointer text-[#A2A2A2] transition-colors">
                             <button
@@ -57,6 +82,7 @@ const SendChat = () => {
                             >
                                 <Icon icon="mdi:emoji" width="24" height="24" style={{ color: "#446ab1" }} />
                             </button>
+                            {showEmojiPicker && <Picker onEmojiClick={handleEmojiClick} />}
                         </div>
                     </div>
                 </div>

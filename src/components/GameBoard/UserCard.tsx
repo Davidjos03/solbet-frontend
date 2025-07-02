@@ -1,7 +1,7 @@
 import { useUserProvider } from "@/contexts/UserContext"
 
 const UserCard: React.FC<{ player: IPlayer }> = ({ player }) => {
-    const { totalAmount, setSelectedUser, setIsProfileModal } = useUserProvider()
+    const { totalAmount, solPrice, setSelectedUser, setIsProfileModal } = useUserProvider()
 
     const handleSetUser = () => {
         setSelectedUser(player.user_id);
@@ -74,7 +74,7 @@ const UserCard: React.FC<{ player: IPlayer }> = ({ player }) => {
                         </div>
                         <div className="min-w-[80px] relative -left-1.5 sm:left-0">
                             <p className="text-xl text-white font-extrabold leading-7">{player.price.toFixed(4)}</p>
-                            <p className="text-sm font-medium font-book text-[#C4C4C4]">~$0.15</p>
+                            <p className="text-sm font-medium font-book text-[#C4C4C4]">~${(player.price * solPrice).toFixed(4)}</p>
                         </div>
                     </div>
                     <div className="text-right">

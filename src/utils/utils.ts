@@ -1,4 +1,4 @@
-export const initialArray: IPlayer[] = Array.from({ length: 15 }, () => ({
+export const initialArray: IPlayer[] = Array.from({ length: 30 }, () => ({
     _id: "",
     user_id: {
         _id: "",
@@ -6,7 +6,7 @@ export const initialArray: IPlayer[] = Array.from({ length: 15 }, () => ({
         avatar: "avatar.svg",
         created_at: new Date(),
     },
-    price: 0.00000,
+    price: 0.0000,
 }));
 
 export const waiting: IWaiting = {

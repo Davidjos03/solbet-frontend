@@ -48,6 +48,7 @@ const PreHeader = () => {
     }, [isHidden, lastScrollY]);
 
     useEffect(() => {
+        console.log("🚀 ~ useEffect ~ connected:", wallet.connected)
         if (wallet.connected && !wallet.connecting) {
             const getUser = async () => {
                 const address = wallet.publicKey?.toBase58();
@@ -65,9 +66,7 @@ const PreHeader = () => {
                     setIsSign(true);
                 }
             }
-            if (!userInfo) {
-                getUser();
-            }
+            getUser();
         } else {
             setUserInfo(undefined)
         }
@@ -101,7 +100,7 @@ const PreHeader = () => {
                         </div>
                     </div>
                     <p className="text-sm text-[#BFBFCD] font-semibold ml-auto md:mr-3.5">
-                        <span className="mr-1 text-[#E3E3E3] font-bold">4911521</span>Total Bets
+                        <span className="mr-1 text-[#E3E3E3] font-bold">0</span>Total Bets
                     </p>
                 </div>
 
@@ -118,7 +117,7 @@ const PreHeader = () => {
                         </a>
                     </div>
                     <div className="flex justify-end items-center gap-1.5 sm:gap-3 w-full md:w-auto h-full ml-auto md:m-0">
-                        <button className="flex flex-col justify-center items-center w-[40px] text-base gap-0.5 transition-colors duration-300 text-[#6741FF] mx-2 relative h-full">
+                        <button className="hidden xs:flex justify-center items-center w-[40px] text-base gap-0.5 transition-colors duration-300 text-[#6741FF] mx-2 relative h-full">
                             <Icon icon="uiw:setting" width="28" height="28" style={{ color: "#2c5fbf" }} />
                         </button>
                         <div className="flex w-[72] items-center drop-shadow-icon gap-2 px-2">

@@ -1,4 +1,4 @@
-// import CardCarousel3D from "@/components/GameBoard/CardCarousel3D";
+import CardCarousel3D from "@/components/GameBoard/CardCarousel3D";
 import SmoothCardCarousel from "@/components/GameBoard/SmoothCardCarousel";
 import UserCard from "@/components/GameBoard/UserCard";
 import { connection } from "@/constants/envConstants";
@@ -16,21 +16,20 @@ import { useEffect, useState } from "react";
 
 const Jackpot = () => {
     const [value, setValue] = useState<string>("");
-    const [remainingTime, setRemainingTime] = useState<number>(59);
+    const [remainingTime, setRemainingTime] = useState<number>(0);
     const [betAmount, setBetAmount] = useState<number>(0);
     const [wager, setWager] = useState<number>(0);
     const [chance, setChance] = useState<number>(0);
+    const [isNewRound, setIsNewRound] = useState<boolean>(false);
 
-    const { userInfo, round, isDuration, totalAmount, players, winner, latestWinner, luckyUser, winnerIndex, solPrice, setSolBalance, setWinnerIndex, setWinner, setLatestWinner, setLuckyUser, setPlayers, setTotalAmount, setIsDuration, setRound } = useUserProvider();
+    const { userInfo, round, totalAmount, players, winner, latestWinner, luckyUser, winnerIndex, solPrice, setSolBalance, setWinnerIndex, setWinner, setLatestWinner, setLuckyUser, setPlayers, setTotalAmount, setRound } = useUserProvider();
     const { publicKey, sendTransaction } = useWallet();
     const { gameSocket } = useGameSocket();
 
     const handleDeposit = async () => {
-        console.log("🚀 ~ handleDeposit ~ round:", round)
         try {
             if (publicKey && value != "") {
                 const depositIx = await joinGame(publicKey, round, Number(value))
-                console.log("🚀 ~ handleDeposit ~ depositIx:", depositIx)
 
                 if (depositIx) {
                     const transaction = new Transaction().add(
@@ -53,7 +52,7 @@ const Jackpot = () => {
                     const historyData: IHistory = {
                         sig: signature,
                         price: Number(value),
-                        type: "deposite",
+                        type: "deposit",
                         status: "success",
                         create_at: new Date(),
                         round: round,
@@ -92,40 +91,38 @@ const Jackpot = () => {
     };
 
     useEffect(() => {
+        if (remainingTime === 58) {
+            setIsNewRound(true);
+        }
+    }, [remainingTime])
+
+    useEffect(() => {
         setBetAmount(Number(value) * solPrice);
     }, [value, solPrice])
 
     useEffect(() => {
-        if (!gameSocket) return
+        if (!gameSocket) return;
 
         gameSocket.on(EGameEvent.UPDATE_ROUND, (data: number) => {
             setRound(data);
         })
 
-        gameSocket.on(EGameEvent.DURATION_STATE, (durationState: boolean) => {
-            console.log("🚀 ~ gameSocket.on ~ durationState:", durationState);
-            setIsDuration(durationState);
-        })
-
         gameSocket.on(EGameEvent.WINNER, (winIndex: number) => {
-            console.log("🚀 ~ gameSocket.on ~ winIndex:", winIndex);
             setWinnerIndex(winIndex);
             // setWinner(players[winIndex]);
         })
 
 
         gameSocket.on(EGameEvent.UPDATE_REMAIN_TIME, (time: number) => {
-            console.log("🚀 ~ gameSocket.on ~ time:", time);
             setRemainingTime(time);
         })
 
         gameSocket.on(EGameEvent.WAGER, (wager: number) => {
-            console.log("🚀 ~ gameSocket.on ~ wager:", wager);
+            console.log("🚀 ~ gameSocket.on ~ wager:", wager)
             setWager(wager)
         })
 
         gameSocket.on(EGameEvent.UPDATE_TOTAL_AMOUNT, (data: { players: IPlayer[]; totalAmount: number }) => {
-            console.log("🚀 ~ gameSocket.on ~ data:", data);
             setTotalAmount(data.totalAmount);
             setPlayers(prev => {
                 // Create a new array that:
@@ -140,54 +137,36 @@ const Jackpot = () => {
     }, [gameSocket])
 
     useEffect(() => {
-        let intervalId: NodeJS.Timeout;
-        if (isDuration && remainingTime > 0) {
-            intervalId = setInterval(() => {
-                setRemainingTime(prevTime => {
-                    if (prevTime <= 1) {
-                        setIsDuration(false); // Set isDuration to false when time reaches 0
-                        return 0;
-                    }
-                    return prevTime - 1;
-                });
-            }, 1000);
-        }
-
-        return () => {
-            if (intervalId) clearInterval(intervalId);
-        };
-    }, [isDuration, remainingTime]);
-
-    useEffect(() => {
         console.log('clear-------------')
         const fetchWinner = async () => {
-            console.log("🚀 ~ fetchWinner ~ round:", round)
-            const winner = await fetchWithAuth(`/api/round/winner/${round - 1}`, {
-                method: 'GET',
-            })
-            console.log("🚀 ~ getUser ~ winner:", winner)
-            setLatestWinner(winner);
+            if (round > 1 && publicKey) {
+                // console.log("🚀 ~ fetchWinner ~ round:", round)
+                const winner = await fetchWithAuth(`/api/round/winner/${round - 1}`, {
+                    method: 'GET',
+                })
+                // console.log("🚀 ~ getUser ~ winner:", winner)
+                setLatestWinner(winner);
 
-            const lucky = await fetchWithAuth(`/api/round/luck`, {
-                method: 'GET',
-            })
-            console.log("🚀 ~ getUser ~ lucky:", lucky)
-            setLuckyUser(lucky);
+                const lucky = await fetchWithAuth(`/api/round/luck`, {
+                    method: 'GET',
+                })
+                // console.log("🚀 ~ getUser ~ lucky:", lucky)
+                setLuckyUser(lucky);
+                const balance = await getBalance(publicKey);
+                setSolBalance(balance);
+            }
         };
         fetchWinner();
 
         setWinner(null);
         setWinnerIndex(null);
-        setIsDuration(false);
         setRemainingTime(59);
         setPlayers(initialArray);
         setTotalAmount(0);
     }, [round])
 
     useEffect(() => {
-        console.log("🚀 ~ Jackpot ~ players:", players, '\n', winnerIndex)
         if (winnerIndex != null) {
-            console.log("🚀 ~ useEffect ~ players[winnerIndex]:", players[winnerIndex])
             setWinner(players[winnerIndex])
         }
     }, [players, winnerIndex])
@@ -196,8 +175,6 @@ const Jackpot = () => {
         if (gameSocket && userInfo) {
             gameSocket.emit(EGameEvent.GET_WAGER, userInfo._id)
         }
-        console.log("🚀 ~ Jackpot ~ totalAmount:", totalAmount)
-        console.log("🚀 ~ Jackpot ~ wager:", wager)
         if (totalAmount) {
             setChance(wager / totalAmount * 100)
         } else {
@@ -343,7 +320,12 @@ const Jackpot = () => {
                                 remainingTime={remainingTime}
                                 selectCard={winner}
                             />
-                            {/* <CardCarousel3D /> */}
+                            <CardCarousel3D
+                                cards={players}
+                                remainingTime={remainingTime}
+                                selectCard={winner}
+                                isNewRound={isNewRound}
+                            />
                             {/* <Bonus /> */}
                             <div className="w-full min-h-[600px] border-t border-[#22222D]/50">
                                 <div className="flex md:hidden justify-center mt-4 items-center gap-1.5 pl-2 pr-3 py-2 rounded-lg bg-[#0f2030]/40">

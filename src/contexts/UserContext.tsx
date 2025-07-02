@@ -1,4 +1,4 @@
-import { getSolPrice } from "@/utils/common";
+// import { getSolPrice } from "@/utils/common";
 import { initialArray, waiting } from "@/utils/utils";
 import React, { ReactNode, createContext, useContext, useEffect, useState } from "react";
 
@@ -22,8 +22,6 @@ interface UserContextProps {
   setRound: React.Dispatch<React.SetStateAction<number>>;
   userInfo: IUser | undefined;
   setUserInfo: React.Dispatch<React.SetStateAction<IUser | undefined>>;
-  isDuration: boolean;
-  setIsDuration: React.Dispatch<React.SetStateAction<boolean>>;
   winner: IPlayer | null;
   setWinner: React.Dispatch<React.SetStateAction<IPlayer | null>>;
   latestWinner: IWaiting;
@@ -56,7 +54,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [solBalance, setSolBalance] = useState<number>(0);
   const [messages, setMessages] = useState<IChatItem[]>([]);
   const [round, setRound] = useState<number>(0);
-  const [isDuration, setIsDuration] = useState<boolean>(false);
   const [winner, setWinner] = useState<IPlayer | null>(null);
   const [latestWinner, setLatestWinner] = useState<IWaiting>(waiting);
   const [luckyUser, setLuckyUser] = useState<IWaiting>(waiting);
@@ -65,28 +62,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [winnerIndex, setWinnerIndex] = useState<number | null>(null);
   const [solPrice, setSolPrice] = useState<number>(0);
   const [selectedUser, setSelectedUser] = useState<IProfileModal | null>(null);
-
-  useEffect(() => {
-    const fetchPrice = async () => {
-      try {
-        const price = await getSolPrice();
-        if (price) setSolPrice(price);
-      } catch (error) {
-        console.error("Error fetching SOL price:", error);
-      }
-    };
-
-    // Fetch immediately on mount
-    fetchPrice();
-
-    // Then set up interval for every 3 seconds
-    const intervalId = setInterval(fetchPrice, 3000);
-
-    // Clean up interval on unmount
-    return () => {
-      if (intervalId) clearInterval(intervalId);
-    };
-  }, []);
 
   useEffect(() => {
     // Function to check and update `isToggle` based on window width
@@ -128,8 +103,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setMessages,
         round,
         setRound,
-        isDuration,
-        setIsDuration,
         winner,
         setWinner,
         latestWinner,
