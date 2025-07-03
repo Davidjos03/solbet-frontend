@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from "react";
+import TriangleButton from "./TriangleButton";
 
-const cardWidth = 170;
-const cardHeight = 210;
+const cardWidth = 160;
+const cardHeight = 190;
 const autoRotate = true;
 const rotateSpeed = 60;
 
@@ -31,6 +32,7 @@ const CardCarousel3D: React.FC<CardCarousel3DProps> = ({
   const rotationRef = useRef(0); // angle in degrees
   const rotatingTimeout = useRef<NodeJS.Timeout | null>(null);
 
+
   // State for rotation and radius
   const radius = useRef(1000);
 
@@ -52,7 +54,7 @@ const CardCarousel3D: React.FC<CardCarousel3DProps> = ({
     cardContainer.style.animation = "none";
 
     // Apply manual transform
-    cardContainer.style.transform = `rotateX(30deg) rotateY(${targetAngle}deg)`;
+    cardContainer.style.transform = `rotateX(0deg) rotateY(${targetAngle}deg)`;
 
     // Optionally clear previous timeout
     if (rotatingTimeout.current) clearTimeout(rotatingTimeout.current);
@@ -83,7 +85,7 @@ const CardCarousel3D: React.FC<CardCarousel3DProps> = ({
   useEffect(() => {
     const cardContainer = cardContainerRef.current;
     if (!cardContainer) return;
-    if (autoRotate && remainingTime > 0 && !isNewRound && !selectCard) {
+    if (autoRotate && remainingTime < 60 && remainingTime > 0 && isNewRound && !selectCard) {
       const animation = rotateSpeed > 0 ? "spin" : "spinRevert";
       cardContainer.style.animation = `${animation} ${Math.abs(rotateSpeed)}s infinite linear`;
       cardContainer.style.animationPlayState = "running";
@@ -99,61 +101,71 @@ const CardCarousel3D: React.FC<CardCarousel3DProps> = ({
   }, [remainingTime, isNewRound]);
 
   return (
-    <div
-      className="relative flex items-center justify-center h-full w-full py-8 border border-[#22222D]/50 rounded-[12px] overflow-hidden"
-      style={{ perspective: "9000px", transformStyle: "preserve-3d" }}
-    >
+    <div className="relative flex items-center justify-center w-full h-full">
+      <div className="absolute -top-2 flex items-center justify-center z-[100]">
+        <TriangleButton />
+      </div>
       <div
-        ref={cardContainerRef}
-        className="relative gap-4"
-        style={{
-          transformStyle: "preserve-3d",
-          transform: "rotateX(30deg)",
-        }}
+        className="relative flex items-center justify-center h-full w-full py-12 border border-[#555555] rounded-[12px] overflow-hidden"
+        style={{ perspective: "9000px", transformStyle: "preserve-3d" }}
       >
-        {cards.map((card, i) => (
-          <div
-            key={i}
-            className="carousel-card absolute left-0 top-0 w-full h-full flex flex-col justify-center aspect-[1/1.15] bg-gradient-to-b from-[#FFFFFF]/15 to-[#2A2E37]/20 rounded-[12px] p-[2px]"
-          >
-            <div className={`${card._id.length ? "bg-[#16253a]" : "bg-[#141414]"} w-full h-full absolute top-0 left-0 z-[3] rounded-[12px] flex flex-col justify-center`}>
-              <div className="rounded-[18px] overflow-hidden border-[1px] border-[#222222] aspect-square hover:brightness-125 transition-[filter] duration-300 cursor-pointer w-[72px] h-[72px] mx-auto bg-[#303045] p-[1px] border-none">
-                <div className="w-full h-full p-0.5 border-[1px] border-[#222222] rounded-[18px] bg-gradient-to-b from-[#8A8A8A] to-[#5A5A5A]">
-                  <div className="w-full h-full border-[1px] border-[#222222] rounded-[18px] overflow-hidden bg-black/75 shadow-avatar-emboss relative">
-                    <img
-                      src={`/images/avatars/${card.user_id.avatar}`}
-                      className={`object-cover ${card._id.length ? "opacity-100" : "opacity-30"} object-center w-full h-full`}
-                      alt=""
-                    />
+        <div
+          ref={cardContainerRef}
+          className="relative gap-4"
+          style={{
+            transformStyle: "preserve-3d",
+            transform: "rotateX(30deg)",
+          }}
+        >
+          {cards.map((card, i) => {
+            const isSelected = selectCard && selectCard._id === card._id;
+
+            return (
+              <div
+                key={i}
+                className={`carousel-card absolute left-0 top-0 w-full h-full flex flex-col justify-center aspect-[1/1.15] bg-gradient-to-b from-[#FFFFFF]/15 to-[#2A2E37]/20 rounded-[12px] p-[2px] ${isSelected ? "ring-[2px] ring-red-500 shadow-lg scale-110" : ""
+                  }`}
+              >
+                <div className={`${card._id.length ? "bg-[#16253a]" : "bg-[#141414]"} w-full h-full absolute top-0 left-0 z-[3] rounded-[12px] flex flex-col justify-center`}>
+                  <div className="rounded-[18px] overflow-hidden aspect-square hover:brightness-125 transition-[filter] duration-300 cursor-pointer w-[72px] h-[72px] mx-auto bg-[#303045] p-[1px] border-none">
+                    <div className="w-full h-full p-0.5 border-[1px] border-[#222222] rounded-[18px] bg-gradient-to-b from-[#8A8A8A] to-[#5A5A5A]">
+                      <div className="w-full h-full border-[1px] border-[#222222] rounded-[18px] overflow-hidden bg-black/75 shadow-avatar-emboss relative">
+                        <img
+                          src={`/images/avatars/${card.user_id.avatar}`}
+                          className={`object-cover ${card._id.length ? "opacity-100" : "opacity-30"} object-center w-full h-full`}
+                          alt=""
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1 mt-3 mx-auto w-max">
+                    <p className={`text-sm font-semibold max-w-[75px] truncate ${card._id.length ? "text-white" : "text-[#cacaca]"}`}>
+                      {card.user_id.username}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-1 mt-3 mx-auto w-max">
+                    <img src="/images/solana.png" className="object-cover object-center w-6 h-6" alt="" />
+                    <p className={`text-sm font-semibold max-w-[75px] truncate ${card._id.length ? "text-white" : "text-[#cacaca]"}`}>
+                      {card.price.toFixed(4)}
+                    </p>
                   </div>
                 </div>
               </div>
-              <div className="flex items-center gap-1 mt-3 mx-auto w-max">
-                <p className={`text-sm font-semibold max-w-[75px] truncate ${card._id.length ? "text-white" : "text-[#cacaca]"}`}>
-                  {card.user_id.username}
-                </p>
-              </div>
-              <div className="flex items-center gap-1 mt-3 mx-auto w-max">
-                <img src="/images/solana.png" className="object-cover object-center w-6 h-6" alt="" />
-                <p className={`text-sm font-semibold max-w-[75px] truncate ${card._id.length ? "text-white" : "text-[#cacaca]"}`}>
-                  {card.price.toFixed(4)}
-                </p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-      {/* Add keyframes for spin and spinRevert */}
-      <style>{`
+            );
+          })}
+        </div>
+        {/* Add keyframes for spin and spinRevert */}
+        <style>{`
         @keyframes spin {
           from { transform: rotateY(0deg); }
           to { transform: rotateY(360deg); }
-        }
-        @keyframes spinRevert {
-          from { transform: rotateY(360deg); }
-          to { transform: rotateY(0deg); }
-        }
-      `}</style>
+          }
+          @keyframes spinRevert {
+            from { transform: rotateY(360deg); }
+            to { transform: rotateY(0deg); }
+            }
+            `}</style>
+      </div>
     </div>
   );
 };

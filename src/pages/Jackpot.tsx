@@ -22,13 +22,13 @@ const Jackpot = () => {
     const [chance, setChance] = useState<number>(0);
     const [isNewRound, setIsNewRound] = useState<boolean>(false);
 
-    const { userInfo, round, totalAmount, players, winner, latestWinner, luckyUser, winnerIndex, solPrice, setSolBalance, setWinnerIndex, setWinner, setLatestWinner, setLuckyUser, setPlayers, setTotalAmount, setRound } = useUserProvider();
+    const { userInfo, round, totalBetAmount, players, winner, latestWinner, luckyUser, winnerIndex, solPrice, setSolPrice, setSolBalance, setWinnerIndex, setWinner, setLatestWinner, setLuckyUser, setPlayers, setTotalAmount, setTotalBetAmount, setRound } = useUserProvider();
     const { publicKey, sendTransaction } = useWallet();
     const { gameSocket } = useGameSocket();
 
     const handleDeposit = async () => {
         try {
-            if (publicKey && value != "") {
+            if (publicKey && value != "" && remainingTime !== 0) {
                 const depositIx = await joinGame(publicKey, round, Number(value))
 
                 if (depositIx) {
@@ -91,7 +91,7 @@ const Jackpot = () => {
     };
 
     useEffect(() => {
-        if (remainingTime === 58) {
+        if (remainingTime < 59) {
             setIsNewRound(true);
         }
     }, [remainingTime])
@@ -104,6 +104,7 @@ const Jackpot = () => {
         if (!gameSocket) return;
 
         gameSocket.on(EGameEvent.UPDATE_ROUND, (data: number) => {
+            console.log("🚀 ~ gameSocket.on ~ data:", data)
             setRound(data);
         })
 
@@ -111,7 +112,6 @@ const Jackpot = () => {
             setWinnerIndex(winIndex);
             // setWinner(players[winIndex]);
         })
-
 
         gameSocket.on(EGameEvent.UPDATE_REMAIN_TIME, (time: number) => {
             setRemainingTime(time);
@@ -122,8 +122,13 @@ const Jackpot = () => {
             setWager(wager)
         })
 
-        gameSocket.on(EGameEvent.UPDATE_TOTAL_AMOUNT, (data: { players: IPlayer[]; totalAmount: number }) => {
+        gameSocket.on(EGameEvent.SOL_PRICE, (solvalue: number) => {
+            setSolPrice(solvalue)
+        })
+
+        gameSocket.on(EGameEvent.UPDATE_TOTAL_AMOUNT, (data: { players: IPlayer[]; totalBetAmount: number; totalAmount: number }) => {
             setTotalAmount(data.totalAmount);
+            setTotalBetAmount(data.totalBetAmount);
             setPlayers(prev => {
                 // Create a new array that:
                 // 1. Takes the incoming players (up to the length of prev array)
@@ -139,8 +144,8 @@ const Jackpot = () => {
     useEffect(() => {
         console.log('clear-------------')
         const fetchWinner = async () => {
-            if (round > 1 && publicKey) {
-                // console.log("🚀 ~ fetchWinner ~ round:", round)
+            if (round > 1) {
+                console.log("🚀 ~ fetchWinner ~ round:", round)
                 const winner = await fetchWithAuth(`/api/round/winner/${round - 1}`, {
                     method: 'GET',
                 })
@@ -152,18 +157,19 @@ const Jackpot = () => {
                 })
                 // console.log("🚀 ~ getUser ~ lucky:", lucky)
                 setLuckyUser(lucky);
-                const balance = await getBalance(publicKey);
-                setSolBalance(balance);
             }
+            if (!publicKey) return;
+            const balance = await getBalance(publicKey);
+            setSolBalance(balance);
         };
         fetchWinner();
 
         setWinner(null);
         setWinnerIndex(null);
-        setRemainingTime(59);
-        setPlayers(initialArray);
         setTotalAmount(0);
-    }, [round])
+        setPlayers(initialArray);
+        setIsNewRound(false);
+    }, [round, publicKey])
 
     useEffect(() => {
         if (winnerIndex != null) {
@@ -175,19 +181,19 @@ const Jackpot = () => {
         if (gameSocket && userInfo) {
             gameSocket.emit(EGameEvent.GET_WAGER, userInfo._id)
         }
-        if (totalAmount) {
-            setChance(wager / totalAmount * 100)
+        if (totalBetAmount) {
+            setChance(wager / totalBetAmount * 100)
         } else {
             setChance(0);
         }
-    }, [wager, totalAmount, gameSocket, userInfo])
+    }, [wager, totalBetAmount, gameSocket, userInfo])
 
     return (
         <div className="relative w-full min-h-[calc(100vh-110px)] h-full px-6 md:px-10 lg:px-16 py-12 mb-20 mt-12 md:mt-16 lg:mt-28">
             <div className="opacity-100 translate-y-2 animate-fade-y">
                 <div className="flex flex-col lg:flex-row gap-6 lg:gap-12 max-w-[1440px] desktop:max-w-[1800px] mx-auto">
                     <div className="max-w-full lg:max-w-[calc(100%-250px)] custom-1:max-w-[880px] desktop:max-w-[1200px] mx-auto w-full">
-                        <div className="flex flex-col gap-6 md:gap-7">
+                        <div className="relative flex flex-col gap-6 md:gap-7">
                             <div className="flex sm:items-center justify-between w-full gap-4">
                                 <div className="flex sm:items-center gap-4 sm:gap-1 grow">
                                     <div className="flex flex-col">
@@ -240,8 +246,8 @@ const Jackpot = () => {
                                                 </div>
                                             </button>
                                             <button
-                                                className="bg-gradient-to-t from-[#192130] to-[#162231] p-[3px] rounded-2xl transition-opacity duration-300 opacity-100 w-fit sm:w-full cursor-pointer"
-                                                disabled={userInfo ? false : true}
+                                                className={`bg-gradient-to-t from-[#192130] to-[#162231] p-[3px] ${remainingTime === 0 ? "cursor-not-allowed" : "cursor-pointer"} rounded-2xl transition-opacity duration-300 opacity-100 w-fit sm:w-full`}
+                                                disabled={remainingTime === 0 ? true : false}
                                                 onClick={() => handleDeposit()}
                                             >
                                                 <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#6797df] to-[#2a64cf] border-[1px] border-[#1D1D1D]">
@@ -264,7 +270,7 @@ const Jackpot = () => {
                                             <img src="/images/dot-pattern-stat.webp" className="object-cover object-center absolute top-0 left-0 w-full h-full" alt=""></img>
                                             <div className="flex items-center gap-1.5">
                                                 <img src="/images/solana.png" className="object-cover object-center w-6 h-6" alt=""></img>
-                                                <div className="my-0 font-bold text-xl text-white"><span>{totalAmount.toFixed(3)}</span></div>
+                                                <div className="my-0 font-bold text-xl text-white"><span>{totalBetAmount.toFixed(3)}</span></div>
                                             </div>
                                             <p className="text-sm text-[#A2A2A2] font-medium">Jackpot Value</p>
                                         </div>
@@ -408,7 +414,7 @@ const Jackpot = () => {
                                                         </div>
                                                         <div className="flex items-center w-full justify-between relative z-[3]">
                                                             <p className="text-xs text-[#C4C4C4]">Chance</p>
-                                                            <p className="text-sm font-semibold text-white">{latestWinner.chance.toFixed(2)}%</p>
+                                                            <p className="text-sm font-semibold text-white">{Number(latestWinner.chance).toFixed(2)}%</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -462,7 +468,7 @@ const Jackpot = () => {
                                                         </div>
                                                         <div className="flex items-center w-full justify-between relative z-[3]">
                                                             <p className="text-xs text-[#C4C4C4]">Chance</p>
-                                                            <p className="text-sm font-semibold text-white">{luckyUser.chance.toFixed(2)}%</p>
+                                                            <p className="text-sm font-semibold text-white">{Number(luckyUser.chance).toFixed(2)}%</p>
                                                         </div>
                                                     </div>
                                                 </div>

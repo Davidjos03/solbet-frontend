@@ -88,7 +88,7 @@ const DropdownProfile: React.FC<{ user: IUser }> = ({ user }) => {
                                 className="w-full h-full border-[1px] rounded-[8px] border-[#222222] rounded-2 overflow-hidden shadow-avatar-emboss relative z-[3] bg-[#595959]"
                             >
                                 <img
-                                    src={`/images/avatars/${user.avatar}`}
+                                    src={user.avatar}
                                     className="object-cover object-center w-full h-full"
                                     alt=""
                                 />
@@ -115,7 +115,7 @@ const DropdownProfile: React.FC<{ user: IUser }> = ({ user }) => {
                                         className="w-full h-full border-[1px] rounded-[8px] border-[#222222] rounded-2 overflow-hidden shadow-avatar-emboss relative z-[3] bg-[#595959]"
                                     >
                                         <img
-                                            src={`/images/avatars/${user.avatar}`}
+                                            src={user.avatar}
                                             className="object-cover object-center w-full h-full"
                                             alt=""
                                         />

@@ -4,8 +4,8 @@ const PROGRAM_ID = import.meta.env.VITE_PROGRAM_ID;
 const RPC_ENDPOINT = import.meta.env.VITE_RPC_ENDPOINT;
 const PINATA_PUBLIC_KEY = import.meta.env.VITE_PINATA_PUBLIC_KEY;
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000';
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5001';
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5001';
 
 const CLUSTER = import.meta.env.VITE_CLUSTER;
 const TEAM_WALLET = import.meta.env.VITE_TEAM_WALLET;

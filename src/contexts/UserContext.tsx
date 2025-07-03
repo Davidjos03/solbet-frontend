@@ -32,6 +32,8 @@ interface UserContextProps {
   setSelectedUser: React.Dispatch<React.SetStateAction<IProfileModal | null>>;
   totalAmount: number;
   setTotalAmount: React.Dispatch<React.SetStateAction<number>>;
+  totalBetAmount: number;
+  setTotalBetAmount: React.Dispatch<React.SetStateAction<number>>;
   players: IPlayer[];
   setPlayers: React.Dispatch<React.SetStateAction<IPlayer[]>>;
   winnerIndex: number | null;
@@ -58,6 +60,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [latestWinner, setLatestWinner] = useState<IWaiting>(waiting);
   const [luckyUser, setLuckyUser] = useState<IWaiting>(waiting);
   const [totalAmount, setTotalAmount] = useState<number>(0);
+  const [totalBetAmount, setTotalBetAmount] = useState<number>(0);
   const [players, setPlayers] = useState<IPlayer[]>(initialArray)
   const [winnerIndex, setWinnerIndex] = useState<number | null>(null);
   const [solPrice, setSolPrice] = useState<number>(0);
@@ -111,6 +114,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setLuckyUser,
         totalAmount,
         setTotalAmount,
+        totalBetAmount,
+        setTotalBetAmount,
         players,
         setPlayers,
         winnerIndex,

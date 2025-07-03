@@ -1,3 +1,5 @@
+import { PINATA_PUBLIC_KEY } from "@/constants/envConstants";
+
 export const initialArray: IPlayer[] = Array.from({ length: 30 }, () => ({
     _id: "",
     user_id: {
@@ -44,16 +46,41 @@ export const sleep = async (ms: number) => {
 
 // utils/dateFormatter.ts
 export const formatTransactionDate = (dateInput: Date | string | number): string => {
-  // Convert to Date object if it isn't already
-  const date = new Date(dateInput);
-  
-  // Format as "19:52 June, 24, 2025"
-  return date.toLocaleString('en-US', {
-    hour: '2-digit',
-    minute: '2-digit',
-    month: 'long',
-    day: '2-digit',
-    year: 'numeric',
-    hour12: false
-  }).replace(',', ''); // Removes comma after month
+    // Convert to Date object if it isn't already
+    const date = new Date(dateInput);
+
+    // Format as "19:52 June, 24, 2025"
+    return date.toLocaleString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit',
+        month: 'long',
+        day: '2-digit',
+        year: 'numeric',
+        hour12: false
+    }).replace(',', ''); // Removes comma after month
+};
+
+export const uploadJsonToPinata = async (file: File) => {
+    try {
+        const imgData = new FormData();
+        imgData.append("file", file);
+
+        const imgRes = await fetch(
+            "https://api.pinata.cloud/pinning/pinFileToIPFS",
+            {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${PINATA_PUBLIC_KEY}`,
+                },
+                body: imgData,
+            }
+        );
+
+        const imgJsonData = await imgRes.json();
+
+        return imgJsonData.IpfsHash;
+    } catch (error) {
+        console.error("Error uploading JSON to Pinata:", error);
+        throw error;
+    }
 };

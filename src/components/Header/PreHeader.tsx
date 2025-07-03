@@ -16,10 +16,10 @@ const PreHeader = () => {
     const [lastScrollY, setLastScrollY] = useState(0);
     const SCROLL_THRESHOLD = 10;
 
-    const { userInfo, solBalance, setSolBalance, setUserInfo, setIsSign } = useUserProvider();
+    const { userInfo, solBalance, totalAmount, setSolBalance, setUserInfo, setIsSign } = useUserProvider();
     const { setIsModalOpen } = useWalletProvider();
     const wallet = useWallet();
-
+    
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
@@ -100,7 +100,7 @@ const PreHeader = () => {
                         </div>
                     </div>
                     <p className="text-sm text-[#BFBFCD] font-semibold ml-auto md:mr-3.5">
-                        <span className="mr-1 text-[#E3E3E3] font-bold">0</span>Total Bets
+                        <span className="mr-1 text-[#E3E3E3] font-bold">{totalAmount}</span>Total Bets
                     </p>
                 </div>
 

@@ -11,7 +11,7 @@ const ChatItem: React.FC<IChatItem> = (data) => {
                 >
                     <div className="w-full h-full p-0.5 rounded-[8px] border-[1px] border-[#222222] bg-gradient-to-b from-[#8A8A8A] to-[#5A5A5A]">
                         <div className="w-full h-full rounded-[8px] border-[1px] border-[#222222] overflow-hidden bg-black/75 shadow-avatar-emboss relative">
-                            <img src={`/images/avatars/${data.user_id.avatar}`} className="object-cover object-center w-full h-full" alt=""></img>
+                            <img src={data.user_id.avatar} className="object-cover object-center w-full h-full" alt=""></img>
                         </div>
                     </div>
                 </div>

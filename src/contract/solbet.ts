@@ -10,11 +10,6 @@ import idl from "./idl/solbet_jackpot.json"
 import { BN } from "bn.js";
 import NodeWallet from "@coral-xyz/anchor/dist/cjs/nodewallet";
 import { CONFIG_SEED, connection, PLATFORM_FEE, ROUND_DURATION, ROUND_SEED, teamWallet, VAULT_SEED } from "@/constants/envConstants";
-import {
-  networkStateAccountAddress,
-  Orao,
-  randomnessAccountAddress,
-} from "@orao-network/solana-vrf";
 
 const privateKey = Keypair.generate();
 const wallet = new NodeWallet(privateKey);
@@ -22,14 +17,6 @@ const provider = new AnchorProvider(connection, wallet, {});
 setProvider(provider);
 const program = new Program(idl) as Program<SolbetJackpotSmartContract>;
 
-const vrf = new Orao(provider);
-const force = Keypair.generate();
-const forceBytes = force.publicKey.toBuffer();
-const randomPda = randomnessAccountAddress(forceBytes);
-const networkConfigPda = networkStateAccountAddress();
-const treasury = new PublicKey(
-  "9ZTHWWZDpB36UFe1vszf2KEpt83vwi27jDqtHQ7NSXyR"
-);
 
 const [configPda] = PublicKey.findProgramAddressSync(
   [CONFIG_SEED],
@@ -79,15 +66,11 @@ export const createGame = async (adminPk: PublicKey, round: number) => {
     );
 
     const createGameIx = await program.methods
-      .createGame([...forceBytes], new BN(round))
+      .createGame(new BN(round))
       .accountsStrict({
         admin: adminPk,
         config: configPda,
         roundAcc: roundPda,
-        networkConfig: networkConfigPda,
-        random: randomPda,
-        treasury: treasury,
-        vrf: vrf.programId,
         systemProgram: SystemProgram.programId
       })
       .instruction();
@@ -173,12 +156,11 @@ export const setWinner = async (adminPk: PublicKey, round: number) => {
     );
 
     const setWinnerIx = await program.methods
-      .setWinner([...forceBytes], new BN(round))
+      .setWinner(new BN(round))
       .accountsStrict({
         admin: adminPk,
         config: configPda,
         roundAcc: roundPda,
-        random: randomPda,
       })
       .instruction();
 
@@ -269,3 +251,4 @@ export const transferFees = async (teamWalPk: PublicKey, adminPk: PublicKey, rou
     .instruction();
   return transferFeesIx
 }
+

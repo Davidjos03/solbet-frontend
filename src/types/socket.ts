@@ -19,7 +19,8 @@ export enum EGameEvent {
     GET_WAGER = 'get_wager',
     WAGER = 'wager',
     SAVE_HISTORY = 'save_history',
-    UPDATE_TOTAL_AMOUNT = 'update_total_amout'
+    UPDATE_TOTAL_AMOUNT = 'update_total_amout',
+    SOL_PRICE = 'sol_price'
 }
 
 export interface IChatClientToServerEvents {
@@ -44,7 +45,8 @@ export interface IGameServerToClientEvents {
     [EGameEvent.DURATION_STATE]: (state: boolean) => void;
     [EGameEvent.UPDATE_ROUND]: (messages: number) => void;
     [EGameEvent.WINNER]: (message: number) => void;
-    [EGameEvent.UPDATE_TOTAL_AMOUNT]: (data: { players: IPlayer[]; totalAmount: number }) => void;
+    [EGameEvent.UPDATE_TOTAL_AMOUNT]: (data: { players: IPlayer[]; totalBetAmount: number; totalAmount: number }) => void;
     [EGameEvent.UPDATE_REMAIN_TIME]: (time: number) => void;
     [EGameEvent.WAGER]: (wager: number) => void;
+    [EGameEvent.SOL_PRICE]: (solvalue: number) => void;
 }
