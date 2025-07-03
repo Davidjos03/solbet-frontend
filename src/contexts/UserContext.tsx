@@ -1,6 +1,9 @@
 // import { getSolPrice } from "@/utils/common";
 import { initialArray, waiting } from "@/utils/utils";
 import React, { ReactNode, createContext, useContext, useEffect, useState } from "react";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { fetchWithAuth, setAuthToken } from "@/utils/setAuthToken";
+import { getBalance } from "@/utils/common";
 
 // Define the shape of the context
 interface UserContextProps {
@@ -65,6 +68,40 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [winnerIndex, setWinnerIndex] = useState<number | null>(null);
   const [solPrice, setSolPrice] = useState<number>(0);
   const [selectedUser, setSelectedUser] = useState<IProfileModal | null>(null);
+
+  const wallet = useWallet();
+
+  useEffect(() => {
+    console.log("🚀 ~ useEffect ~ connected:", wallet.connected);
+    if (wallet.connected && !wallet.connecting) {
+      const getUser = async () => {
+        const address = wallet.publicKey?.toBase58();
+        const res = await fetchWithAuth(`/api/auth/check/${address}`, {
+          method: 'GET',
+        });
+        console.log("🚀 ~ getUser ~ res:", res);
+
+        if (res) {
+          // Set authToken in localStorage
+          setAuthToken(res.token);
+
+          // Set userInfo in localStorage (convert object to string)
+          localStorage.setItem('userInfo', JSON.stringify(res.user));
+          setUserInfo(res.user);
+
+          // Fetch and set SOL balance
+          const balance = await getBalance(wallet.publicKey!);
+          setSolBalance(balance);
+        } else {
+          setIsSign(true);
+        }
+      };
+      getUser();
+    } else {
+      setUserInfo(undefined);
+      setSolBalance(0);
+    }
+  }, [wallet.connected]);
 
   useEffect(() => {
     // Function to check and update `isToggle` based on window width

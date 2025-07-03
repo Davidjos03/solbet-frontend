@@ -9,13 +9,14 @@ interface IOptionList {
 }
 
 interface IInput {
-  label: string;
-  type?: string;
-  edit?: boolean;
-  func?: string;
-  state?: string;
-  setState?: (data: string) => void
-  disabled?: boolean;
+    label: string;
+    type?: string;
+    edit?: boolean;
+    func?: string;
+    state?: string;
+    setState?: (val: string) => void;
+    disabled?: boolean;
+    onSave?: () => void | Promise<void>;
 }
 
 interface IChatItem {
@@ -80,7 +81,7 @@ interface IUser {
   avatar: string;
   email: string;
   refferal: string;
-  inviteLink: string;
+  invite_link: string;
   created_at: Date;
   updated_at: Date;
 }

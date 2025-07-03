@@ -9,14 +9,35 @@ const maxFileSize = 2 * 1024 * 1024; // 2MB
 const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
 
 const OptionsPage = () => {
-    const { userInfo, setUserInfo } = useUserProvider();
+    const user = localStorage.getItem('userInfo');
+    const userInfo: IUser | null = user ? JSON.parse(user) : null;
 
-    const [username, setUsername] = useState<string>(userInfo ? userInfo.username : "");
-    const [email, setEmail] = useState<string>(userInfo ? userInfo.email : "");
-    const [avatar, setAvatar] = useState<string>(userInfo ? `${userInfo.avatar}` : '/images/default-avatar.webp');
+    const [username, setUsername] = useState<string>(userInfo!.username);
+    const [email, setEmail] = useState<string>(userInfo!.email);
+    const [avatar, setAvatar] = useState<string>(userInfo!.avatar);
     const [error, setError] = useState<string>('');
     const [isUploading, setIsUploading] = useState<boolean>(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    const { setUserInfo } = useUserProvider();
+
+    const handleUpdateUser = async (data: string, type: string) => {
+        const updateData = {
+            id: userInfo!._id,
+            [type]: data
+        }
+        const res = await fetchWithAuth(`/api/auth/update`, {
+            method: 'POST',
+            body: JSON.stringify(updateData)
+        })
+        if (res) {
+            console.log("🚀 ~ getUser ~ res:", res);
+            setUserInfo(res)
+            localStorage.setItem('userInfo', JSON.stringify(res));
+        } else {
+            throw new Error('Failed to update user info');
+        }
+    }
 
     const uploadAvatarToBackend = async (file: File) => {
         setIsUploading(true);
@@ -31,21 +52,11 @@ const OptionsPage = () => {
                     throw new Error('Failed to upload image');
                 }
                 console.log("🚀 ~ uploadAvatarToBackend ~ imageUri:", pinataPublicURL + imageUri)
-
-                const updateData = {
-                    id: userInfo!._id,
-                    avatar: pinataPublicURL + imageUri
-                };
-                const res = await fetchWithAuth(`/api/auth/update`, {
-                    method: 'POST',
-                    body: JSON.stringify(updateData)
-                })
-                if (res) {
-                    console.log("🚀 ~ getUser ~ res:", res);
-                    setUserInfo(res.user)
-                    setIsUploading(false);
-                }
-                setAvatar(pinataPublicURL + imageUri);
+                const imgUrl = pinataPublicURL + imageUri;
+                await handleUpdateUser(imageUri, "avatar")
+                
+                setAvatar(imgUrl);
+                setIsUploading(false);
             }
         } catch (error) {
             setError(error instanceof Error ? error.message : 'Upload failed');
@@ -152,11 +163,11 @@ const OptionsPage = () => {
                     <p className="text-[#A2A2A2] text-sm mt-1">{new Date(userInfo!.created_at).toISOString().split('T')[0]}</p>
                 </div>
             </div>
-            <Input label="Enter name" edit={true} state={username} setState={setUsername} />
-            <Input label="Enter email" edit={true} func="verify" state={email} setState={setEmail} />
+            <Input label="Enter name" edit={true} state={username} setState={setUsername} onSave={() => handleUpdateUser(username, "username")} />
+            <Input label="Enter email" edit={true} func="verify" state={email} setState={setEmail} onSave={() => handleUpdateUser(email, "email")} />
             <Input label="Client Seed" type="password" edit={true} func="show" />
-            <Input label="Connect Account" disabled={true} />
-            <Input label="Referred by" state={userInfo!.inviteLink} disabled={true} />
+            <Input label="Connect Account" disabled={true} state={userInfo?.address} />
+            <Input label="Referred by" state={userInfo?.refferal} disabled={true} />
         </div>
     );
 };

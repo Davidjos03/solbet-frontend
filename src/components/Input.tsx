@@ -1,14 +1,15 @@
 import { Icon } from "@iconify-icon/react";
 import { useState } from "react";
 
-const Input: React.FC<IInput> = ({ label, type, edit, func, state, setState, disabled }) => {
+const Input: React.FC<IInput> = ({ label, type, edit, func, state, setState, disabled, onSave }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [showValue, setShowValue] = useState(false);
     const [isVerified, setIsVerified] = useState(false);
 
-    const handleEditClick = () => {
+    const handleEditClick = async () => {
         if (isEditing) {
             // Save logic here
+            if (onSave) await onSave();
             console.log("Value saved:", state);
         }
         setIsEditing(!isEditing);

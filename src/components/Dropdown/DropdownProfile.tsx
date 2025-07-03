@@ -51,6 +51,10 @@ const DropdownProfile: React.FC<{ user: IUser }> = ({ user }) => {
                 disconnect();
                 setSolBalance(0)
                 navigate('/');
+
+                // Clear localStorage when wallet is disconnected
+                localStorage.removeItem('token');
+                localStorage.removeItem('userInfo');
                 break;
             default:
                 break;

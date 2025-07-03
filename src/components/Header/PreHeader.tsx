@@ -2,13 +2,10 @@ import { useWalletProvider } from "@/contexts/WalletContext";
 // import api from "@/utils/auth";
 // import setAuthToken from "@/utils/setAuthToken";
 import { Icon } from "@iconify-icon/react";
-import { useWallet } from "@solana/wallet-adapter-react";
 import cn from "classnames";
 import { useEffect, useState } from "react";
 import { DropDownProfile } from "../Dropdown";
 import { useUserProvider } from "@/contexts/UserContext";
-import { setAuthToken, fetchWithAuth } from "@/utils/setAuthToken";
-import { getBalance } from "@/utils/common";
 
 const PreHeader = () => {
     const [isHidden, setIsHidden] = useState(false);
@@ -16,10 +13,10 @@ const PreHeader = () => {
     const [lastScrollY, setLastScrollY] = useState(0);
     const SCROLL_THRESHOLD = 10;
 
-    const { userInfo, solBalance, totalAmount, setSolBalance, setUserInfo, setIsSign } = useUserProvider();
+    const { userInfo, solBalance, totalAmount } = useUserProvider();
+
     const { setIsModalOpen } = useWalletProvider();
-    const wallet = useWallet();
-    
+
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
@@ -46,31 +43,6 @@ const PreHeader = () => {
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, [isHidden, lastScrollY]);
-
-    useEffect(() => {
-        console.log("🚀 ~ useEffect ~ connected:", wallet.connected)
-        if (wallet.connected && !wallet.connecting) {
-            const getUser = async () => {
-                const address = wallet.publicKey?.toBase58();
-                const res = await fetchWithAuth(`/api/auth/check/${address}`, {
-                    method: 'GET',
-                })
-                console.log("🚀 ~ getUser ~ res:", res)
-
-                if (res) {
-                    setAuthToken(res.token);
-                    setUserInfo(res.user);
-                    const balance = await getBalance(wallet.publicKey!)
-                    setSolBalance(balance)
-                } else {
-                    setIsSign(true);
-                }
-            }
-            getUser();
-        } else {
-            setUserInfo(undefined)
-        }
-    }, [wallet.connected]);
 
     return (
         <div className={`top-0 left-0 w-full h-full z-50 transition-all duration-300 ${isHidden ? 'border-b border-[#1D1D1D]' : 'translate-y-0'}`}>
@@ -124,7 +96,7 @@ const PreHeader = () => {
                             <img src="/images/3d-sol.webp" className="object-cover object-center w-8 2xl:w-[32px] h-auto" alt=""></img>
                             <span className="font-black text-xl text-white 2xl:text-base">{solBalance.toFixed(3)}</span>
                         </div>
-                        {userInfo ? (
+                        {userInfo != null ? (
                             <DropDownProfile user={userInfo} />
                         ) : (
                             <button
