@@ -32,27 +32,25 @@ const Jackpot = () => {
         try {
             if (publicKey && value != "" && remainingTime !== 0 && userInfo) {
                 let affiliateState = false;
-                let refferalAdd: PublicKey = publicKey;
+                let referralAdd: PublicKey = publicKey;
                 let depositIx;
-                if (userInfo.refferal) {
-                    const res = await fetchWithAuth(`/api/refferal/affiliate`, {
+                if (userInfo.referral) {
+                    const res = await fetchWithAuth(`/api/referral/affiliate`, {
                         method: 'POST',
-                        body: JSON.stringify({ refferal: userInfo.refferal })
+                        body: JSON.stringify({ referral: userInfo.referral })
                     })
                     console.log("🚀 ~ getUser ~ res:", res)
                     if (res.state) {
                         affiliateState = res.state;
                         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                        refferalAdd = new PublicKey(userInfo.refferal.split("_")[0]);
+                        referralAdd = new PublicKey(userInfo.referral.split("_")[0]);
                     }
                 }
 
                 if (affiliateState) {
-                    // depositIx = await joinGame(publicKey. refferalAdd, round, Number(value))
-                    depositIx = await joinGame(publicKey, round, Number(value))
+                    depositIx = await joinGame(publicKey, referralAdd, round, Number(value))
                 } else {
-                    // depositIx = await joinGame(publicKey, publicKey, round, Number(value))
-                    depositIx = await joinGame(publicKey, round, Number(value))
+                    depositIx = await joinGame(publicKey, publicKey, round, Number(value))
                 }
 
                 if (depositIx) {
@@ -87,11 +85,11 @@ const Jackpot = () => {
 
                     if (!userInfo.deposit_state) {
                         const updateReffer = {
-                            refferal: userInfo.refferal,
+                            referral: userInfo.referral,
                             amount: 30,
                             count: 0
                         }
-                        const refferRes = await fetchWithAuth(`/api/refferal/update`, {
+                        const refferRes = await fetchWithAuth(`/api/referral/update`, {
                             method: 'POST',
                             body: JSON.stringify(updateReffer)
                         })
@@ -112,7 +110,7 @@ const Jackpot = () => {
                                 console.log('Failed to update user info');
                             }
                         } else {
-                            console.log('Failed to update refferal info');
+                            console.log('Failed to update referral info');
                         }
                     }
 

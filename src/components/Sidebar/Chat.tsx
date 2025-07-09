@@ -35,9 +35,9 @@ const Chat = () => {
     }, [chatSocket, userInfo]);
 
     return (
-        <div className="flex overflow-y-scroll relative overscroll-contain h-full">
+        <div className="flex overflow-y-scroll relative overscroll-contain h-full w-full">
             <div className="absolute bg-gradient-primary w-full translate-y-0 top-0 left-0 h-[40px]"></div>
-            <div className="flex flex-col justify-end gap-2.5 px-6 pb-0">
+            <div className="flex flex-col w-full h-full justify-end gap-2.5 px-6 pb-0">
                 {messages && messages.map((chat: IChatItem, index: number) => (
                     <ChatItem key={index} {...chat} />
                 ))}

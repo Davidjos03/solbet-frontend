@@ -80,7 +80,7 @@ interface IUser {
   address: string;
   avatar: string;
   email: string;
-  refferal: string;
+  referral: string;
   invite_link: string;
   deposit_state: boolean;
   created_at: Date;

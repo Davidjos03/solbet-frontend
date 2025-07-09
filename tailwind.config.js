@@ -57,8 +57,8 @@ export default {
         medium: "0px 15px 24px 0px #05C68133",
       },
       backgroundImage: {
-        'gradient-primary': 'linear-gradient(180deg, #0C122C 0%, #0C122C 100%)',
-        'gradient-primary-reserve': 'linear-gradient(180deg, #0C122C 100%, #0C122C 0%)',
+        'gradient-primary': 'linear-gradient(to top, #0C122C00, #0C122C)',
+        'gradient-primary-reserve': 'linear-gradient(to top, #0C122C, #0C122C00)',
         'gradient-color': 'linear-gradient(105.65deg, #37445C 3.85%, #1D2B45 40.37%)',
         'gradient-border': 'linear-gradient(122.34deg, #57667F 30.62%, #1E2C46 76.94%)',
         'gradient-border-btn': 'linear-gradient(180deg, #57667F 0%, #37445C 100%)',

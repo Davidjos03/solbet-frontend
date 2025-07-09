@@ -37,7 +37,7 @@ const Input: React.FC<IInput> = ({ label, type, edit, func, state, setState, dis
                 <input
                     disabled={disabled || (edit && !isEditing)}
                     type={showValue ? "text" : type || "text"}
-                    className="border-[1px] border-[#222222] bg-dark bg-opacity-40 transition-colors duration-300 px-3 h-[44px] rounded-lg w-full text-sm focus:outline-none focus:border-[#3c3c3c] bg-transparent pr-[80px]"
+                    className="border-[1px] border-layer2 bg-layer transition-colors duration-300 px-3 h-[40px] rounded-lg w-full text-sm focus:outline-none bg-transparent pr-[80px]"
                     value={state}
                     onChange={handleInputChange}
                 />

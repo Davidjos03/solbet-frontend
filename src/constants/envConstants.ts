@@ -11,6 +11,7 @@ const CLUSTER = import.meta.env.VITE_CLUSTER;
 const TEAM_WALLET = import.meta.env.VITE_TEAM_WALLET;
 const teamWallet = new PublicKey(TEAM_WALLET);
 const PLATFORM_FEE = Number(import.meta.env.VITE_PLATFORM_FEE) || 0;
+const AFFILIATE_FEE= Number(import.meta.env.VITE_AFFILIATE_FEE) || 0;
 const ROUND_DURATION = Number(import.meta.env.VITE_ROUND_DURATION) || 0;
 
 const CONFIG_SEED = Buffer.from("globalconfig");
@@ -31,6 +32,7 @@ export {
     CLUSTER,
     teamWallet,
     PLATFORM_FEE,
+    AFFILIATE_FEE,
     ROUND_DURATION,
     connection,
     CONFIG_SEED,

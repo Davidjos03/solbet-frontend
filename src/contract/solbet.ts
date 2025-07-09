@@ -5,17 +5,17 @@ import {
   PublicKey,
   SystemProgram,
 } from "@solana/web3.js";
-import { SolbetJackpotSmartContract } from "./idl/solbet_jackpot";
+import { SolbetJackpotContract } from "./idl/solbet_jackpot";
 import idl from "./idl/solbet_jackpot.json"
 import { BN } from "bn.js";
 import NodeWallet from "@coral-xyz/anchor/dist/cjs/nodewallet";
-import { CONFIG_SEED, connection, PLATFORM_FEE, ROUND_DURATION, ROUND_SEED, teamWallet, VAULT_SEED } from "@/constants/envConstants";
+import { AFFILIATE_FEE, CONFIG_SEED, connection, PLATFORM_FEE, ROUND_DURATION, ROUND_SEED, teamWallet, VAULT_SEED } from "@/constants/envConstants";
 
 const privateKey = Keypair.generate();
 const wallet = new NodeWallet(privateKey);
 const provider = new AnchorProvider(connection, wallet, {});
 setProvider(provider);
-const program = new Program(idl) as Program<SolbetJackpotSmartContract>;
+const program = new Program(idl) as Program<SolbetJackpotContract>;
 
 
 const [configPda] = PublicKey.findProgramAddressSync(
@@ -37,13 +37,13 @@ export const initialize = async (adminPk: PublicKey) => {
       .initialize({
         teamWallet: teamWallet,
         platformFee: new BN(PLATFORM_FEE),
+        affiliate: new BN(AFFILIATE_FEE),
         roundDuration: new BN(ROUND_DURATION),
       })
       .accounts({
         admin: adminPk,
       })
       .instruction();
-    console.log("✅ Initialize transaction signature:", initializeIx);
     return initializeIx
   } catch (err) {
     console.log("Config already initialized, verifying: ", (err as Error).message);
@@ -55,6 +55,18 @@ export const fetchRound = async () => {
   const config = await program.account.config.fetch(configPda);
   const round = config.roundCounter;
   return round;
+}
+
+export const fetchIsExpired = async (round: number) => {
+  const [roundPda] = PublicKey.findProgramAddressSync(
+      [ROUND_SEED, new BN(round).toArrayLike(Buffer, "le", 8)],
+      program.programId
+    );
+
+  const roundAcc = await program.account.gameRound.fetch(roundPda);
+  const isExpired = roundAcc.isExpired;
+  console.log("🚀 ~ fetchIsExpired ~ isExpired:", isExpired)
+  return isExpired;
 }
 
 export const createGame = async (adminPk: PublicKey, round: number) => {
@@ -75,7 +87,6 @@ export const createGame = async (adminPk: PublicKey, round: number) => {
       })
       .instruction();
 
-    console.log("✅ Create Game transaction:", createGameIx);
     return createGameIx
   } catch (error) {
     console.log("🚀 ~ createGame ~ error:", error)
@@ -91,10 +102,10 @@ export const depositMonitor = async (round: number): Promise<boolean> => {
     );
 
     const currentRound = await program.account.gameRound.fetch(roundPda);
-    const deposites = currentRound.deposits;
+    const deposits = currentRound.deposits;
     const isExpired = currentRound.isExpired;
-    console.log("🚀 ~ depositMonitor ~ deposites:", deposites)
-    if (deposites.length >= 1) {
+    console.log("🚀 ~ depositMonitor ~ deposits:", deposits)
+    if (deposits.length >= 1) {
       if (isExpired) {
         return false;
       } else
@@ -104,7 +115,7 @@ export const depositMonitor = async (round: number): Promise<boolean> => {
   }
 }
 
-export const joinGame = async (userPk: PublicKey, round: number, depositsAmount: number) => {
+export const joinGame = async (userPk: PublicKey, referPK: PublicKey, round: number, depositsAmount: number) => {
   try {
     // Derive round PDA
     const [roundPda] = PublicKey.findProgramAddressSync(
@@ -119,11 +130,10 @@ export const joinGame = async (userPk: PublicKey, round: number, depositsAmount:
         config: configPda,
         roundAcc: roundPda,
         systemProgram: SystemProgram.programId,
+        affiliateRefer: referPK,
         vault: vaultPda
       })
       .instruction();
-    console.log("🚀 ~ joinGame ~ depositIx:", depositIx)
-
     return depositIx
   } catch (error) {
     console.log("🚀 ~ joinGame ~ error:", error)
@@ -163,15 +173,13 @@ export const setWinner = async (adminPk: PublicKey, round: number) => {
         roundAcc: roundPda,
       })
       .instruction();
-
-    console.log("🏆 Set Winner TX:", setWinnerIx);
     return setWinnerIx;
   } catch (error) {
     console.log("🚀 ~ setWinner ~ error:", error)
   }
 }
 
-export const fetchWinner = async (round: number): Promise<{ winner: PublicKey; deposit: number; index: number }> => {
+export const fetchWinner = async (round: number): Promise<{ winner: PublicKey; deposit: number; index: number, referral: PublicKey }> => {
   while (true) {
     console.log("🚀 ~ fetchWinner ~ round:", round)
     // Derive round PDA
@@ -184,8 +192,9 @@ export const fetchWinner = async (round: number): Promise<{ winner: PublicKey; d
     const winner = currentRound.winner;
     const deposit = Number(currentRound.winnerDepositAmount) / LAMPORTS_PER_SOL;
     const index = Number(currentRound.winnerIndex);
-    if (winner) {
-      return { winner, deposit, index };
+    const referral = currentRound.affiliateRefer;
+    if (winner && referral) {
+      return { winner, deposit, index, referral };
     }
   }
 }
@@ -224,14 +233,13 @@ export const getRewardAmount = async (round: number): Promise<number> => {
   );
 
   const currentRound = await program.account.gameRound.fetch(roundPda);
-  console.log("🚀 ~ getRewardAmount ~ currentRound:", currentRound)
   console.log("🚀 ~ getRewardAmount ~ currentRound.totalAmount:", currentRound.totalAmount)
   const reward = Number(currentRound.totalAmount) * (10000 - PLATFORM_FEE) / 10000;
   console.log("🚀 ~ getRewardAmount ~ reward:", reward)
   return reward
 }
 
-export const transferFees = async (teamWalPk: PublicKey, adminPk: PublicKey, round: number) => {
+export const transferFees = async (teamWalPk: PublicKey, adminPk: PublicKey, referralPK: PublicKey, round: number) => {
   // Derive round PDA
   const [roundPda] = PublicKey.findProgramAddressSync(
     [ROUND_SEED, new BN(round).toArrayLike(Buffer, "le", 8)],
@@ -246,9 +254,9 @@ export const transferFees = async (teamWalPk: PublicKey, adminPk: PublicKey, rou
       config: configPda,
       roundAcc: roundPda,
       systemProgram: SystemProgram.programId,
+      affiliateRefer: referralPK,
       vault: vaultPda
     })
     .instruction();
   return transferFeesIx
 }
-

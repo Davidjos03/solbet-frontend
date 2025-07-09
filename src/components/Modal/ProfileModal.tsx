@@ -51,7 +51,7 @@ const ProfileModal = () => {
     }, [date, selectedUser])
 
     return (
-        <div id="global-modal" className={`${isProfileModal ? "block" : "hidden"}`}>
+        <div id="global-modal" className={`font-inter ${isProfileModal ? "block" : "hidden"}`}>
             <div className="fixed top-0 left-0 w-full h-full bg-[#0D0D0D]/75 z-[1000] transition-opacity duration-300 opacity-100" onClick={() => setIsProfileModal(false)}></div>
             <div className="w-full sm:w-max max-w-[calc(100%-32px)] sm:max-w-full h-max absolute inset-0 m-auto z-[1001] transition-all duration-300 scale-100 opacity-100">
                 <div className="relative p-[2px] rounded-2xl overflow-hidden bg-gradient-to-b from-[#1e293a] to-[#232425]">
@@ -60,12 +60,12 @@ const ProfileModal = () => {
                             <div className="absolute top-0 right-0 cursor-pointer bg-[#222]/75 p-3 rounded-bl-xl block sm:hidden" onClick={() => setIsProfileModal(false)}>
                                 <Icon icon="mingcute:close-line" width="24" height="24" style={{ color: "#373d3f" }} />
                             </div>
-                            <div className="flex flex-col md:flex-row items-center gap-4 pb-5 mb-4 border-b border-[#222222]">
+                            <div className="flex flex-col md:flex-row items-center gap-4 pb-5 mb-4 border-b border-border">
                                 <div className="flex items-center gap-4">
-                                    <div className="rounded-[16px] overflow-hidden border-[1px] border-[#222222] aspect-square hover:brightness-125 transition-[filter] duration-300 cursor-pointer w-16 h-16 shrink-0 bg-[#303045] p-[1px] border-none">
-                                        <div className="w-full h-full p-0.5 rounded-[16px] border-[1px] border-[#222222] bg-gradient-to-b from-[#8A8A8A] to-[#5A5A5A]">
-                                            <div className="w-full h-full rounded-[16px] border-[1px] border-[#222222] overflow-hidden bg-black/75 shadow-avatar-emboss relative">
-                                                <img src="/images/avatars/9fddb4e7b9f48a521886e34bd22474b9ae8da2665a6983b2923f5a3a6e60d81b.jpeg" className="object-cover object-center w-full h-full" alt=""></img>
+                                    <div className="flex rounded-[6px] transition-[filter] duration-300 cursor-pointer w-16 h-16 shrink-0 bg-layer2 p-[2px] border-none">
+                                        <div className="flex w-full h-full p-[1px] rounded-[6px] border border-light-grey bg-layer2">
+                                            <div className="w-full h-full rounded-[6px]">
+                                                <img src={selectedUser && selectedUser.avatar ? selectedUser.avatar : undefined} className="object-cover object-center rounded-[6px] w-full h-full" alt="" />
                                             </div>
                                         </div>
                                     </div>

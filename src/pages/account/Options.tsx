@@ -167,7 +167,7 @@ const OptionsPage = () => {
             <Input label="Enter email" edit={true} func="verify" state={email} setState={setEmail} onSave={() => handleUpdateUser(email, "email")} />
             <Input label="Client Seed" type="password" edit={true} func="show" />
             <Input label="Connect Account" disabled={true} state={userInfo?.address} />
-            <Input label="Referred by" state={userInfo?.refferal} disabled={true} />
+            <Input label="Referred by" state={userInfo?.referral} disabled={true} />
         </div>
     );
 };

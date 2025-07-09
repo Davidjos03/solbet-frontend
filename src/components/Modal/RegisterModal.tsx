@@ -7,9 +7,9 @@ import { fetchWithAuth, setAuthToken } from "@/utils/setAuthToken";
 import { getBalance } from "@/utils/common";
 
 const RegisterModal = () => {
-    const [username, setUsername] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
-    const [refferal, setRefferal] = useState<string>("");
+    const [username, setUsername] = useState<string>("your name");
+    const [email, setEmail] = useState<string>("your@gamil.com");
+    const [referral, setReferral] = useState<string>("optional");
     const [isCheck, setIsCheck] = useState<boolean>(false)
 
     const { isSign, setSolBalance, setUserInfo, setIsSign } = useUserProvider();
@@ -21,7 +21,7 @@ const RegisterModal = () => {
                 username,
                 address: wallet.publicKey!.toBase58(),
                 email,
-                refferal
+                referral
             };
 
             const res = await fetchWithAuth(`/api/auth/register`, {
@@ -42,26 +42,27 @@ const RegisterModal = () => {
     }
 
     return (
-        <div id="global-modal" className={`${isSign ? "block" : "hidden"}`}>
-            <div className="fixed top-0 left-0 w-full h-full bg-[#0D0D0D]/75 z-[1000] transition-opacity duration-300 opacity-100" onClick={() => {setIsSign(false); wallet.disconnect();}}></div>
+        <div id="global-modal" className={`font-inter ${isSign ? "block" : "hidden"}`}>
+            <div className="fixed top-0 left-0 w-full h-full bg-[#0C122C]/80 z-[1000] transition-opacity duration-300" onClick={() => { setIsSign(false); wallet.disconnect(); }}></div>
             <div className="w-full sm:w-max max-w-[calc(100%-32px)] sm:max-w-full h-max absolute inset-0 m-auto z-[1001] transition-all duration-300 scale-100 opacity-100">
                 <div className="relative p-[2px] rounded-2xl overflow-hidden bg-gradient-to-b from-[#1e293a] to-[#232425]">
-                    <div className="relative w-full h-full rounded-2xl main-background">
+                    <div className="relative w-full h-full rounded-2xl bg-layer">
                         <div className="flex flex-col sm:flex-row">
-                            <div className="block w-full sm:w-[320px] h-[150px] sm:h-full bg-[#1D1D1D] flex-none min-h-unset sm:rounded-l-2xl overflow-hidden">
+                            <div className="relative block w-full sm:w-[320px] h-[150px] sm:h-full bg-[#1D1D1D] flex-none min-h-unset sm:rounded-l-2xl overflow-hidden">
                                 <img src="/images/sign-up.jpg" className="object-cover object-center w-full xl:w-[320px] h-full xl:h-[540px] gb-blur-image" alt=""></img>
+                                <div className="absolute bg-gradient-primary-reserve w-full translate-y-0 bottom-0 left-0 h-[200px]"></div>
                             </div>
                             <div className="p-8 sm:w-[385px]">
                                 <div className="flex justify-between items-center mb-6">
-                                    <h4 className="text-4xl uppercase font-bold font-airstrike leading-[30px]">Sign Up</h4>
+                                    <h4 className="text-4xl uppercase font-racing leading-[30px]">Sign Up</h4>
                                     <img src="/images/icon.gif" className="object-cover object-center w-[56px] gb-blur-image" alt=""></img>
                                 </div>
                                 <Input label="Enter name" state={username} setState={setUsername} />
                                 <Input label="Enter Email" state={email} setState={setEmail} />
-                                <Input label="Refferal Code" state={refferal} setState={setRefferal} />
+                                <Input label="Referral Code" state={referral} setState={setReferral} />
                                 <div className="flex gap-2 my-5 text-[#A2A2A2] hover:text-[#bfbfbf] transition-colors duration-300 cursor-pointer">
-                                    <div className="w-5 h-5 bg-[#0D0D0D] border border-[#222222] rounded-md flex-none p-1" onClick={() => setIsCheck(!isCheck)}>
-                                        <div className={`w-full h-full bg-[#418dff] rounded-sm shadow-purple-inset transition-transform ${isCheck ? "scale-100" : "scale-0"}`}>
+                                    <div className="w-5 h-5 bg-layer border border-layer2 rounded-md flex-none p-1" onClick={() => setIsCheck(!isCheck)}>
+                                        <div className={`w-full h-full bg-prime rounded-sm shadow-purple-inset transition-transform ${isCheck ? "scale-100" : "scale-0"}`}>
                                         </div>
                                     </div>
                                     <p className="text-sm">
@@ -72,16 +73,11 @@ const RegisterModal = () => {
                                 </div>
                                 <button
                                     disabled={!isCheck}
-                                    className={
-                                        cn(
-                                            "bg-gradient-to-t from-[#192130] to-[#162231] p-[3px] rounded-2xl transition-opacity duration-300 cursor-pointer",
-                                            "w-full",
-                                            "outline-none"
-                                        )}
+                                    className={cn("p-[2px] rounded-lg w-full h-11 bg-layer2 transition-opacity duration-300 cursor-pointer")}
                                     onClick={() => handleSignup()}
                                 >
-                                    <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#6797df] to-[#2a64cf] border-[1px] border-[#1b1b1b]">
-                                        <div className="group relative h-10 min-w-10 overflow-hidden rounded-[10px] transition duration-300 px-4 w-full bg-[#2c5fbf] hover:bg-[#2c5fbf]/75 text-sm font-bold text-[#E3E3E3] flex items-center justify-center gap-1.5 ml-auto cursor-pointer" style={{ textShadow: "rgba(0, 0, 0, 0.5) 0px 2px" }}>
+                                    <div className="rounded-lg h-full relative bg-gradient-border-color-btn p-[1px]">
+                                        <div className="flex items-center justify-center rounded-lg relative h-full min-w-10 overflow-hidden transition duration-300 px-4 py-[6px] w-full bg-prime hover:bg-prime/80 text-sm font-inter text-white drop-shadow-small gap-1.5 cursor-pointer">
                                             Create Account
                                         </div>
                                     </div>
