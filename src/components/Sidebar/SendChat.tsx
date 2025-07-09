@@ -2,31 +2,13 @@ import { useUserProvider } from "@/contexts/UserContext";
 import { useChatSocket } from "@/hooks/useChatSocket";
 import { EChatEvent } from "@/types/socket";
 import { Icon } from "@iconify-icon/react";
-import Picker from 'emoji-picker-react';
 import { useState } from "react";
 
 const SendChat = () => {
     const [input, setInput] = useState<string>("");
-    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
     const { userInfo, messages } = useUserProvider()
     const { chatSocket } = useChatSocket();
-
-    const handleEmojiPickerhideShow = () => {
-        setShowEmojiPicker(!showEmojiPicker);
-        const fuc = () => {
-            setShowEmojiPicker(false);
-            document.getElementsByClassName('chat-messages')[0].removeEventListener('click', fuc)
-        }
-        document.getElementsByClassName('chat-messages')[0].addEventListener('click', fuc)
-    };
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleEmojiClick = (emojiObject: any) => {
-        let message = input;
-        message += emojiObject.emoji;
-        setInput(message);
-    };
 
     const sendMessage = () => {
         if (input.trim() && chatSocket && userInfo) {
@@ -49,51 +31,41 @@ const SendChat = () => {
                 </div>
             </div>
             <div className="flex flex-col justify-between p-4 pt-3 shrink-0 gap-2">
-                <div className="relative w-full">
+                <div className="relative w-full bg-layer2 p-[1px] font-inter rounded-lg">
                     <textarea
                         name="message"
                         id="sendMsg"
                         placeholder="Type Message Here..."
                         maxLength={160}
                         value={input}
-                        className="bg-transparent border-[1px] border-[#222222] bg-[#162135] transition-colors duration-300 px-3 rounded-lg w-full text-sm focus:outline-none focus:border-[#3c3c3c] min-h-[44px] py-2.5 align-bottom resize-none overflow-hidden h-auto focus:placeholder:text-white/10 placeholder:transition-colors placeholder:duration-300 pr-10"
+                        className="bg-transparent bg-layer transition-colors duration-300 px-3 rounded-lg w-full text-sm focus:outline-none focus:border-none min-h-[40px] py-2.5 align-bottom resize-none overflow-hidden h-auto focus:placeholder:text-white/10 placeholder:transition-colors placeholder:duration-300 pr-10"
                         style={{
                             height: "42px"
                         }}
                         onChange={(e) => setInput(e.target.value)}
-                        onKeyDownCapture={(e) => {
-                            if (e.key === 'Enter' && !e.shiftKey) {
-                                e.preventDefault(); // Prevent new line
-                                // Call your send message function here
-                                sendMessage();
-                            }
-                        }}
                     ></textarea>
                     <div
-                        className="absolute inset-y-0 my-auto right-1.5 h-max w-max mt-1.5"
-                        onClick={handleEmojiPickerhideShow}
+                        className="flex absolute top-[6px] right-2 items-center gap-1.5 cursor-pointer font-inter text-light-grey transition-colors"
+                        onClick={() => sendMessage()}
                     >
-                        <div className="flex items-center gap-1.5 cursor-pointer text-[#A2A2A2] transition-colors">
-                            <button
-                                className="w-8 h-8 flex items-center justify-center outline-none bg-transparent hover:bg-[#446ab1]/15 transition-colors duration-300 rounded-full p-1"
-                                type="button"
-                                aria-expanded="false"
-                                id="headlessui-popover-button-:rk9:"
-                            >
-                                <Icon icon="mdi:emoji" width="24" height="24" style={{ color: "#446ab1" }} />
-                            </button>
-                            {showEmojiPicker && <Picker onEmojiClick={handleEmojiClick} />}
-                        </div>
+                        <button
+                            className="w-8 h-8 flex items-center justify-center outline-none bg-transparent hover:bg-[#446ab1]/15 transition-colors duration-300 rounded-full p-1"
+                            type="button"
+                            aria-expanded="false"
+                            id="headlessui-popover-button-:rk9:"
+                        >
+                            <Icon icon="iconoir:send-solid" width="20" height="20" className="p-2" style={{ color: "#09A0FC" }} />
+                        </button>
                     </div>
                 </div>
                 <div className="flex justify-between">
                     <div className="flex items-center gap-1.5 cursor-pointer text-[#A2A2A2] hover:text-white transition-colors">
                         <Icon icon="icon-park-solid:info" width="12" height="12" style={{ color: "#A2A2A2" }} />
-                        <p className="text-sm font-medium leading-[21px]">Chat Rules</p>
+                        <p className="font-inter text-sm font-medium leading-[21px]">Chat Rules</p>
                     </div>
                     <div className="flex items-center gap-1.5 cursor-pointer text-[#A2A2A2] transition-colors">
                         <Icon icon="tabler:message-filled" width="16" height="16" style={{ color: "#A2A2A2" }} />
-                        <p className="text-sm font-medium leading-[21px]">{messages.length}</p>
+                        <p className="font-inter text-sm font-medium leading-[21px]">{messages.length}</p>
                     </div>
                 </div>
             </div>

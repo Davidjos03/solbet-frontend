@@ -22,7 +22,7 @@ const Sidebar = () => {
                     <div className="w-1.5 h-1.5 bg-secondary rounded-full">
                     </div>
                   </div>
-                  <p className="text-sm text-light-grey font-book">324</p>
+                  <p className="font-inter text-sm text-light-grey font-book">324</p>
                 </div>
               </div>
             </button>
