@@ -15,6 +15,10 @@ const duringList: string[] = [
 const StatisticsPage = () => {
     const [date, setDate] = useState<string>(duringList[1])
     const [ohlc, setohlc] = useState([])
+    const [netProfit, setNetProfit] = useState<number>(0);
+    const [totalWaggers, setTotalWaggers] = useState<number>(0);
+    const [luckiestWin, setLuckiestWin] = useState<number>(0);
+    const [biggestWin, setBiggestWin] = useState<number>(0);
 
     const { userInfo } = useUserProvider();
 
@@ -29,7 +33,11 @@ const StatisticsPage = () => {
         })
         console.log("🚀 ~ getUser ~ res:", res)
         if (res) {
-            setohlc(res);
+            setohlc(res.ohlcData);
+            setNetProfit(res.reward - res.deposit);
+            setTotalWaggers(res.deposit);
+            setLuckiestWin(res.luckiestWin);
+            setBiggestWin(res.biggestWin);
         }
     }
 
@@ -50,17 +58,17 @@ const StatisticsPage = () => {
                     <div>
                         <p className="text-sm text-[#A2A2A2] font-medium mb-1">Net Profit</p>
                         <div className="flex items-center gap-1.5">
-                            <Icon icon="tabler:minus" width="24" height="24" style={{ color: "#ff4d4f" }} />
+                            <Icon icon={netProfit >= 0 ? "tabler:plus" : "tabler:minus"} width="24" height="24" style={{ color: `${netProfit > 0 ? "#10f4b1" : "#ff4d4f"}` }} />
                             <div className="w-8 h-8 flex items-center justify-center bg-[#171721] rounded-full">
                                 <Icon icon="token-branded:solana" width="24" height="24" />
                             </div>
-                            <h4 className="font-bold text-[24px] text-white">0.6913</h4>
+                            <h4 className="font-bold text-[24px] text-white">{netProfit ? Math.abs(netProfit).toFixed(4) : "0.0000"}</h4>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="flex justify-between items-center my-6">
-                <p className="text-white font-semibold">Wager Stats</p>
+            <div className="flex justify-between items-center my-6 gap-5">
+                <p className="text-white font-semibold text-nowrap">Wager Stats</p>
                 <DuringDropdown duringList={duringList} duringTime={date} setDuringTime={handleSetData} />
             </div>
             <div className={`flex justify-between gap-2 w-full h-[315px] mb-4 border-b border-[#222222] relative`}>
@@ -70,7 +78,7 @@ const StatisticsPage = () => {
             </div>
             <div>
                 <h4 className="mb-3 mt-4 text-sm text-[#A2A2A2]">Wager Stats</h4>
-                <div className="flex gap-3">
+                <div className="grid grid-cols-1 xs:grid-cols-2 gap-3">
                     <div className="w-full bg-[#1D1D1D] border-[1px] border-[#303030] rounded-xl p-4">
                         <div>
                             <p className="text-sm font-medium text-[#A2A2A2] mt-1">Total Wagered</p>
@@ -78,7 +86,7 @@ const StatisticsPage = () => {
                                 <div className="w-5 h-5 flex items-center justify-center bg-[#171721] rounded-full">
                                     <Icon icon="token-branded:solana" width="12" height="12" />
                                 </div>
-                                <h4 className="text-base text-white font-bold">0</h4>
+                                <h4 className="text-base text-white font-bold">{totalWaggers ? totalWaggers.toFixed(2) : 0}</h4>
                             </div>
                         </div>
                         <img src="/images/dot-pattern-stat.webp" className="object-cover object-center absolute right-0 top-0 h-full w-full" alt="Pattern"></img>
@@ -90,7 +98,28 @@ const StatisticsPage = () => {
                                 <div className="w-5 h-5 flex items-center justify-center bg-[#171721] rounded-full">
                                     <Icon icon="token-branded:solana" width="12" height="12" />
                                 </div>
-                                <h4 className="text-base text-white font-bold">0</h4>
+                                <h4 className="text-base text-white font-bold">{netProfit ? netProfit.toFixed(4) : 0}</h4>
+                            </div>
+                        </div>
+                        <img src="/images/dot-pattern-stat.webp" className="object-cover object-center absolute right-0 top-0 h-full w-full" alt="Pattern"></img>
+                    </div>
+                    <div className="w-full bg-[#1D1D1D] border-[1px] border-[#303030] rounded-xl p-4">
+                        <div>
+                            <p className="text-sm font-medium text-[#A2A2A2] mt-1">Luckiest Win</p>
+                            <div className="flex items-center gap-2">
+                                <h4 className="text-base text-white font-bold">{luckiestWin ? luckiestWin.toFixed(2) : 0}x</h4>
+                            </div>
+                        </div>
+                        <img src="/images/dot-pattern-stat.webp" className="object-cover object-center absolute right-0 top-0 h-full w-full" alt="Pattern"></img>
+                    </div>
+                    <div className="w-full bg-[#1D1D1D] border-[1px] border-[#303030] rounded-xl p-4">
+                        <div>
+                            <p className="text-sm font-medium text-[#A2A2A2] mt-1">Biggest Win</p>
+                            <div className="flex items-center gap-2">
+                                <div className="w-5 h-5 flex items-center justify-center bg-[#171721] rounded-full">
+                                    <Icon icon="token-branded:solana" width="12" height="12" />
+                                </div>
+                                <h4 className="text-base text-white font-bold">{biggestWin ? biggestWin.toFixed(2) : 0}</h4>
                             </div>
                         </div>
                         <img src="/images/dot-pattern-stat.webp" className="object-cover object-center absolute right-0 top-0 h-full w-full" alt="Pattern"></img>

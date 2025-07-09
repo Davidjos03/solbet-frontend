@@ -10,41 +10,26 @@ const UserCard: React.FC<{ player: IPlayer }> = ({ player }) => {
 
     return (
         <div
-            className="group w-full bg-gradient-to-t from-[#2c303b] to-[#1c222c] rounded-[15px] p-[3px] cursor-pointer mb-4 pointer-events-none md:pointer-events-auto opacity-100 "
+            className="group w-full bg-layer2 rounded-[10px] p-[2px] cursor-pointer mb-4 pointer-events-none md:pointer-events-auto drop-shadow-small"
             onClick={handleSetUser}
         >
             <div
-                className="w-full h-[92px] shadow-bet rounded-[13px] bg-gradient-to-b from-[#30343d] to-[#202733] p-[3px] relative overflow-hidden"
+                className="w-full h-[92px] rounded-[10px] bg-gradient-border p-[1px] relative overflow-hidden"
             >
                 <div
-                    className="flex justify-between items-center w-full h-full rounded-[11px] bg-gradient-to-b from-[#2e3647] to-[#111a27] p-4"
+                    className="flex justify-between items-center gap-2 w-full h-full rounded-[11px] bg-gradient-color p-3"
                 >
-                    <div className="flex items-center text-[#70d4ff]">
-                        <div className="flex items-center">
-                            <div
-                                className="rounded-[8px] overflow-hidden border-[1px] border-[#222222] aspect-square hover:brightness-125 duration-300 cursor-pointer w-12 h-12 transition-[filter] will-change-[filter] group-hover:brightness-125 shrink-0 shadow-[0px_1.48px_0px_0px_#FFFFFF1A_inset] bg-[#303045] p-[1px] border-none"
-                            >
-                                <div
-                                    className="w-full h-full p-0.5 border-[1px]  border-[#222222] rounded-[8px] bg-current relative overflow-hidden"
-                                >
-                                    <div
-                                        className="bg-gradient-to-b from-[#668cd4] to-[#668cd4]/50 opacity-100 rounded-[8px] absolute top-0 left-0 w-full h-full"
-                                    ></div>
-                                    <div
-                                        className="w-full h-full border-[1px] rounded-[8px] border-[#222222] rounded-2 overflow-hidden shadow-avatar-emboss relative z-[3] bg-[#595959]"
-                                    >
-                                        <img
-                                            src={`/images/avatars/${player.user_id.avatar}`}
-                                            className="object-cover object-center w-full h-full"
-                                            alt=""
-                                        />
-                                    </div>
+                    <div className="flex items-center">
+                        <div className="flex items-center justify-center w-full drop-shadow-small">
+                            <div className="flex items-center justify-center bg-secondary z-[300] w-[72px] h-[72px] rounded-[10px] p-[1.5px]">
+                                <div className="flex w-full h-full rounded-[10px] border border-[#03036D]">
+                                    <img src={player.user_id.avatar} className="object-cover rounded-[10px] w-full h-full" alt=""></img>
                                 </div>
                             </div>
                         </div>
-                        <div className="flex flex-col items-start gap-1 ml-2 -top-[2px] relative">
+                        <div className="flex flex-col items-start gap-2 ml-2 -top-[2px] relative">
                             <p
-                                className="font-bold text-sm font-book text-[#C4C4C4] w-[50px] sm:w-[75px] truncate"
+                                className="font-inter text-md text-white w-[50px] sm:w-[75px] truncate"
                             >
                                 {player.user_id.username}
                             </p>
@@ -60,51 +45,41 @@ const UserCard: React.FC<{ player: IPlayer }> = ({ player }) => {
                         </div>
                     </div>
                     <div
-                        className="flex items-center h-[44px] gap-3 relative mb:absolute inset-0 m-auto w-max"
+                        className="flex items-center gap-1 relative mb:absolute inset-0 m-auto w-max"
                     >
-                        <div>
-                            <div
-                                className="relative scale-[0.85] sm:scale-100 w-[60px] h-[60px]"
-                            >
-                                <img
-                                    src="/images/rarities/coin.svg"
-                                    alt=""
-                                />
-                            </div>
+                        <div
+                            className="relative scale-[0.85] sm:scale-100 w-10 h-10"
+                        >
+                            <img
+                                src="/images/3d-sol.png"
+                                alt=""
+                                className="object-cover w-10 h-10"
+                            />
                         </div>
-                        <div className="min-w-[80px] relative -left-1.5 sm:left-0">
-                            <p className="text-xl text-white font-extrabold leading-7">{player.price.toFixed(4)}</p>
-                            <p className="text-sm font-medium font-book text-[#C4C4C4]">~${(player.price * solPrice).toFixed(4)}</p>
+                        <div className="min-w-[80px]">
+                            <p className="font-inter text-xl text-white font-bold">{player.price.toFixed(3)}</p>
+                            <p className="font-inter text-sm font-medium font-book text-light-grey">~${(player.price * solPrice).toFixed(3)}</p>
                         </div>
                     </div>
                     <div className="text-right">
-                        <p className="text-sm font-book font-bold text-[#C4C4C4]">Chance</p>
-                        <p className="font-bold text-white leading-7">{(player.price / totalAmount).toFixed(2)}%</p>
+                        <p className="text-sm font-inter font-bold text-light-grey">Chance</p>
+                        <p className="font-inter font-bold text-xl text-white">{(player.price / totalAmount).toFixed(2)}%</p>
                     </div>
                 </div>
                 <div
-                    className="w-12 h-12 absolute -top-6 -left-6 rounded-full blur-[60px] pointer-events-none text-[#39c4ff]"
-                ></div>
-                <div
-                    className="absolute right-0 inset-y-0 m-auto w-max h-max text-[#7696ff]"
+                    className="absolute right-0 inset-y-0 w-fit h-fit text-secondary"
                 >
-                    <div
-                        className="bg-gradient-to-b from-transparent via-white to-transparent absolute right-0 w-1/2 h-full mix-blend-plus-lighter transition-opacity opacity-10 z-[3] duration-[1s]"
-                    ></div>
-                    <div
-                        className="w-[200%] h-[200%] rounded-[100%] bg-current absolute top-1/2 -translate-y-1/2 left-[5px] blur-2xl opacity-100 transition-opacity duration-[1s]"
-                    ></div>
                     <svg
-                        width="9"
-                        height="64"
-                        viewBox="0 0 9 64"
+                        width="5"
+                        height="92"
+                        viewBox="0 0 7 64"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                     >
                         <g filter="url(#filter0_d_1277_23299)">
                             <path
                                 d="M4 7.52179C4 6.80462 4.384 6.14235 5.00641 5.78606L7.5032 4.35681C8.16986 3.9752 9 4.45652 9 5.22468L9 58.7753C9 59.5435 8.16986 60.0248 7.5032 59.6432L5.00641 58.2139C4.384 57.8577 4 57.1954 4 56.4782L4 7.52179Z"
-                                fill="#4ba0e6"
+                                fill="#09A0FC"
                             ></path>
                             <path
                                 d="M4.2 7.52179C4.2 6.87634 4.5456 6.28029 5.10577 5.95963L7.60256 4.53039C8.13589 4.22509 8.8 4.61016 8.8 5.22468L8.8 58.7753C8.8 59.3898 8.13589 59.7749 7.60256 59.4696L5.10577 58.0404C4.5456 57.7197 4.2 57.1237 4.2 56.4782L4.2 7.52179Z"

@@ -22,7 +22,7 @@ const SendChat = () => {
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleEmojiClick = (event: any, emojiObject: any) => {
+    const handleEmojiClick = (emojiObject: any) => {
         let message = input;
         message += emojiObject.emoji;
         setInput(message);

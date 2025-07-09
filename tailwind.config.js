@@ -3,21 +3,19 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     colors: {
-      dark: "#111111",
-      darkgray: "#222222",
-      gray: "#333333",
-      skyblue: "#71A2EB",
-      purple: "#BA76FF",
-      white: "#ffffff",
+      prime: "#2A62C1",
+      white: "#FFFFFF",
+      main: "#0C122C",
+      grey: "#697184",
+      "light-grey": "#B9BCC5",
+      secondary: "#09A0FC",
+      layer: "#162135",
+      layer2: "#27354F",
+      border: "#1D2538",
     },
     fontFamily: {
-      maven: ["Maven Pro"],
-      oxygen: ["Oxygen"],
-      monts: ["Montserrat"],
-      prompt: ["Prompt"],
-      playfair: ["Playfair Display"],
-      lato: ["Lato"],
-      gugi: ["Gugi"],
+      inter: ["Inter"],
+      racing: ["Racing Sans One"],
     },
     extend: {
       screens: {
@@ -54,8 +52,17 @@ export default {
         "3xl": "1820px",
         // => @media (min-width: 1820px) { ... }
       },
+      dropShadow: {
+        small: "0.5px 1px 1px 0px #000000A3",
+        medium: "0px 15px 24px 0px #05C68133",
+      },
       backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        'gradient-primary': 'linear-gradient(180deg, #0C122C 0%, #0C122C 100%)',
+        'gradient-primary-reserve': 'linear-gradient(180deg, #0C122C 100%, #0C122C 0%)',
+        'gradient-color': 'linear-gradient(105.65deg, #37445C 3.85%, #1D2B45 40.37%)',
+        'gradient-border': 'linear-gradient(122.34deg, #57667F 30.62%, #1E2C46 76.94%)',
+        'gradient-border-btn': 'linear-gradient(180deg, #57667F 0%, #37445C 100%)',
+        'gradient-border-color-btn': 'linear-gradient(180deg, #5D82D0 0%, #4E70BA 100%)',
       },
     },
   },

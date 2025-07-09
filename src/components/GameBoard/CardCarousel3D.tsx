@@ -131,7 +131,7 @@ const CardCarousel3D: React.FC<CardCarousel3DProps> = ({
                     <div className="w-full h-full p-0.5 border-[1px] border-[#222222] rounded-[18px] bg-gradient-to-b from-[#8A8A8A] to-[#5A5A5A]">
                       <div className="w-full h-full border-[1px] border-[#222222] rounded-[18px] overflow-hidden bg-black/75 shadow-avatar-emboss relative">
                         <img
-                          src={`/images/avatars/${card.user_id.avatar}`}
+                          src={card.user_id.avatar}
                           className={`object-cover ${card._id.length ? "opacity-100" : "opacity-30"} object-center w-full h-full`}
                           alt=""
                         />

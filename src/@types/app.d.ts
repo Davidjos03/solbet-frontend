@@ -82,6 +82,7 @@ interface IUser {
   email: string;
   refferal: string;
   invite_link: string;
+  deposit_state: boolean;
   created_at: Date;
   updated_at: Date;
 }

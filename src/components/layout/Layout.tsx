@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom";
+import cn from "classnames";
 import Header from "./Header";
 import { Icon } from "@iconify-icon/react";
 import { useUserProvider } from "@/contexts/UserContext";
@@ -11,7 +12,7 @@ const Layout = () => {
   const { isToggle, setIsToggle } = useUserProvider()
 
   return (
-    <div className="h-full min-h-screen w-full pt-0 pb-0 block main-background">
+    <div className="h-full min-h-screen w-full pt-0 pb-0 block bg-main">
       <div className="fixed top-0 left-0 w-full h-full z-[10000] flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none">
         <div className="absolute top-0 z-30 h-0.5 w-full">
           <div className="animate-top-loader h-full w-1/2 bg-[#2c5fbf]"></div>
@@ -40,13 +41,15 @@ const Layout = () => {
           <Footer />
         </div>
       </div>
-      <div className="intercom-lightweight-app">
-        <div className="intercom-lightweight-app-launcher intercom-launcher" role="button" tabIndex={0} aria-label="Open Intercom Messenger" aria-live="polite">
-          <div className="intercom-lightweight-app-launcher-icon intercom-lightweight-app-launcher-icon-open">
-            <img src="/images/ca194ca0d6f809f30f8d6e396686795d.png" alt="" className="intercom-lightweight-app-launcher-custom-icon-open"></img>
+      <button
+        className={cn("p-[2px] rounded-xl h-12 w-12 bg-layer2 transition-opacity duration-300 cursor-pointer bottom-3 right-3 fixed")}
+      >
+        <div className="rounded-xl h-full relative bg-gradient-border-color-btn p-[1px]">
+          <div className="flex items-center justify-center rounded-xl h-full min-w-10 overflow-hidden transition duration-300 w-full bg-prime hover:bg-prime/80 gap-1.5 cursor-pointer">
+            <Icon icon="gridicons:chat" width="24" height="24" className="drop-shadow-small" style={{color: "#fff"}} />
           </div>
         </div>
-      </div>
+      </button>
       <ProfileModal />
       <RegisterModal />
     </div>

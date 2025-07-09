@@ -35,7 +35,7 @@ const OptionsPage = () => {
             setUserInfo(res)
             localStorage.setItem('userInfo', JSON.stringify(res));
         } else {
-            throw new Error('Failed to update user info');
+            console.log('Failed to update user info');
         }
     }
 

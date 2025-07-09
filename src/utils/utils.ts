@@ -5,7 +5,7 @@ export const initialArray: IPlayer[] = Array.from({ length: 30 }, () => ({
     user_id: {
         _id: "",
         username: "Waiting...",
-        avatar: "avatar.svg",
+        avatar: "/images/avatar.png",
         created_at: new Date(),
     },
     price: 0.0000,
@@ -19,7 +19,7 @@ export const waiting: IWaiting = {
     user_id: {
         _id: "",
         username: "Waiting...",
-        avatar: "avatar.svg",
+        avatar: "/images/avatar.png",
         created_at: new Date(),
     },
     create_at: new Date(),

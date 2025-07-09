@@ -15,6 +15,10 @@ const duringList: string[] = [
 const ProfileModal = () => {
     const [date, setDate] = useState<string>(duringList[1])
     const [ohlc, setohlc] = useState([])
+    const [netProfit, setNetProfit] = useState<number>(0);
+    const [totalWaggers, setTotalWaggers] = useState<number>(0);
+    const [luckiestWin, setLuckiestWin] = useState<number>(0);
+    const [biggestWin, setBiggestWin] = useState<number>(0);
 
     const { isProfileModal, selectedUser, setIsProfileModal } = useUserProvider();
 
@@ -29,7 +33,11 @@ const ProfileModal = () => {
         })
         console.log("🚀 ~ getUser ~ res:", res)
         if (res) {
-            setohlc(res);
+            setohlc(res.ohlcData);
+            setNetProfit(res.reward - res.deposit);
+            setTotalWaggers(res.deposit);
+            setLuckiestWin(res.luckiestWin);
+            setBiggestWin(res.biggestWin);
         }
     }
 
@@ -84,11 +92,11 @@ const ProfileModal = () => {
                                         <div>
                                             <p className="text-sm text-[#A2A2A2] font-medium mb-1">Net Profit</p>
                                             <div className="flex items-center gap-1.5">
-                                                <Icon icon="tabler:minus" width="24" height="24" style={{ color: "#ff4d4f" }} />
+                                                <Icon icon={netProfit > 0 ? "tabler:plus" : "tabler:minus"} width="24" height="24" style={{ color: `${netProfit > 0 ? "#10f4b1" : "#ff4d4f"}` }} />
                                                 <div className="w-8 h-8 flex items-center justify-center bg-[#171721] rounded-full">
                                                     <Icon icon="token-branded:solana" width="24" height="24" />
                                                 </div>
-                                                <h4 className="font-bold text-[24px] text-white">0.6913</h4>
+                                                <h4 className="font-bold text-[24px] text-white">{netProfit ? Math.abs(netProfit).toFixed(4) : "0.0000"}</h4>
                                             </div>
                                         </div>
                                         <DuringDropdown duringList={duringList} duringTime={date} setDuringTime={handleSetData} />
@@ -111,7 +119,7 @@ const ProfileModal = () => {
                                             <p className="text-sm font-medium text-[#A2A2A2]">Luckiest Win</p>
                                             <div className="flex items-center gap-1.5 mt-1.5">
                                                 <Icon icon="bxs:rocket" width="24" height="24" style={{ color: "#9B29AC" }} />
-                                                <p className="font-bold text-white">1060.10x</p>
+                                                <p className="font-bold text-white">{luckiestWin ? luckiestWin.toFixed(2) : 0}x</p>
                                             </div>
                                         </div>
                                     </div>
@@ -128,12 +136,12 @@ const ProfileModal = () => {
                                         <img src="/images/dot-pattern.webp" className="w-full object-cover object-center absolute h-full right-0" alt=""></img>
                                         <div className="bg-gradient-to-l from-[#FFAB35]/20 to-[#483213]/0 to-[40%] w-full h-full absolute top-0 right-0 z-10"></div>
                                         <div>
-                                            <p className="text-sm font-medium text-[#A2A2A2]">Luckiest Win</p>
+                                            <p className="text-sm font-medium text-[#A2A2A2]">Biggest Win</p>
                                             <div className="flex items-center gap-1.5 mt-1.5">
                                                 <div className="w-6 h-6 flex items-center justify-center bg-[#171721] rounded-full">
                                                     <Icon icon="token-branded:solana" width="16" height="16" />
                                                 </div>
-                                                <p className="font-bold text-white">1060.10x</p>
+                                                <p className="font-bold text-white">{biggestWin ? biggestWin.toFixed(2) : 0}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -150,12 +158,12 @@ const ProfileModal = () => {
                                         <img src="/images/dot-pattern.webp" className="w-full object-cover object-center absolute h-full right-0" alt=""></img>
                                         <div className="bg-gradient-to-l from-[#4D94E9]/20 to-[#131748]/0 to-[40%] w-full h-full absolute top-0 right-0 z-10"></div>
                                         <div>
-                                            <p className="text-sm font-medium text-[#A2A2A2]">Luckiest Win</p>
+                                            <p className="text-sm font-medium text-[#A2A2A2]">Total Wagered</p>
                                             <div className="flex items-center gap-1.5 mt-1.5">
                                                 <div className="w-6 h-6 flex items-center justify-center bg-[#171721] rounded-full">
                                                     <Icon icon="token-branded:solana" width="16" height="16" />
                                                 </div>
-                                                <p className="font-bold text-white">1060.10x</p>
+                                                <p className="font-bold text-white">{totalWaggers ? totalWaggers : 0}</p>
                                             </div>
                                         </div>
                                     </div>

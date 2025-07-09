@@ -1,3 +1,8 @@
+import { useEffect, useState } from "react";
+import { PublicKey, Transaction } from "@solana/web3.js";
+import { useWallet } from "@solana/wallet-adapter-react";
+import { Icon } from "@iconify-icon/react";
+import cn from "classnames";
 import CardCarousel3D from "@/components/GameBoard/CardCarousel3D";
 import SmoothCardCarousel from "@/components/GameBoard/SmoothCardCarousel";
 import UserCard from "@/components/GameBoard/UserCard";
@@ -9,10 +14,6 @@ import { EGameEvent } from "@/types/socket";
 import { getBalance } from "@/utils/common";
 import { fetchWithAuth } from "@/utils/setAuthToken";
 import { formatCompactNumber, formatTime, initialArray } from "@/utils/utils";
-import { Icon } from "@iconify-icon/react";
-import { useWallet } from "@solana/wallet-adapter-react";
-import { Transaction } from "@solana/web3.js";
-import { useEffect, useState } from "react";
 
 const Jackpot = () => {
     const [value, setValue] = useState<string>("");
@@ -21,15 +22,38 @@ const Jackpot = () => {
     const [wager, setWager] = useState<number>(0);
     const [chance, setChance] = useState<number>(0);
     const [isNewRound, setIsNewRound] = useState<boolean>(false);
+    const [amountError, setAmountError] = useState<string>("");
 
-    const { userInfo, round, totalBetAmount, players, winner, latestWinner, luckyUser, winnerIndex, solPrice, setSolPrice, setSolBalance, setWinnerIndex, setWinner, setLatestWinner, setLuckyUser, setPlayers, setTotalAmount, setTotalBetAmount, setRound } = useUserProvider();
+    const { userInfo, round, totalBetAmount, players, winner, latestWinner, luckyUser, winnerIndex, solPrice, setUserInfo, setSolPrice, setSolBalance, setWinnerIndex, setWinner, setLatestWinner, setLuckyUser, setPlayers, setTotalAmount, setTotalBetAmount, setRound } = useUserProvider();
     const { publicKey, sendTransaction } = useWallet();
     const { gameSocket } = useGameSocket();
 
     const handleDeposit = async () => {
         try {
-            if (publicKey && value != "" && remainingTime !== 0) {
-                const depositIx = await joinGame(publicKey, round, Number(value))
+            if (publicKey && value != "" && remainingTime !== 0 && userInfo) {
+                let affiliateState = false;
+                let refferalAdd: PublicKey = publicKey;
+                let depositIx;
+                if (userInfo.refferal) {
+                    const res = await fetchWithAuth(`/api/refferal/affiliate`, {
+                        method: 'POST',
+                        body: JSON.stringify({ refferal: userInfo.refferal })
+                    })
+                    console.log("🚀 ~ getUser ~ res:", res)
+                    if (res.state) {
+                        affiliateState = res.state;
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        refferalAdd = new PublicKey(userInfo.refferal.split("_")[0]);
+                    }
+                }
+
+                if (affiliateState) {
+                    // depositIx = await joinGame(publicKey. refferalAdd, round, Number(value))
+                    depositIx = await joinGame(publicKey, round, Number(value))
+                } else {
+                    // depositIx = await joinGame(publicKey, publicKey, round, Number(value))
+                    depositIx = await joinGame(publicKey, round, Number(value))
+                }
 
                 if (depositIx) {
                     const transaction = new Transaction().add(
@@ -61,13 +85,44 @@ const Jackpot = () => {
 
                     gameSocket?.emit(EGameEvent.SAVE_HISTORY, historyData)
 
+                    if (!userInfo.deposit_state) {
+                        const updateReffer = {
+                            refferal: userInfo.refferal,
+                            amount: 30,
+                            count: 0
+                        }
+                        const refferRes = await fetchWithAuth(`/api/refferal/update`, {
+                            method: 'POST',
+                            body: JSON.stringify(updateReffer)
+                        })
+                        if (refferRes.state) {
+                            const updateData = {
+                                id: userInfo!._id,
+                                deposit_state: true
+                            }
+                            const res = await fetchWithAuth(`/api/auth/update`, {
+                                method: 'POST',
+                                body: JSON.stringify(updateData)
+                            })
+                            if (res) {
+                                console.log("🚀 ~ getUser ~ res:", res);
+                                setUserInfo(res)
+                                localStorage.setItem('userInfo', JSON.stringify(res));
+                            } else {
+                                console.log('Failed to update user info');
+                            }
+                        } else {
+                            console.log('Failed to update refferal info');
+                        }
+                    }
+
                     setWager((prev) => prev + Number(value));
                     setValue("");
                     const balance = await getBalance(publicKey);
                     setSolBalance(balance);
-                } else {
-                    console.log("Deposit failed.")
                 }
+            } else {
+                console.log("Deposit failed.")
             }
         } catch (err) {
             console.log("Deposit failed.", err)
@@ -142,6 +197,14 @@ const Jackpot = () => {
     }, [gameSocket])
 
     useEffect(() => {
+        if (Number(value) < 0.001 && Number(value) != 0) {
+            setAmountError("You have to deposit at least 0.001 SOL!")
+        } else {
+            setAmountError("")
+        }
+    }, [value])
+
+    useEffect(() => {
         console.log('clear-------------')
         const fetchWinner = async () => {
             if (round > 1) {
@@ -169,6 +232,7 @@ const Jackpot = () => {
         setTotalAmount(0);
         setPlayers(initialArray);
         setIsNewRound(false);
+        setRemainingTime(59);
     }, [round, publicKey])
 
     useEffect(() => {
@@ -199,26 +263,26 @@ const Jackpot = () => {
                                     <div className="flex flex-col">
                                         <div className="flex items-center gap-2 mb-2.5">
                                             <Icon icon="gravity-ui:target-dart" width="24" height="24" style={{ color: "#2c5fbf" }} />
-                                            <h2 className="font-airstrike text-[28px] 2xl:text-[32px] leading-[28px] my-0 text-white">Jackpot</h2>
+                                            <h2 className="font-racing text-[28px] 2xl:text-[32px] leading-[28px] text-white">Jackpot</h2>
                                         </div>
-                                        <h4 className="text-[#BFBFCD] text-xs 2xl:text-sm font-medium whitespace-nowrap">Winner takes all...</h4>
+                                        <h4 className="font-inter text-light-grey text-xs 2xl:text-sm whitespace-nowrap">Winner takes all...</h4>
                                     </div>
                                     <img src="/images/static/halftone.e9491561.webp" className="object-cover object-center w-[109px] aspect-[109/79] hidden sm:block" alt=""></img>
                                 </div>
                                 <div className="flex flex-col-reverse sm:flex-row items-end ml-auto shrink gap-2 sm:gap-0.5 md:gap-1 mt-auto">
                                     <div className="w-full md:w-auto mr-auto">
-                                        <div className="flex gap-1 md:gap-1.5 h-[44px] w-full sm:w-auto">
+                                        <div className="flex gap-1 md:gap-1.5 h-9 w-full sm:w-auto">
                                             <div className="relative w-max block">
                                                 <div className="w-full relative">
-                                                    <p className="w-full mb-2 text-[#A2A2A2] text-xs font-book absolute -top-[24px] gap-1 flex">Bet Amount
-                                                        <span className="text-white">~${formatCompactNumber(betAmount)}{value && ` = ${Number(value).toFixed(3)}SOL`}</span>
+                                                    <p className="w-full mb-2 font-inter text-light-grey text-xs font-book absolute -top-[24px] gap-1 flex">
+                                                        Bet amount<span className="text-white"> ~${formatCompactNumber(betAmount)}</span>
                                                     </p>
                                                     <div className="relative w-full">
                                                         <div className="absolute inset-y-0 my-auto left-2.5 h-max w-max">
                                                             <img src="/images/solana.png" className="object-cover object-center w-6 h-6 rounded-full" alt=""></img>
                                                         </div>
                                                         <input
-                                                            className="border-[1px] transition-colors duration-300 px-3 h-[44px] rounded-lg text-sm focus:outline-none focus:border-[#3c3c3c] pl-11 bg-[#162135] border-[#292929] w-[120px] sm:w-full lg:w-[220px] desktop:w-[260px] hide-input-arrows"
+                                                            className="border-[1px] transition-colors duration-300 px-2 py-[6px] gap-2 h-9 rounded-lg text-sm focus:outline-none focus:border-none pl-11 bg-layer border-border w-[120px] sm:w-full lg:w-[172px] desktop:w-[260px] hide-input-arrows"
                                                             placeholder="0.00"
                                                             type="text"
                                                             value={value}
@@ -227,33 +291,33 @@ const Jackpot = () => {
                                                         >
                                                         </input>
                                                     </div>
+                                                    {amountError && <p className="bt-[1px] font-inter text-[#bb3333] text-[9px] text-nowrap">{amountError}</p>}
                                                 </div>
                                             </div>
                                             <button
-                                                className="bg-gradient-to-t from-[#161629] to-[#181836] p-[3px] rounded-2xl transition-opacity duration-300 cursor-pointer hidden xs:block xs:ml-1"
-                                                onClick={() => handleValueChange((Number(value) + 0.1).toFixed(4))}
+                                                className="bg-layer2 p-[2px] w-fit h-9 rounded-lg transition-opacity duration-300 cursor-pointer hidden xs:block xs:ml-1"
+                                                onClick={() => handleValueChange((Number(value) + 0.1).toFixed(3))}
                                             >
-                                                <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#454545] to-[#232323] border-[1px] border-[#1D1D1D]">
-                                                    <div className="group flex items-center justify-center relative min-w-10 overflow-hidden transition duration-300 px-4 bg-[#2e2e42] hover:bg-[#343449]/75 text-sm font-medium rounded-lg h-full w-[48px] text-[#C4C4C4] cursor-pointer [text-shadow: rgba(0, 0, 0, 0.5) 0px 2px]">+0.1</div>
+                                                <div className="p-[1px] rounded-lg w-full h-full relative bg-gradient-border-btn">
+                                                    <div className="group flex items-center justify-center relative min-w-10 overflow-hidden transition duration-300 px-2 py-[6px] bg-[#37445C] hover:bg-[#37445C]/75 font-inter drop-shadow-small text-sm font-medium rounded-lg h-full w-full text-light-grey cursor-pointer">+0.1</div>
                                                 </div>
                                             </button>
                                             <button
-                                                className="bg-gradient-to-t from-[#161629] to-[#181836] p-[3px] rounded-2xl transition-opacity duration-300 cursor-pointer hidden min-[1440px]:block"
-                                                onClick={() => handleValueChange((Number(value) + 1).toFixed(4))}
+                                                className="bg-layer2 p-[2px] w-fit h-9 rounded-lg transition-opacity duration-300 cursor-pointer hidden xs:block xs:ml-1"
+                                                onClick={() => handleValueChange((Number(value) + 1).toFixed(3))}
                                             >
-                                                <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#454545] to-[#232323] border-[1px] border-[#1D1D1D]">
-                                                    <div className="group flex items-center justify-center relative min-w-10 overflow-hidden transition duration-300 px-4 bg-[#2e2e42] hover:bg-[#343449]/75 text-sm font-medium rounded-lg h-full w-[48px] text-[#C4C4C4] cursor-pointer [text-shadow: rgba(0, 0, 0, 0.5) 0px 2px]">+1</div>
+                                                <div className="p-[1px] rounded-lg w-full h-full relative bg-gradient-border-btn">
+                                                    <div className="group flex items-center justify-center relative min-w-10 overflow-hidden transition duration-300 px-2 py-[6px] bg-[#37445C] hover:bg-[#37445C]/75 font-inter drop-shadow-small text-sm font-medium rounded-lg h-full w-full text-light-grey cursor-pointer">+1</div>
                                                 </div>
                                             </button>
                                             <button
-                                                className={`bg-gradient-to-t from-[#192130] to-[#162231] p-[3px] ${remainingTime === 0 ? "cursor-not-allowed" : "cursor-pointer"} rounded-2xl transition-opacity duration-300 opacity-100 w-fit sm:w-full`}
-                                                disabled={remainingTime === 0 ? true : false}
+                                                className={cn("p-[2px] rounded-lg w-fit h-9 bg-layer2 transition-opacity duration-300 cursor-pointer")}
+                                                disabled={remainingTime === 0 && amountError ? true : false}
                                                 onClick={() => handleDeposit()}
                                             >
-                                                <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#6797df] to-[#2a64cf] border-[1px] border-[#1D1D1D]">
-                                                    <div className="group flex items-center justify-center relative min-w-10 overflow-hidden rounded-[10px] transition duration-300 px-4 w-full bg-[#2c5fbf] hover:bg-[#2c5fbf]/75 text-sm font-bold text-white h-[32px] whitespace-nowrap font-book opacity-100 [text-shadow: rgba(0, 0, 0, 0.5) 0px 2px]">
-                                                        <span className="hidden sm:inline mr-1">Place</span> Bet
-                                                        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(68.53%_169.15%_at_50%_-27.56%,_#D787FF_0%,_#5B2CBF_100%)] transition-opacity duration-500 z-[1] opacity-0 group-hover:opacity-20 mix-blend-screen"></div>
+                                                <div className="rounded-lg h-full relative bg-gradient-border-color-btn p-[1px]">
+                                                    <div className="group rounded-lg relative h-full min-w-10 overflow-hidden transition duration-300 px-4 py-[6px] w-full bg-prime hover:bg-prime/80 text-sm font-inter text-white drop-shadow-small items-center justify-center gap-1.5 cursor-pointer">
+                                                        <span className="hidden sm:inline mr-1">Place</span>Bet
                                                     </div>
                                                 </div>
                                             </button>
@@ -261,63 +325,51 @@ const Jackpot = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 2xl:gap-4 justify-between w-full -mt-1.5">
-                                <div className="transition-colors duration-300 p-[4px] rounded-xl h-[97px] relative w-full border-[#34527e] bg-[#0D0D0D]">
-                                    <div className="absolute w-[calc(100%+5px)] h-[calc(100%+4px)] inset-y-0 my-auto border-[2px] border-[#292a64] top-0 -left-[3px] rounded-[14px]"></div>
-                                    <div className="p-[1px] h-full rounded-lg relative border overflow-hidden bg-conic-progress">
-                                        <div className="flex flex-col items-center justify-center w-full h-full bg-[#1D1D1D] rounded-[7px] relative z-[3] overflow-hidden">
-                                            <div className="bg-gradient-to-l from-[#2c5fbf]/35 to-[#2c5fbf]/0 w-full h-full absolute"></div>
-                                            <img src="/images/dot-pattern-stat.webp" className="object-cover object-center absolute top-0 left-0 w-full h-full" alt=""></img>
+                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 2xl:gap-4 justify-between w-full h-full -mt-1.5">
+                                <div className="flex transition-colors duration-300 p-[2px] rounded-lg h-[84px] w-full bg-layer2">
+                                    <div className="flex p-[1px] w-full h-full rounded-lg bg-prime">
+                                        <div className="flex flex-col items-center justify-center w-full h-full bg-layer rounded-lg p-3 gap-1 z-[3]">
                                             <div className="flex items-center gap-1.5">
                                                 <img src="/images/solana.png" className="object-cover object-center w-6 h-6" alt=""></img>
                                                 <div className="my-0 font-bold text-xl text-white"><span>{totalBetAmount.toFixed(3)}</span></div>
                                             </div>
-                                            <p className="text-sm text-[#A2A2A2] font-medium">Jackpot Value</p>
+                                            <p className="font-inter text-sm text-light-grey font-medium">Jackpot Value</p>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="w-full bg-transparent transition-colors duration-300 p-[4px] rounded-xl h-[97px] relative">
-                                    <div className="p-[1px] h-full rounded-lg relative overflow-hidden">
-                                        <div className="flex flex-col items-center justify-center w-full h-full bg-[#2c5fbf]/10 rounded-[7px] relative z-[3] overflow-hidden">
-                                            <div className="flex items-center gap-1.5">
-                                                <img src="/images/solana.png" className="object-cover object-center w-6 h-6" alt=""></img>
-                                                <div className="my-0 font-bold text-xl text-white"><span>{wager.toFixed(3)}</span></div>
-                                            </div>
-                                            <p className="text-sm text-[#A2A2A2] font-medium">Your Wager</p>
+                                <div className="flex w-full bg-transparent transition-colors duration-300 rounded-lg h-[84px]">
+                                    <div className="flex flex-col items-center justify-center w-full h-full bg-layer rounded-lg border border-border relative z-[3] overflow-hidden">
+                                        <div className="flex items-center gap-1.5">
+                                            <img src="/images/solana.png" className="object-cover object-center w-6 h-6" alt=""></img>
+                                            <div className="font-inter my-0 font-bold text-xl text-white"><span>{wager.toFixed(3)}</span></div>
                                         </div>
-                                        <div id="progress" className="w-[calc(100%-2px)] h-[calc(100%-2px)] absolute bg-[#303030] top-[1px] right-[1px] rounded-[7px]"></div>
+                                        <p className="font-inter text-sm text-light-grey font-medium">Your Wager</p>
                                     </div>
                                 </div>
-                                <div className="w-full bg-transparent transition-colors duration-300 p-[4px] rounded-xl h-[97px] relative">
-                                    <div className="p-[1px] h-full rounded-lg relative overflow-hidden">
-                                        <div className="flex flex-col items-center justify-center w-full h-full bg-[#2c5fbf]/10 rounded-[7px] relative z-[3] overflow-hidden">
-                                            <div className="flex items-center gap-1.5">
-                                                <div className="my-0 font-bold text-xl text-white"><span>{chance.toFixed(2)}</span>%</div>
-                                            </div>
-                                            <p className="text-sm text-[#A2A2A2] font-medium">Your Chance</p>
+                                <div className="flex w-full bg-transparent transition-colors duration-300 rounded-lg h-[84px] relative">
+                                    <div className="flex flex-col items-center justify-center w-full h-full bg-layer rounded-lg border border-border relative z-[3] overflow-hidden">
+                                        <div className="flex items-center gap-1.5">
+                                            <div className="font-inter font-bold text-xl text-white"><span>{chance.toFixed(2)}</span>%</div>
                                         </div>
-                                        <div id="progress" className="w-[calc(100%-2px)] h-[calc(100%-2px)] absolute bg-[#303030] top-[1px] right-[1px] rounded-[7px]"></div>
+                                        <p className="font-inter text-sm text-light-grey font-medium">Your Chance</p>
                                     </div>
                                 </div>
-                                <div className="w-full bg-transparent transition-colors duration-300 p-[4px] rounded-xl h-[97px] relative">
-                                    <div className="p-[1px] h-full rounded-lg relative overflow-hidden">
-                                        <div className="flex flex-col items-center justify-center w-full h-full bg-[#2c5fbf]/10 rounded-[7px] relative z-[3] overflow-hidden">
-                                            <div className="flex items-center gap-1.5">
-                                                <h1 className="my-0 font-bold text-xl">
-                                                    <div className="flex overflow-hidden tabular-nums">
-                                                        <div className="opacity-100">
-                                                            <div>
-                                                                <div id="0" className="relative inline-flex items-center justify-center gap-1 animate-timer-digit w-[95px]">
-                                                                    {formatTime(remainingTime)}
-                                                                </div>
+                                <div className="flex w-full bg-transparent transition-colors duration-300 rounded-lg h-[84px] relative">
+                                    <div className="flex flex-col items-center justify-center w-full h-full bg-layer rounded-lg border border-border relative z-[3] overflow-hidden">
+                                        <div className="flex items-center gap-1.5">
+                                            <h1 className="font-inter font-bold text-xl">
+                                                <div className="flex overflow-hidden tabular-nums">
+                                                    <div className="opacity-100">
+                                                        <div>
+                                                            <div id="0" className="relative inline-flex items-center justify-center gap-1 animate-timer-digit w-[95px]">
+                                                                {formatTime(remainingTime)}
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </h1>
-                                            </div>
-                                            <p className="text-sm text-[#A2A2A2] font-medium">Time Remaining</p>
+                                                </div>
+                                            </h1>
                                         </div>
-                                        <div id="progress" className="w-[calc(100%-2px)] h-[calc(100%-2px)] absolute bg-[#303030] top-[1px] right-[1px] rounded-[7px]"></div>
+                                        <p className="font-inter text-sm text-light-grey font-medium">Time Remaining</p>
                                     </div>
                                 </div>
                             </div>
@@ -332,34 +384,33 @@ const Jackpot = () => {
                                 selectCard={winner}
                                 isNewRound={isNewRound}
                             />
-                            {/* <Bonus /> */}
-                            <div className="w-full min-h-[600px] border-t border-[#22222D]/50">
-                                <div className="flex md:hidden justify-center mt-4 items-center gap-1.5 pl-2 pr-3 py-2 rounded-lg bg-[#0f2030]/40">
+                            <div className="w-full min-h-[600px] border-t border-border">
+                                <div className="flex md:hidden justify-center mt-4 items-center gap-1.5 pl-2 pr-3 py-2 rounded-lg bg-[#2A62C129]">
                                     <img src="/images/solana.png" className="object-cover object-center w-5 h-5" alt=""></img>
-                                    <p className="text-[#307bc0] font-medium text-sm">Payouts are settled in SOL</p>
+                                    <p className="font-inter text-secondary text-[10px] leading-3">Payouts are settled in SOL</p>
                                 </div>
-                                <div className="flex justify-between pt-5 text-[#A2A2A2] text-sm font-book mb-4">
+                                <div className="flex justify-between pt-5 text-light-grey text-sm font-book mb-4">
                                     <div className="flex items-center gap-3">
                                         <div className="flex items-center gap-2">
                                             <Icon icon="material-symbols:person-rounded" width="24" height="24" style={{ color: "#2c5fbf" }} />
-                                            <p>{players.filter(player => player._id != "").length} Players</p>
+                                            <p className="font-inter text-light-grey text-sm leading-4">{players.filter(player => player._id != "").length} Players</p>
                                         </div>
                                         <div className="h-2/3 w-[1px] bg-[#303030]/50 hidden md:block"></div>
-                                        <div className="hidden md:flex items-center gap-1.5 pl-2 pr-3 py-[5px] rounded-lg bg-[#1b3146]/40">
+                                        <div className="hidden md:flex items-center gap-1.5 pl-2 pr-3 py-[5px] rounded-lg bg-[#2A62C129]">
                                             <img src="/images/solana.png" className="object-cover object-center w-4 h-4" alt=""></img>
-                                            <p className="text-[#2d6da8] font-medium text-[13px]">Payouts are settled in SOL</p>
+                                            <p className="font-inter text-secondary text-[10px] leading-3">Payouts are settled in SOL</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        <p className="text-[16px] text-[#2c5fbf]">#</p>
-                                        <p className="text-[#E3E3E3]">Round: <strong className="text-white font-bold">{round}</strong></p>
+                                        <p className="font-inter text-[16px] text-secondary">#</p>
+                                        <p className="font-inter text-sm text-light-grey">Round: <strong className="text-white font-bold">{round}</strong></p>
                                     </div>
                                 </div>
                                 <div className="flex flex-col min-h-[92px] gap-4">
                                     {players.map((player, index) =>
                                         player._id ?
                                             <UserCard key={`${player.user_id._id}-${index}`} player={player} />
-                                            : <div key={index} className={`${index ? "hidden" : "flex"} w-full items-center justify-center border-dashed border-[2px] border-[#444444] rounded-xl p-6 text-white`}>
+                                            : <div key={index} className={`${index ? "hidden" : "flex"} w-full items-center justify-center border-dashed border-[2px] border-border rounded-xl p-6 font-inter text-white`}>
                                                 Waiting <Icon icon="eos-icons:three-dots-loading" width="24" height="24" style={{ color: "#fff" }} />
                                             </div>
                                     )}
@@ -367,54 +418,46 @@ const Jackpot = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex md:flex-col gap-6 lg:max-w-[180px] 2xl:max-w-[225px] ml-auto w-full flex-wrap md:flex-nowrap shrink-0">
+                    <div className="flex md:flex-col gap-6 w-[210px] xs:w-[430px] lg:w-[210px] h-fit flex-wrap m-auto md:m-0 shrink-0">
                         <div className="flex flex-col xs:flex-row lg:flex-col gap-6 w-full zoom-80 2xl:zoom-100">
-                            <div className="relative h-max lg:h-[280px] w-full" style={{ animationDelay: "0s" }}>
-                                <div>
-                                    <div className="backface-hidden preserve-3d" style={{ transform: "translateZ(-5px)" }}>
-                                        <div className="w-full bg-gradient-to-t from-[#0c1e2b]/15 to-[#00293b]/50 rounded-[14px] p-[3px]">
-                                            <div className="flex flex-col shadow-bet h-full rounded-[11px]">
-                                                <div className="w-full rounded-t-[11px] bg-gradient-to-b from-[#122033] to-[#262f44] p-[3px] pb-0 grow relative">
-                                                    <div className="w-full h-full bg-gradient-to-b from-[#181a1f] to-[150%] to-[#334357] rounded-t-[8px] p-4">
-                                                        <img src="/images/download.webp" className="object-cover object-center w-full absolute top-0 left-0" alt=""></img>
-                                                        <div className="relative z-[3]">
-                                                            <div className="flex justify-between uppercase text-xs text-[#8C8C8C] mb-3">
-                                                                <p>Round</p>
-                                                                <p>#{latestWinner.round}</p>
-                                                            </div>
-                                                        </div>
-                                                        <div className="rounded-[18px] overflow-hidden border-[1px] border-[#222222] aspect-square hover:brightness-125 transition-[filter] duration-300 cursor-pointer w-[72px] h-[72px] mx-auto bg-[#303045] p-[1px] border-none">
-                                                            <div className="w-full h-full p-0.5 border-[1px] border-[#222222] rounded-[18px] bg-gradient-to-b from-[#8A8A8A] to-[#5A5A5A]">
-                                                                <div className="w-full h-full border-[1px] border-[#222222] rounded-[18px] overflow-hidden bg-black/75 shadow-avatar-emboss relative">
-                                                                    <img src={`/images/avatars/${latestWinner.user_id.avatar}`} className="object-cover object-center w-full h-full" alt=""></img>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="flex items-center gap-1 mt-3 mx-auto w-max mb-3">
-                                                            <p className="text-sm font-semibold max-w-[75px] truncate text-white">{latestWinner.user_id.username}</p>
-                                                            {/* <div className="p-[1px] rounded-md overflow-hidden bg-[#307293] text-[#75D1FF]">
-                                                                <div className="flex items-center justify-center rounded-[5px] overflow-hidden bg-[#22222D]/80 font-semibold w-[28px] h-5 text-[11px]">10</div>
-                                                            </div> */}
-                                                        </div>
-                                                        <div className="relative">
-                                                            <span className="text-[11px] italic absolute inset-0 m-auto w-max h-max uppercase text-white">Last Winner</span>
+                            <div className="relative h-full w-full" style={{ animationDelay: "0s" }}>
+                                <div className="backface-hidden preserve-3d" style={{ transform: "translateZ(-5px)" }}>
+                                    <div className="flex w-full bg-layer2 rounded-[10px] p-[2px] border border-[#2E3E5A]">
+                                        <div className="flex bg-gradient-border p-[1px] w-full h-full rounded-[10px]">
+                                            <div className="flex flex-col w-full h-full bg-gradient-color gap-4 rounded-[10px]">
+                                                <div className="flex flex-col w-full h-full rounded-t-[10px] relative gap-3">
+                                                    <img src="/images/download.webp" className="object-cover object-center w-full rounded-t-[10px] absolute top-0 left-0" alt=""></img>
+                                                    <div className="rounded-t-[10px] px-3 py-[6px] z-[3]">
+                                                        <div className="flex justify-between uppercase text-xs text-light-grey">
+                                                            <p>Round</p>
+                                                            <p>#{latestWinner.round}</p>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div className="w-full h-[1px] bg-[#2c3342]"></div>
-                                                <div className="w-full bg-gradient-to-b from-[#242d3b] to-[#040a24] shrink-0 rounded-b-[11px] relative py-3 px-4">
-                                                    <img src="/images/static/grid.bb6dda07.webp" className="object-cover object-center w-full h-full absolute top-0 left-0" alt=""></img>
-                                                    <div className="flex flex-col gap-1">
-                                                        <div className="flex items-center w-full justify-between relative z-[3]">
-                                                            <p className="text-xs text-[#C4C4C4]">Won</p>
-                                                            <div className="flex items-center gap-1.5">
-                                                                <img src="/images/solana.png" alt="" className="w-3 h-3" />
-                                                                <p className="text-sm font-semibold text-white">{latestWinner.won}</p>
+                                                    <div className="flex items-center justify-center w-full drop-shadow-small">
+                                                        <div className="flex items-center justify-center bg-secondary z-[300] w-[72px] h-[72px] rounded-[10px] p-[1.5px]">
+                                                            <div className="flex w-full h-full rounded-[10px] border border-[#03036D]">
+                                                                <img src={latestWinner.user_id.avatar} className="object-cover object-center rounded-[10px] w-full h-full" alt=""></img>
                                                             </div>
                                                         </div>
-                                                        <div className="flex items-center w-full justify-between relative z-[3]">
-                                                            <p className="text-xs text-[#C4C4C4]">Chance</p>
-                                                            <p className="text-sm font-semibold text-white">{Number(latestWinner.chance).toFixed(2)}%</p>
+                                                    </div>
+                                                    <div className="flex flex-col items-center gap-1">
+                                                        <p className="font-inter text-sm font-semibold max-w-[75px] truncate text-white text-center">{latestWinner.user_id.username}</p>
+                                                        <img src="/images/winner.svg" className="object-cover object-center w-full px-10" alt=""></img>
+                                                    </div>
+                                                </div>
+                                                <div className="w-full bg-layer2 rounded-b-[10px] relative py-2 px-3">
+                                                    <img src="/images/static/grid.bb6dda07.webp" className="object-cover object-center w-full h-full rounded-b-[10px] absolute top-0 left-0" alt=""></img>
+                                                    <div className="flex flex-col gap-[2px]">
+                                                        <div className="flex items-center w-full justify-between z-[3]">
+                                                            <p className="font-inter text-xs text-light-grey">Won</p>
+                                                            <div className="flex items-center gap-1.5">
+                                                                <img src="/images/solana.png" alt="" className="w-3 h-3" />
+                                                                <p className="font-inter text-sm font-semibold text-white">{latestWinner.won}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex items-center w-full justify-between z-[3]">
+                                                            <p className="font-inter text-xs text-light-grey">Chance</p>
+                                                            <p className="font-inter text-sm font-semibold text-white">{Number(latestWinner.chance).toFixed(2)}%</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -423,52 +466,44 @@ const Jackpot = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="relative h-max lg:h-[280px] w-full" style={{ animationDelay: "0s" }}>
-                                <div>
-                                    <div className="backface-hidden preserve-3d" style={{ transform: "translateZ(-5px)" }}>
-                                        <div className="w-full bg-gradient-to-t from-[#0c1e2b]/15 to-[#00293b]/50 rounded-[14px] p-[3px]">
-                                            <div className="flex flex-col shadow-bet h-full rounded-[11px]">
-                                                <div className="w-full rounded-t-[11px] bg-gradient-to-b from-[#122033] to-[#262f44] p-[3px] pb-0 grow relative">
-                                                    <div className="w-full h-full bg-gradient-to-b from-[#25272e] to-[150%] to-[#303847] rounded-t-[8px] p-4">
-                                                        <img src="/images/download.webp" className="object-cover object-center w-full absolute top-0 left-0" alt=""></img>
-                                                        <div className="relative z-[3]">
-                                                            <div className="flex justify-between uppercase text-xs text-[#8C8C8C] mb-3">
-                                                                <p>Round</p>
-                                                                <p>#{luckyUser.round}</p>
-                                                            </div>
-                                                        </div>
-                                                        <div className="rounded-[18px] overflow-hidden border-[1px] border-[#222222] aspect-square hover:brightness-125 transition-[filter] duration-300 cursor-pointer w-[72px] h-[72px] mx-auto bg-[#303045] p-[1px] border-none">
-                                                            <div className="w-full h-full p-0.5 border-[1px] border-[#222222] rounded-[18px] bg-gradient-to-b from-[#8A8A8A] to-[#5A5A5A]">
-                                                                <div className="w-full h-full border-[1px] border-[#222222] rounded-[18px] overflow-hidden bg-black/75 shadow-avatar-emboss relative">
-                                                                    <img src={`/images/avatars/${luckyUser.user_id.avatar}`} className="object-cover object-center w-full h-full" alt=""></img>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="flex items-center gap-1 mt-3 mx-auto w-max mb-3">
-                                                            <p className="text-sm font-semibold max-w-[75px] truncate text-white">{luckyUser.user_id.username}</p>
-                                                            <div className="p-[1px] rounded-md overflow-hidden bg-[#307293] text-[#75D1FF]">
-                                                                <div className="flex items-center justify-center rounded-[5px] overflow-hidden bg-[#22222D]/80 font-semibold w-[28px] h-5 text-[11px]">10</div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="relative">
-                                                            <span className="text-[11px] italic absolute inset-0 m-auto w-max h-max uppercase text-white">LUCK OF THE DAY</span>
+                            <div className="relative h-full w-full" style={{ animationDelay: "0s" }}>
+                                <div className="backface-hidden preserve-3d" style={{ transform: "translateZ(-5px)" }}>
+                                    <div className="flex w-full bg-layer2 rounded-[10px] p-[2px] border border-[#2E3E5A]">
+                                        <div className="flex bg-gradient-border p-[1px] w-full h-full rounded-[10px]">
+                                            <div className="flex flex-col w-full h-full bg-gradient-color gap-4 rounded-[10px]">
+                                                <div className="flex flex-col w-full h-full rounded-t-[10px] relative gap-3">
+                                                    <img src="/images/download.webp" className="object-cover object-center w-full rounded-t-[10px] absolute top-0 left-0" alt=""></img>
+                                                    <div className="rounded-t-[10px] px-3 py-[6px] z-[3]">
+                                                        <div className="flex justify-between uppercase text-xs text-light-grey">
+                                                            <p>Round</p>
+                                                            <p>#{luckyUser.round}</p>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div className="w-full h-[1px] bg-[#2c3342]"></div>
-                                                <div className="w-full bg-gradient-to-b from-[#242d3b] to-[#040a24] shrink-0 rounded-b-[11px] relative py-3 px-4">
-                                                    <img src="/images/static/grid.bb6dda07.webp" className="object-cover object-center w-full h-full absolute top-0 left-0" alt=""></img>
-                                                    <div className="flex flex-col gap-1">
-                                                        <div className="flex items-center w-full justify-between relative z-[3]">
-                                                            <p className="text-xs text-[#C4C4C4]">Won</p>
-                                                            <div className="flex items-center gap-1.5">
-                                                                <img src="/images/solana.png" alt="" className="w-3 h-3" />
-                                                                <p className="text-sm font-semibold text-white">{luckyUser.won}</p>
+                                                    <div className="flex items-center justify-center w-full drop-shadow-small">
+                                                        <div className="flex items-center justify-center bg-[#FEAE38] z-[300] w-[72px] h-[72px] rounded-[10px] p-[1.5px]">
+                                                            <div className="flex w-full h-full rounded-[10px] border border-[#03036D]">
+                                                                <img src={latestWinner.user_id.avatar} className="object-cover object-center rounded-[10px] w-full h-full" alt=""></img>
                                                             </div>
                                                         </div>
-                                                        <div className="flex items-center w-full justify-between relative z-[3]">
-                                                            <p className="text-xs text-[#C4C4C4]">Chance</p>
-                                                            <p className="text-sm font-semibold text-white">{Number(luckyUser.chance).toFixed(2)}%</p>
+                                                    </div>
+                                                    <div className="flex flex-col items-center gap-1">
+                                                        <p className="font-inter text-sm font-semibold max-w-[75px] truncate text-white text-center">{luckyUser.user_id.username}</p>
+                                                        <img src="/images/luck.svg" className="object-cover object-center w-full px-10" alt=""></img>
+                                                    </div>
+                                                </div>
+                                                <div className="w-full bg-layer2 rounded-b-[10px] relative py-2 px-3">
+                                                    <img src="/images/static/grid.bb6dda07.webp" className="object-cover object-center w-full h-full rounded-b-[10px] absolute top-0 left-0" alt=""></img>
+                                                    <div className="flex flex-col gap-[2px]">
+                                                        <div className="flex items-center w-full justify-between z-[3]">
+                                                            <p className="font-inter text-xs text-light-grey">Won</p>
+                                                            <div className="flex items-center gap-1.5">
+                                                                <img src="/images/solana.png" alt="" className="w-3 h-3" />
+                                                                <p className="font-inter text-sm font-semibold text-white">{luckyUser.won}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex items-center w-full justify-between z-[3]">
+                                                            <p className="font-inter text-xs text-light-grey">Chance</p>
+                                                            <p className="font-inter text-sm font-semibold text-white">{Number(luckyUser.chance).toFixed(2)}%</p>
                                                         </div>
                                                     </div>
                                                 </div>

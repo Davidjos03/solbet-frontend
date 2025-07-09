@@ -28,7 +28,7 @@ const WavingTextFlag = () => {
         <div className="xl:flex hidden items-center justify-center h-fit">
             <div
                 ref={textRef}
-                className="text-3xl font-extrabold flex text-white"
+                className="flex font-racing text-4xl leading-9 text-center text-white uppercase drop-shadow-small"
             >
                 {'SOLBET'.split('').map((letter, i) => (
                     <span
