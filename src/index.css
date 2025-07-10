@@ -472,8 +472,7 @@
 }
 
 .tv-lightweight-charts {
-  border-radius: 12px;
-  border: 1px solid #2c5283;
+  border-radius: 8px;
 }
 /* Transition class */
 .transition-transform {

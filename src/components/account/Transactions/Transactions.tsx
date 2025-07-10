@@ -32,18 +32,18 @@ const Transactions: React.FC<{
         }, []);
 
         return (
-            <div className="flex flex-col last:border-none border-b border-[#9999997a] rounded-md" ref={openRef}>
+            <div className="flex flex-col last:border-none border-b border-border rounded-md" ref={openRef}>
                 <div
-                    className={`flex items-center gap-2 py-3 ${open ? "border-b border-[#9999997a]" : ""} cursor-pointer`}
+                    className={`flex items-center gap-2 py-3 ${open ? "border-b border-border" : ""} cursor-pointer`}
                     onClick={() => setOpen(!open)}
                 >
-                    <div className="text-sm text-[#A2A2A2] w-[18%] truncate">{transaction._id}</div>
-                    <div className="flex items-center gap-2 text-sm text-[#A2A2A2] font-semibold w-[20%]">
+                    <div className="text-sm text-light-grey w-[18%] truncate">{transaction._id}</div>
+                    <div className="flex items-center gap-2 text-sm text-light-grey font-semibold w-[20%]">
                         <img src="/images/solana.png" alt="" className="w-4 h-4"></img> {transaction.price.toFixed(3)}
                     </div>
-                    <div className="text-sm text-[#A2A2A2] w-[15%]">{transaction.type}</div>
-                    <div className="text-sm text-[#A2A2A2] w-[12%]">{transaction.status}</div>
-                    <div className="text-sm text-[#A2A2A2] w-[35%] text-end flex-none">
+                    <div className="text-sm text-light-grey w-[15%]">{transaction.type}</div>
+                    <div className="text-sm text-light-grey w-[12%]">{transaction.status}</div>
+                    <div className="text-sm text-light-grey w-[35%] text-end flex-none">
                         {formatTransactionDate(transaction.create_at)}
                     </div>
                 </div>

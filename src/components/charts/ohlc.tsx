@@ -16,7 +16,7 @@ export default function ChartComponent(props: any) {
             lineColor = "#2962FF",
             textColor = "white",
             areaTopColor = "#2962FF",
-            areaBottomColor = "rgba(41, 18, 255, 0.28)",
+            areaBottomColor = "#2912ff47",
         } = {},
     } = props;
     // console.log("🚀 ~ ChartComponent ~ data:", data);
@@ -43,7 +43,7 @@ export default function ChartComponent(props: any) {
 
         const chart = createChart(chartContainerRef.current, {
             layout: {
-                background: { type: ColorType.Solid, color: "#272c33" },
+                background: { type: ColorType.Solid, color: "#1D2538" },
                 textColor,
                 attributionLogo: false,
             },
@@ -67,7 +67,7 @@ export default function ChartComponent(props: any) {
         });
         const myPriceLine: PriceLineOptions = {
             price: 0,
-            color: "#3179F5",
+            color: "#09A0FC",
             lineWidth: 2,
             lineStyle: 2, // LineStyle.Dashed
             axisLabelVisible: true,
@@ -109,6 +109,6 @@ export default function ChartComponent(props: any) {
     ]);
 
     return (
-        <div className="border-ton-blue-900 bg-[#272c33] rounded-lg w-full h-[95%]" ref={chartContainerRef} />
+        <div className="border-border bg-layer2 rounded-lg w-full h-[95%]" ref={chartContainerRef} />
     );
 }

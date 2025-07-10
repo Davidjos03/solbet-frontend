@@ -91,7 +91,7 @@ const PreHeader = () => {
                             <h1 className="font-inter transition-colors duration-300 font-semibold text-base block text-[#E3E3E3]">Jackpot</h1>
                         </a>
                         <a href="/affiliates" className="flex justify-center items-center w-[110px] lg:w-[123px] text-base gap-1.5 transition-colors duration-300" aria-current="page">
-                            <Icon icon="material-symbols:person-rounded" width="24" height="24" style={{ color: path != "/" ? "#09A0FC" : "#B9BCC5" }} />
+                            <Icon icon="material-symbols:person-rounded" width="24" height="24" style={{ color: path == "/affiliates" ? "#09A0FC" : "#B9BCC5" }} />
                             <h1 className="font-inter transition-colors duration-300 font-semibold text-base block text-[#A2A2A2]">Affiliates</h1>
                         </a>
                     </div>

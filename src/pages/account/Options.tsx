@@ -54,7 +54,7 @@ const OptionsPage = () => {
                 console.log("🚀 ~ uploadAvatarToBackend ~ imageUri:", pinataPublicURL + imageUri)
                 const imgUrl = pinataPublicURL + imageUri;
                 await handleUpdateUser(imageUri, "avatar")
-                
+
                 setAvatar(imgUrl);
                 setIsUploading(false);
             }
@@ -108,59 +108,61 @@ const OptionsPage = () => {
     };
 
     return (
-        <div className="w-full sm:px-4 md:px-8 md:pt-14 opacity-100 translate-y-2 animate-fade-y">
+        <div className="w-full sm:px-4 md:px-8 md:pt-14 opacity-100 translate-y-2 animate-fade-y font-inter">
             <div className="flex items-center gap-6">
                 <div className="relative">
                     <button
-                        className={`absolute -top-1 -right-1 ${isUploading ? 'bg-[#505050]' : 'bg-[#303030]'} w-7 h-7 flex items-center justify-center rounded-full border border-[#121212] hover:bg-[#3c3c3c] transition-colors duration-300 z-[3]`}
+                        className={`absolute -top-1 -right-1 ${isUploading ? 'bg-layer' : 'bg-layer'} w-7 h-7 flex items-center justify-center rounded-full border border-border hover:bg-[#27354F] transition-colors duration-300 z-[3]`}
                         onClick={triggerFileInput}
                         disabled={isUploading}
                     >
                         {isUploading ? (
-                            <Icon icon="svg-spinners:180-ring" width="16" height="16" style={{ color: "#A2A2A2" }} />
+                            <Icon icon="svg-spinners:180-ring" width="12" height="12" style={{ color: "#FFF" }} />
                         ) : (
-                            <Icon icon="fluent:edit-16-filled" width="16" height="16" style={{ color: "#A2A2A2" }} />
+                            <Icon icon="fluent:edit-16-filled" width="12" height="12" style={{ color: "#FFF" }} />
                         )}
                     </button>
-                    <div className="rounded-[20px] overflow-hidden border-[1px] aspect-square hover:brightness-125 transition-[filter] duration-300 cursor-pointer w-[100px] h-[100px] border-[#222222] bg-[#303045] p-[1px] border-none">
-                        <div className="w-full h-full p-0.5 border-[1px] border-[#222222] bg-gradient-to-b from-[#8A8A8A] to-[#5A5A5A] rounded-[22px]">
-                            <div className="w-full h-full border-[1px] border-[#222222] rounded-[20px] overflow-hidden bg-black/75 shadow-avatar-emboss relative">
-                                <img
-                                    src={avatar}
-                                    alt="User avatar"
-                                    className={`object-cover object-center w-full h-full rounded-[20px] ${isUploading ? 'opacity-70' : ''}`}
-                                />
-                                <input
-                                    type="file"
-                                    ref={fileInputRef}
-                                    onChange={handleFileChange}
-                                    accept={allowedTypes.join(',')}
-                                    style={{ display: 'none' }}
-                                    disabled={isUploading}
-                                />
-                                {isUploading && (
-                                    <div className="absolute top-0 w-full h-full flex items-center justify-center">
-                                        <Icon
-                                            icon="eos-icons:three-dots-loading"
-                                            width="24"
-                                            height="24"
-                                            style={{ color: "#FFFFFF" }}
-                                        />
-                                    </div>
-                                )}
+                    <div className="rounded-2xl overflow-hidden border-[1px] aspect-square hover:brightness-125 transition-[filter] duration-300 cursor-pointer w-[100px] h-[100px] border-[#222222] bg-[#303045] p-[1px] border-none">
+                        <div className="flex rounded-2xl transition-[filter] duration-300 cursor-pointer w-[100px] h-[100px] shrink-0 bg-layer2 p-[2px] border-none">
+                            <div className="flex w-full h-full p-[1px] rounded-2xl border border-light-grey bg-layer2">
+                                <div className="w-full h-full rounded-2xl">
+                                    <img
+                                        src={avatar}
+                                        alt="User avatar"
+                                        className={`object-cover object-center w-full h-full rounded-2xl ${isUploading ? 'opacity-70' : ''}`}
+                                    />
+                                    <input
+                                        type="file"
+                                        ref={fileInputRef}
+                                        onChange={handleFileChange}
+                                        accept={allowedTypes.join(',')}
+                                        style={{ display: 'none' }}
+                                        disabled={isUploading}
+                                    />
+                                    {isUploading && (
+                                        <div className="absolute top-0 w-full h-full flex items-center justify-center">
+                                            <Icon
+                                                icon="eos-icons:three-dots-loading"
+                                                width="24"
+                                                height="24"
+                                                style={{ color: "#FFFFFF" }}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
                     {error && <div className="text-red-600 text-sm text-center">{error}</div>}
                 </div>
-                <div>
+                <div className="flex flex-col justify-start gap-1">
                     <div className="flex items-center gap-2">
                         <h4 className="text-[20px] font-semibold leading-[28px] max-w-[200px] truncate">{userInfo!.username}</h4>
-                        <div className="p-[1px] rounded-md overflow-hidden bg-[#616161] text-[#D2D2D2]">
-                            <div className="flex items-center justify-center rounded-[5px] overflow-hidden bg-[#22222D]/80 font-semibold w-[28px] h-5 text-[11px]">1</div>
+                        <div className="flex w-fit h-6 items-center justify-center p-[1px] rounded-md overflow-hidden bg-[#B9BCC529] border border-light-grey text-light-grey">
+                            <p className="font-semibold w-[28px] text-center text-[11px]">1</p>
                         </div>
                     </div>
-                    <p className="text-[#A2A2A2] text-sm mt-1">{new Date(userInfo!.created_at).toISOString().split('T')[0]}</p>
+                    <p className="text-[#A2A2A2] text-sm mt-1">Joined {new Date(userInfo!.created_at).toISOString().split('T')[0]}</p>
                 </div>
             </div>
             <Input label="Enter name" edit={true} state={username} setState={setUsername} onSave={() => handleUpdateUser(username, "username")} />

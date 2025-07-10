@@ -58,20 +58,20 @@ const AccountSidebar = () => {
     }, [location.pathname]);
 
     return (
-        <div className="flex-none md:w-[190px] sm:px-4 py-3">
+        <div className="flex-none md:w-[190px] sm:px-4 py-3 font-inter">
             <div className="flex flex-col justify-center w-full">
-                <h4 className="text-2xl font-black uppercase md:mb-5 font-airstrike">Profile</h4>
+                <h4 className="font-racing text-2xl text-white tracking-widest uppercase md:mb-5">Profile</h4>
                 <div className="flex flex-col gap-1">
                     {optList.map((item, index) => (
                         <button
                             key={index}
-                            className={`group flex items-center relative min-w-10 overflow-hidden duration-300 px-4 ${selected === item.name ? "bg-[#303030]" : ""
-                                } text-sm font-medium rounded-lg justify-start w-full text-[#C4C4C4] hover:text-white hover:bg-[#303030] hover:border-[#3B3B3B] h-[44px] transition-colors cursor-pointer`}
+                            className={`group flex items-center relative min-w-10 overflow-hidden duration-300 px-4 ${selected === item.name ? "bg-layer" : ""
+                                } text-sm font-medium rounded-lg justify-start w-full text-light-grey hover:text-white hover:bg-layer hover:border-[#1D2538fe] h-[44px] transition-colors cursor-pointer`}
                             onClick={() => handleClick(item.name)}
                         >
                             <div className="flex items-center font-semibold">
-                                <div className="flex items-center drop-shadow-[0px_2px_0px_rgba(0,0,0,0.5)]">
-                                    <Icon icon={item.icon} width="16" height="16" style={{ color: selected === item.name ? "#2c5fbf" : "#fff" }} />
+                                <div className="flex items-center">
+                                    <Icon icon={item.icon} width="16" height="16" style={{ color: selected === item.name ? "#09A0FC" : "#fff" }} />
                                 </div>
                                 <span className={`ml-2 text-sm ${selected === item.name ? "text-white" : "text-[#A2A2A2]"}`}>{item.name}</span>
                             </div>

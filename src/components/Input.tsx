@@ -31,8 +31,8 @@ const Input: React.FC<IInput> = ({ label, type, edit, func, state, setState, dis
     };
 
     return (
-        <div className="flex flex-col gap-2 mt-6 w-full">
-            <label className="text-sm text-[#A2A2A2]">{label}</label>
+        <div className="flex flex-col gap-2 mt-6 w-full font-inter">
+            <label className="text-sm text-light-grey">{label}</label>
             <div className="relative w-full">
                 <input
                     disabled={disabled || (edit && !isEditing)}
@@ -47,43 +47,49 @@ const Input: React.FC<IInput> = ({ label, type, edit, func, state, setState, dis
                             {func === "verify" ? (
                                 <button
                                     onClick={handleVerifyClick}
-                                    className="group justify-center relative min-w-10 overflow-hidden rounded-[10px] transition duration-300 w-full text-sm flex items-center gap-1 bg-[#1C1C1C] hover:bg-[#212121] h-[32px] px-2.5 cursor-pointer"
+                                    className="group relative min-w-10 overflow-hidden rounded-[10px] transition duration-300 w-full text-sm flex bg-gradient-border-btn h-[32px] p-[1px] cursor-pointer"
                                 >
-                                    {isVerified ? (
-                                        <Icon icon="material-symbols:check" width="16" height="16" style={{ color: "#4CAF50" }} />
-                                    ) : (
-                                        <Icon icon="mage:refresh-reverse" width="16" height="16" style={{ color: "#A2A2A2" }} />
-                                    )}
+                                    <div className="flex w-full h-full items-center justify-center gap-2 bg-layer2 rounded-[10px]">
+                                        {isVerified ? (
+                                            <Icon icon="material-symbols:check" width="16" height="16" style={{ color: "#4CAF50" }} />
+                                        ) : (
+                                            <Icon icon="mage:refresh-reverse" width="16" height="16" style={{ color: "#FFFFFF" }} />
+                                        )}
+                                    </div>
                                 </button>
                             ) : func === "show" ? (
                                 <button
                                     onClick={handleShowClick}
-                                    className="group justify-center relative min-w-10 overflow-hidden rounded-[10px] transition duration-300 w-full text-sm flex items-center gap-1 bg-[#1C1C1C] hover:bg-[#212121] h-[32px] px-2.5 cursor-pointer"
+                                    className="group relative min-w-10 overflow-hidden rounded-[10px] transition duration-300 w-full text-sm flex bg-gradient-border-btn h-[32px] p-[1px] cursor-pointer"
                                 >
-                                    <Icon
-                                        icon={showValue ? "bx:hide" : "bx:show-alt"}
-                                        width="16"
-                                        height="16"
-                                        style={{ color: "#A2A2A2" }}
-                                    />
+                                    <div className="flex w-full h-full items-center justify-center gap-2 bg-layer2 rounded-[10px]">
+                                        <Icon
+                                            icon={showValue ? "bx:hide" : "bx:show-alt"}
+                                            width="16"
+                                            height="16"
+                                            style={{ color: "#FFFFFF" }}
+                                        />
+                                    </div>
                                 </button>
                             ) : null}
                         </div>
                         <button
                             onClick={handleEditClick}
-                            className="group justify-center relative min-w-10 overflow-hidden rounded-[10px] transition duration-300 w-full text-sm flex items-center gap-1 bg-[#1C1C1C] hover:bg-[#212121] h-[32px] px-2.5 cursor-pointer"
+                            className="group relative min-w-10 overflow-hidden rounded-[10px] transition duration-300 w-full text-sm flex bg-gradient-border-btn h-[32px] p-[1px] cursor-pointer"
                         >
-                            {isEditing ? (
-                                <>
-                                    <Icon icon="material-symbols:check" width="12" height="12" style={{ color: "#4CAF50" }} />
-                                    <div className="font-semibold text-white">Save</div>
-                                </>
-                            ) : (
-                                <>
-                                    <Icon icon="fluent:edit-16-filled" width="12" height="12" style={{ color: "#A2A2A2" }} />
-                                    <div className="font-semibold text-white">Edit</div>
-                                </>
-                            )}
+                            <div className="flex w-full h-full items-center justify-center px-2.5 gap-2 bg-layer2 rounded-[10px]">
+                                {isEditing ? (
+                                    <>
+                                        <Icon icon="material-symbols:check" width="12" height="12" style={{ color: "#4CAF50" }} />
+                                        <div className="font-semibold text-white drop-shadow-small">Save</div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Icon icon="fluent:edit-16-filled" width="12" height="12" style={{ color: "#FFFFFF" }} />
+                                        <div className="font-semibold text-white drop-shadow-small">Edit</div>
+                                    </>
+                                )}
+                            </div>
                         </button>
                     </div>
                 )}
