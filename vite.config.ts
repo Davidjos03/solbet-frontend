@@ -14,4 +14,12 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['framer-motion']
   },
+  preview: {
+    host: '0.0.0.0', // Makes it accessible on your local network
+    port: 3000,      // Default preview port (change if needed)
+    allowedHosts: [
+      'solbet.me',   // Allow this domain
+      'localhost',    // Optional: Allow localhost
+    ],
+  }
 })

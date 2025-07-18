@@ -14,6 +14,7 @@ interface IInput {
     edit?: boolean;
     func?: string;
     state?: string;
+    placeholder?: string;
     setState?: (val: string) => void;
     disabled?: boolean;
     onSave?: () => void | Promise<void>;

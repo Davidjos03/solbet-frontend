@@ -19,8 +19,8 @@ const queryClient = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <WalletProvider>
-        <UserProvider>
+      <UserProvider>
+        <WalletProvider>
           <Router>
             <Routes>
               <Route path="/" element={<Layout />}>
@@ -37,8 +37,8 @@ function App() {
             </Routes>
           </Router>
           <Toaster position="top-right" />
-        </UserProvider>
-      </WalletProvider>
+        </WalletProvider>
+      </UserProvider>
     </QueryClientProvider>
   );
 }

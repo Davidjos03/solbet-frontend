@@ -3,8 +3,7 @@ import { PublicKey, Transaction } from "@solana/web3.js";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { Icon } from "@iconify-icon/react";
 import cn from "classnames";
-import CardCarousel3D from "@/components/GameBoard/CardCarousel3D";
-import SmoothCardCarousel from "@/components/GameBoard/SmoothCardCarousel";
+// import CardCarousel3D from "@/components/GameBoard/CardCarousel3D";
 import UserCard from "@/components/GameBoard/UserCard";
 import { connection } from "@/constants/envConstants";
 import { useUserProvider } from "@/contexts/UserContext";
@@ -14,14 +13,17 @@ import { EGameEvent } from "@/types/socket";
 import { getBalance } from "@/utils/common";
 import { fetchWithAuth } from "@/utils/setAuthToken";
 import { formatCompactNumber, formatTime, initialArray } from "@/utils/utils";
+// import CardSlider from "@/components/GameBoard/CardSlider3D";
+import CardSpinner from "@/components/GameBoard/CardSpinner";
 
 const Jackpot = () => {
     const [value, setValue] = useState<string>("");
+    const [depositAmount, setDepositAmount] = useState<number>(0);
     const [remainingTime, setRemainingTime] = useState<number>(0);
     const [betAmount, setBetAmount] = useState<number>(0);
     const [wager, setWager] = useState<number>(0);
     const [chance, setChance] = useState<number>(0);
-    const [isNewRound, setIsNewRound] = useState<boolean>(false);
+    // const [isNewRound, setIsNewRound] = useState<boolean>(false);
     const [amountError, setAmountError] = useState<string>("");
 
     const { userInfo, round, totalBetAmount, players, winner, latestWinner, luckyUser, winnerIndex, solPrice, setUserInfo, setSolPrice, setSolBalance, setWinnerIndex, setWinner, setLatestWinner, setLuckyUser, setPlayers, setTotalAmount, setTotalBetAmount, setRound } = useUserProvider();
@@ -114,7 +116,8 @@ const Jackpot = () => {
                         }
                     }
 
-                    setWager((prev) => prev + Number(value));
+                    // setWager((prev) => prev + Number(value));
+                    setDepositAmount(Number(value));
                     setValue("");
                     const balance = await getBalance(publicKey);
                     setSolBalance(balance);
@@ -143,11 +146,11 @@ const Jackpot = () => {
         }
     };
 
-    useEffect(() => {
-        if (remainingTime < 59) {
-            setIsNewRound(true);
-        }
-    }, [remainingTime])
+    // useEffect(() => {
+    //     if (remainingTime < 59) {
+    //         setIsNewRound(true);
+    //     }
+    // }, [remainingTime])
 
     useEffect(() => {
         setBetAmount(Number(value) * solPrice);
@@ -181,16 +184,18 @@ const Jackpot = () => {
 
         gameSocket.on(EGameEvent.UPDATE_TOTAL_AMOUNT, (data: { players: IPlayer[]; totalBetAmount: number; totalAmount: number }) => {
             setTotalAmount(data.totalAmount);
+            localStorage.setItem('totalAmount', JSON.stringify(data.totalAmount));
             setTotalBetAmount(data.totalBetAmount);
-            setPlayers(prev => {
-                // Create a new array that:
-                // 1. Takes the incoming players (up to the length of prev array)
-                // 2. Fills the rest with the remaining players from prev array
+            setWager((prev) => prev + depositAmount);
+            setDepositAmount(0);
+            setPlayers((prev) => {
                 return [
                     ...data.players, // Take new players (up to original length)
-                    ...prev.slice(data.players.length)     // Fill remainder with existing players
-                ];
-            });
+                    ...prev.slice(data.players.length),
+                ]
+            }
+            );
+            // setPlayers(data.players);
         })
     }, [gameSocket])
 
@@ -225,11 +230,8 @@ const Jackpot = () => {
         };
         fetchWinner();
 
-        setWinner(null);
-        setWinnerIndex(null);
         setTotalAmount(0);
-        setPlayers(initialArray);
-        setIsNewRound(false);
+        // setIsNewRound(false);
         setRemainingTime(59);
     }, [round, publicKey])
 
@@ -237,7 +239,15 @@ const Jackpot = () => {
         if (winnerIndex != null) {
             setWinner(players[winnerIndex])
         }
-    }, [players, winnerIndex])
+    }, [winnerIndex])
+
+    useEffect(() => {
+        if (remainingTime < 59 && winnerIndex) {
+            setWinner(null);
+            setWinnerIndex(null);
+            setPlayers(initialArray);
+        }
+    }, [remainingTime])
 
     useEffect(() => {
         if (gameSocket && userInfo) {
@@ -329,7 +339,7 @@ const Jackpot = () => {
                                         <div className="flex flex-col items-center justify-center w-full h-full bg-layer rounded-lg p-3 gap-1 z-[3]">
                                             <div className="flex items-center gap-1.5">
                                                 <img src="/images/solana.png" className="object-cover object-center w-6 h-6" alt=""></img>
-                                                <div className="my-0 font-bold text-xl text-white"><span>{totalBetAmount.toFixed(3)}</span></div>
+                                                <div className="font-inter my-0 font-bold text-xl text-white"><span>{totalBetAmount.toFixed(3)}</span></div>
                                             </div>
                                             <p className="font-inter text-sm text-light-grey font-medium">Jackpot Value</p>
                                         </div>
@@ -371,16 +381,23 @@ const Jackpot = () => {
                                     </div>
                                 </div>
                             </div>
-                            <SmoothCardCarousel
-                                cards={players}
-                                remainingTime={remainingTime}
-                                selectCard={winner}
-                            />
-                            <CardCarousel3D
+                            {/* <CardCarousel3D
                                 cards={players}
                                 remainingTime={remainingTime}
                                 selectCard={winner}
                                 isNewRound={isNewRound}
+                            /> */}
+                            {/* <CardSlider
+                                cards={players}
+                                remainingTime={remainingTime}
+                                selectCard={winner}
+                                isNewRound={isNewRound}
+                            /> */}
+                            <CardSpinner
+                                cards={players}
+                                remainingTime={remainingTime}
+                                selectCard={winner}
+                            // isNewRound={isNewRound}
                             />
                             <div className="w-full min-h-[600px] border-t border-border">
                                 <div className="flex md:hidden justify-center mt-4 items-center gap-1.5 pl-2 pr-3 py-2 rounded-lg bg-[#2A62C129]">
@@ -406,7 +423,7 @@ const Jackpot = () => {
                                 </div>
                                 <div className="flex flex-col min-h-[92px] gap-4">
                                     {players.map((player, index) =>
-                                        player._id ?
+                                        player._id.length ?
                                             <UserCard key={`${player.user_id._id}-${index}`} player={player} />
                                             : <div key={index} className={`${index ? "hidden" : "flex"} w-full items-center justify-center border-dashed border-[2px] border-border rounded-xl p-6 font-inter text-white`}>
                                                 Waiting <Icon icon="eos-icons:three-dots-loading" width="24" height="24" style={{ color: "#fff" }} />
@@ -417,7 +434,7 @@ const Jackpot = () => {
                         </div>
                     </div>
                     <div className="flex md:flex-col gap-6 w-[210px] xs:w-[430px] lg:w-[210px] h-fit flex-wrap m-auto md:m-0 shrink-0">
-                        <div className="flex flex-col xs:flex-row lg:flex-col gap-6 w-full zoom-80 2xl:zoom-100">
+                        <div className="flex flex-col xs:mx-auto xs:flex-row lg:flex-col gap-6 w-full zoom-80 2xl:zoom-100">
                             <div className="relative h-full w-full" style={{ animationDelay: "0s" }}>
                                 <div className="backface-hidden preserve-3d" style={{ transform: "translateZ(-5px)" }}>
                                     <div className="flex w-full bg-layer2 rounded-[10px] p-[2px] border border-[#2E3E5A]">
@@ -450,7 +467,7 @@ const Jackpot = () => {
                                                             <p className="font-inter text-xs text-light-grey">Won</p>
                                                             <div className="flex items-center gap-1.5">
                                                                 <img src="/images/solana.png" alt="" className="w-3 h-3" />
-                                                                <p className="font-inter text-sm font-semibold text-white">{latestWinner.won}</p>
+                                                                <p className="font-inter text-sm font-semibold text-white">{latestWinner.won.toFixed(4)}</p>
                                                             </div>
                                                         </div>
                                                         <div className="flex items-center w-full justify-between z-[3]">
@@ -464,7 +481,7 @@ const Jackpot = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="relative h-full w-full" style={{ animationDelay: "0s" }}>
+                            <div className="relative overf h-full w-full" style={{ animationDelay: "0s" }}>
                                 <div className="backface-hidden preserve-3d" style={{ transform: "translateZ(-5px)" }}>
                                     <div className="flex w-full bg-layer2 rounded-[10px] p-[2px] border border-[#2E3E5A]">
                                         <div className="flex bg-gradient-border p-[1px] w-full h-full rounded-[10px]">
@@ -480,7 +497,7 @@ const Jackpot = () => {
                                                     <div className="flex items-center justify-center w-full drop-shadow-small">
                                                         <div className="flex items-center justify-center bg-[#FEAE38] z-[300] w-[72px] h-[72px] rounded-[10px] p-[1.5px]">
                                                             <div className="flex w-full h-full rounded-[10px] border border-[#03036D]">
-                                                                <img src={latestWinner.user_id.avatar} className="object-cover object-center rounded-[10px] w-full h-full" alt=""></img>
+                                                                <img src={luckyUser.user_id.avatar} className="object-cover object-center rounded-[10px] w-full h-full" alt=""></img>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -496,7 +513,7 @@ const Jackpot = () => {
                                                             <p className="font-inter text-xs text-light-grey">Won</p>
                                                             <div className="flex items-center gap-1.5">
                                                                 <img src="/images/solana.png" alt="" className="w-3 h-3" />
-                                                                <p className="font-inter text-sm font-semibold text-white">{luckyUser.won}</p>
+                                                                <p className="font-inter text-sm font-semibold text-white">{luckyUser.won.toFixed(4)}</p>
                                                             </div>
                                                         </div>
                                                         <div className="flex items-center w-full justify-between z-[3]">

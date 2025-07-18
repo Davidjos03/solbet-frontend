@@ -1,14 +1,14 @@
 import { PINATA_PUBLIC_KEY } from "@/constants/envConstants";
 
-export const initialArray: IPlayer[] = Array.from({ length: 30 }, () => ({
+export const initialArray: IPlayer[] = Array.from({ length: 10 }, () => ({
     _id: "",
     user_id: {
         _id: "",
         username: "Waiting...",
-        avatar: "/images/avatar.png",
+        avatar: "/images/noimage.png",
         created_at: new Date(),
     },
-    price: 0.0000,
+    price: 0.000,
 }));
 
 export const waiting: IWaiting = {

@@ -1,4 +1,3 @@
-// import { getSolPrice } from "@/utils/common";
 import { initialArray, waiting } from "@/utils/utils";
 import React, { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -37,6 +36,8 @@ interface UserContextProps {
   setTotalAmount: React.Dispatch<React.SetStateAction<number>>;
   totalBetAmount: number;
   setTotalBetAmount: React.Dispatch<React.SetStateAction<number>>;
+  onlineUsers: number;
+  setOnlineUsers: React.Dispatch<React.SetStateAction<number>>;
   players: IPlayer[];
   setPlayers: React.Dispatch<React.SetStateAction<IPlayer[]>>;
   winnerIndex: number | null;
@@ -64,6 +65,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [luckyUser, setLuckyUser] = useState<IWaiting>(waiting);
   const [totalAmount, setTotalAmount] = useState<number>(0);
   const [totalBetAmount, setTotalBetAmount] = useState<number>(0);
+  const [onlineUsers, setOnlineUsers] = useState<number>(0);
   const [players, setPlayers] = useState<IPlayer[]>(initialArray)
   const [winnerIndex, setWinnerIndex] = useState<number | null>(null);
   const [solPrice, setSolPrice] = useState<number>(0);
@@ -88,6 +90,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
           // Set userInfo in localStorage (convert object to string)
           localStorage.setItem('userInfo', JSON.stringify(res.user));
           setUserInfo(res.user);
+          // setOnlineUsers(res.number);
+          // localStorage.setItem('onlineUsers', JSON.stringify(res.number));
 
           // Fetch and set SOL balance
           const balance = await getBalance(wallet.publicKey!);
@@ -153,6 +157,8 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setTotalAmount,
         totalBetAmount,
         setTotalBetAmount,
+        onlineUsers,
+        setOnlineUsers,
         players,
         setPlayers,
         winnerIndex,

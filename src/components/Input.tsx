@@ -1,7 +1,7 @@
 import { Icon } from "@iconify-icon/react";
 import { useState } from "react";
 
-const Input: React.FC<IInput> = ({ label, type, edit, func, state, setState, disabled, onSave }) => {
+const Input: React.FC<IInput> = ({ label, type, edit, func, state, placeholder, setState, disabled, onSave }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [showValue, setShowValue] = useState(false);
     const [isVerified, setIsVerified] = useState(false);
@@ -27,18 +27,20 @@ const Input: React.FC<IInput> = ({ label, type, edit, func, state, setState, dis
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log("🚀 ~ handleInputChange ~ e.target.value:", e.target.value)
         setState!(e.target.value);
     };
 
     return (
-        <div className="flex flex-col gap-2 mt-6 w-full font-inter">
-            <label className="text-sm text-light-grey">{label}</label>
+        <div className={`flex flex-col gap-2 ${label == "Your Referral Code" ? "" : "mt-6"} w-full font-inter`}>
+            <label className="text-sm text-light-grey">{label} <span className="text-[#FF0000]">{label == "Enter name" || label == "Enter Email" ? "*" : ""}</span></label>
             <div className="relative w-full">
                 <input
                     disabled={disabled || (edit && !isEditing)}
                     type={showValue ? "text" : type || "text"}
                     className="border-[1px] border-layer2 bg-layer transition-colors duration-300 px-3 h-[40px] rounded-lg w-full text-sm focus:outline-none bg-transparent pr-[80px]"
                     value={state}
+                    placeholder={placeholder}
                     onChange={handleInputChange}
                 />
                 {edit && (

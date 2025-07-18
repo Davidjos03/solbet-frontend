@@ -7,7 +7,8 @@ export enum EChatEvent {
     JOIN = 'join',
     MESSAGE = 'message',
     MESSAGE_HISTORY = 'message_history',
-    NEW_MESSAGE = 'new_message'
+    NEW_MESSAGE = 'new_message',
+    USER_LIST = 'user-list'
 }
 
 export enum EGameEvent {
@@ -20,7 +21,7 @@ export enum EGameEvent {
     WAGER = 'wager',
     SAVE_HISTORY = 'save_history',
     UPDATE_TOTAL_AMOUNT = 'update_total_amout',
-    SOL_PRICE = 'sol_price'
+    SOL_PRICE = 'sol_price',
 }
 
 export interface IChatClientToServerEvents {
@@ -34,6 +35,7 @@ export interface IChatClientToServerEvents {
 export interface IChatServerToClientEvents {
     [EChatEvent.MESSAGE_HISTORY]: (messages: IChatItem[]) => void;
     [EChatEvent.NEW_MESSAGE]: (message: IChatItem) => void;
+    [EChatEvent.USER_LIST]: (users: IUser[]) => void;
 }
 
 export interface IGameClientToServerEvents {
