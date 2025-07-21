@@ -1,0 +1,59 @@
+import { Outlet } from "react-router-dom";
+import cn from "classnames";
+import Header from "./Header";
+import { Icon } from "@iconify-icon/react";
+import { useUserProvider } from "@/contexts/UserContext";
+import ProfileModal from "../Modal/ProfileModal";
+import Sidebar from "./Sidebar";
+import Footer from "./Footer";
+import RegisterModal from "../Modal/RegisterModal";
+
+const Layout = () => {
+  const { isToggle, setIsToggle } = useUserProvider()
+
+  return (
+    <div className="h-full min-h-screen w-full pt-0 pb-0 block bg-main">
+      <div className="fixed top-0 left-0 w-full h-full z-[10000] flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none">
+        <div className="absolute top-0 z-30 h-0.5 w-full">
+          <div className="animate-top-loader h-full w-1/2 bg-[#2c5fbf]"></div>
+        </div>
+        <img src="/images/grey.webp" className="object-cover object-center w-[100px] h-auto aspect-[594/468] relative z-[2] drop-shadow-[0px_20px_20px_rgba(0,0,0,0.4)]" alt=""></img>
+        <div className="w-[150px] h-[150px] bg-[#2c5fbf] rounded-full blur-[150px] absolute inset-0 m-auto animate-glow-pulse"></div>
+      </div>
+      <div className="fixed bottom-0 left-0 w-full h-[69px] border-t border-[#1D1D1D] z-[6] flex items-center gap-3 md:hidden px-3">
+        <button
+          className="bg-gradient-to-t from-[#222222] to-[#303030] rounded-2xl transition-opacity duration-300 cursor-pointer mr-auto flex md:hidden w-12 p-0 h-12 absolute z-20"
+          onClick={() => setIsToggle(true)}
+        >
+          <div className="p-0.5 rounded-xl w-full h-full relative bg-gradient-to-b from-[#454545] to-[#232323] border-[1px] border-[#1D1D1D]">
+            <div className="group flex items-center justify-center relative h-10 min-w-10 overflow-hidden transition duration-300 w-full bg-[#303030] hover:bg-[#393939]/75 text-sm font-medium [text-shadow:0px_2px_rgba(0,0,0,0.5)] text-white rounded-lg p-0 cursor-pointer">
+              <Icon icon="tabler:message-filled" width="16" height="16" style={{ color: "#A2A2A2" }} />
+            </div>
+          </div>
+        </button>
+      </div>
+      <Header />
+      <div className="flex w-full h-full relative">
+        <Sidebar />
+        <div className={`relative w-full h-max ${isToggle ? "xl:pl-[300px] 2xl:pl-[350px]" : ""} overflow-hidden transition-[padding,opacity] will-change-[padding,opacity] duration-300`}>
+          <div className="absolute h-full top-[70px] lg:top-[109px] transition-[width,left] duration-300 mix-blend-difference will-change-[padding,width] w-full xl:w-[calc(100%-300px)] 2xl:w-[calc(100%-350px)] xl:left-[300px] 2xl:left-[350px]"></div>
+          <Outlet />
+          <Footer />
+        </div>
+      </div>
+      <button
+        className={cn("p-[2px] rounded-xl h-12 w-12 bg-layer2 transition-opacity duration-300 cursor-pointer bottom-3 right-3 fixed")}
+      >
+        <div className="rounded-xl h-full relative bg-gradient-border-color-btn p-[1px]">
+          <div className="flex items-center justify-center rounded-xl h-full min-w-10 overflow-hidden transition duration-300 w-full bg-prime hover:bg-prime/80 gap-1.5 cursor-pointer">
+            <Icon icon="gridicons:chat" width="24" height="24" className="drop-shadow-small" style={{color: "#fff"}} />
+          </div>
+        </div>
+      </button>
+      <ProfileModal />
+      <RegisterModal />
+    </div>
+  );
+};
+
+export default Layout;
