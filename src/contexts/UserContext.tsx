@@ -66,7 +66,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [totalAmount, setTotalAmount] = useState<number>(0);
   const [totalBetAmount, setTotalBetAmount] = useState<number>(0);
   const [onlineUsers, setOnlineUsers] = useState<number>(0);
-  const [players, setPlayers] = useState<IPlayer[]>(initialArray)
+  const [players, setPlayers] = useState<IPlayer[]>([])
   const [winnerIndex, setWinnerIndex] = useState<number | null>(null);
   const [solPrice, setSolPrice] = useState<number>(0);
   const [selectedUser, setSelectedUser] = useState<IProfileModal | null>(null);

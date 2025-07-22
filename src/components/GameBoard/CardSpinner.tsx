@@ -26,18 +26,16 @@ const CardSpinner: React.FC<CardSliderProps> = ({
     const cardHeight = 200;
     const visibleCardCount = 5;
     const containerPadding = 20;
-    const centerBoxWidth = 500;
 
     // State
     const [offset, setOffset] = useState(0);
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
-    const [animationSpeed, setAnimationSpeed] = useState<number>(0.8);
+    const [animationSpeed, setAnimationSpeed] = useState<number>(1);
     const requestRef = useRef<number>();
     const previousTimeRef = useRef<number>();
     const containerRef = useRef<HTMLDivElement>(null);
 
     // Calculate total width needed
-    // const totalWidth = (allCards.length + visibleCardCount) * cardWidth;
     const containerWidth = visibleCardCount * cardWidth + containerPadding * 2;
 
     // Calculate visible card positions
@@ -62,44 +60,6 @@ const CardSpinner: React.FC<CardSliderProps> = ({
         return positions;
     };
 
-    // Get current item positions
-    const getItemPositions = () => {
-        const positions = [];
-        const startPos = -offset % cardWidth;
-        const startIndex = Math.floor(offset / cardWidth) % cards.length;
-
-        for (let i = 0; i < visibleCardCount + 2; i++) {
-            const itemIndex = (startIndex + i) % cards.length;
-            const x = startPos + i * cardWidth;
-
-            if (x < -cardWidth || x > containerWidth) continue;
-
-            positions.push({
-                item: cards[itemIndex],
-                x,
-                index: itemIndex
-            });
-        }
-
-        return positions;
-    };
-
-    // Check if item is centered
-    const isItemCentered = (itemX: number) => {
-        if (!containerRef.current) return false;
-
-        // Calculate center position (middle of container)
-        const centerX = containerWidth / 2;
-        console.log("🚀 ~ isItemCentered ~ centerX:", centerX)
-
-        // Calculate item's center position
-        const itemCenterX = itemX + cardWidth / 2;
-        console.log("🚀 ~ isItemCentered ~ itemCenterX:", itemCenterX)
-
-        // Check if item's center is within center box boundaries
-        return Math.abs(itemCenterX - centerX) < (centerBoxWidth - cardWidth) / 2;
-    };
-
     // Animation loop
     const animate = (time: number) => {
         if (previousTimeRef.current === undefined) {
@@ -112,17 +72,6 @@ const CardSpinner: React.FC<CardSliderProps> = ({
         if (isPlaying) {
             setOffset((prev) => {
                 const newOffset = prev + (deltaTime / 1000) * animationSpeed * cardWidth
-                const positions = getItemPositions();
-                const selectedPosition = positions.find(p => p.item._id === selectCard?._id);
-                console.log("🚀 ~ setOffset ~ selectedPosition:", selectedPosition)
-                console.log("🚀 ~ setOffset ~ isItemCentered(selectedPosition.x):", isItemCentered(selectedPosition ? selectedPosition.x : 0))
-                if (selectedPosition && isItemCentered(selectedPosition.x)) {
-                    setIsPlaying(false);
-                    // Adjust offset to perfectly center the item
-                    const centerX = containerWidth / 2;
-                    const targetOffset = offset - (selectedPosition.x + cardWidth / 2 - centerX);
-                    return targetOffset;
-                }
                 return newOffset
             });
         }
@@ -141,17 +90,37 @@ const CardSpinner: React.FC<CardSliderProps> = ({
     useEffect(() => {
         if (remainingTime < 59 && remainingTime > 0 && !isPlaying) {
             setIsPlaying(true);
+            setAnimationSpeed(1);
         } else if (remainingTime <= 0 && isPlaying) {
             setIsPlaying(false);
         }
-    }, [remainingTime])
+    }, [remainingTime, isPlaying])
 
     useEffect(() => {
         if (selectCard && remainingTime == 0) {
             setIsPlaying(true);
-            setAnimationSpeed(1.2);
+            setAnimationSpeed(3);
         }
-    }, [selectCard])
+    }, [selectCard, remainingTime]);
+
+    useEffect(() => {
+        // Check if the selected card is centered and set winnerSelected
+        if (!selectCard) return;
+        const positions = getCardPositions();
+        const centerX = containerRef.current ? containerRef.current.offsetWidth / 2 : 0;
+        const selected = positions.find(p => p.card._id === selectCard._id);
+        if (selected && typeof selected.x === 'number') {
+            console.log("🚀 ~ useEffect ~ selectCard:", selectCard)
+            const diff = Math.abs(selected.x + (cardWidth) / 2 + 17 - centerX);
+            if (diff < 5) {
+                console.log("centerx", centerX);
+                console.log("position =>", diff);
+                console.log("selected.x =>", selected.x);
+                console.log("cardWidth => ", cardWidth);
+                setIsPlaying(false);
+            }
+        }
+    }, [offset, selectCard, containerWidth]);
 
     return (
         <div className="relative flex items-center justify-center w-full h-full">
@@ -171,10 +140,6 @@ const CardSpinner: React.FC<CardSliderProps> = ({
             >
                 {getCardPositions().map(({ card, x, zIndex }) => {
                     const isSelected = selectCard && selectCard._id === card._id;
-                    // if (isSelected) {
-                    //     setIsPlaying(false);
-                    //     setAnimationSpeed(1);
-                    // }
 
                     return <div
                         key={`${card._id}-${x}`}

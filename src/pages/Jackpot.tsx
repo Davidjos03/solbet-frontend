@@ -25,6 +25,7 @@ const Jackpot = () => {
     const [chance, setChance] = useState<number>(0);
     // const [isNewRound, setIsNewRound] = useState<boolean>(false);
     const [amountError, setAmountError] = useState<string>("");
+    const [spinCards, setSpinCards] = useState<IPlayer[]>(initialArray);
 
     const { userInfo, round, totalBetAmount, players, winner, latestWinner, luckyUser, winnerIndex, solPrice, setUserInfo, setSolPrice, setSolBalance, setWinnerIndex, setWinner, setLatestWinner, setLuckyUser, setPlayers, setTotalAmount, setTotalBetAmount, setRound } = useUserProvider();
     const { publicKey, sendTransaction } = useWallet();
@@ -188,7 +189,8 @@ const Jackpot = () => {
             setTotalBetAmount(data.totalBetAmount);
             setWager((prev) => prev + depositAmount);
             setDepositAmount(0);
-            setPlayers((prev) => {
+            setPlayers(data.players.reverse());
+            setSpinCards((prev) => {
                 return [
                     ...data.players, // Take new players (up to original length)
                     ...prev.slice(data.players.length),
@@ -230,14 +232,14 @@ const Jackpot = () => {
         };
         fetchWinner();
 
-        setTotalAmount(0);
         // setIsNewRound(false);
+        setPlayers([]);
         setRemainingTime(59);
     }, [round, publicKey])
 
     useEffect(() => {
         if (winnerIndex != null) {
-            setWinner(players[winnerIndex])
+            setWinner(spinCards[winnerIndex])
         }
     }, [winnerIndex])
 
@@ -245,7 +247,8 @@ const Jackpot = () => {
         if (remainingTime < 59 && winnerIndex) {
             setWinner(null);
             setWinnerIndex(null);
-            setPlayers(initialArray);
+            setSpinCards(initialArray);
+            setTotalAmount(0);
         }
     }, [remainingTime])
 
@@ -394,7 +397,7 @@ const Jackpot = () => {
                                 isNewRound={isNewRound}
                             /> */}
                             <CardSpinner
-                                cards={players}
+                                cards={spinCards}
                                 remainingTime={remainingTime}
                                 selectCard={winner}
                             // isNewRound={isNewRound}
@@ -422,13 +425,12 @@ const Jackpot = () => {
                                     </div>
                                 </div>
                                 <div className="flex flex-col min-h-[92px] gap-4">
-                                    {players.map((player, index) =>
-                                        player._id.length ?
-                                            <UserCard key={`${player.user_id._id}-${index}`} player={player} />
-                                            : <div key={index} className={`${index ? "hidden" : "flex"} w-full items-center justify-center border-dashed border-[2px] border-border rounded-xl p-6 font-inter text-white`}>
-                                                Waiting <Icon icon="eos-icons:three-dots-loading" width="24" height="24" style={{ color: "#fff" }} />
-                                            </div>
-                                    )}
+                                    {players.length > 0 ? players.map((player, index) =>
+                                        <UserCard key={`${player.user_id._id}-${index}`} player={player} />)
+                                        : <div className={`flex w-full items-center justify-center border-dashed border-[2px] border-border rounded-xl p-6 font-inter text-white`}>
+                                            Waiting <Icon icon="eos-icons:three-dots-loading" width="24" height="24" style={{ color: "#fff" }} />
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         </div>
