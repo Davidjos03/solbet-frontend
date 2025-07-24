@@ -189,15 +189,14 @@ const Jackpot = () => {
             setTotalBetAmount(data.totalBetAmount);
             setWager((prev) => prev + depositAmount);
             setDepositAmount(0);
-            setPlayers(data.players.reverse());
+            console.log("🚀 ~ Jackpot ~ data.players:", data.players)
             setSpinCards((prev) => {
                 return [
                     ...data.players, // Take new players (up to original length)
                     ...prev.slice(data.players.length),
                 ]
-            }
-            );
-            // setPlayers(data.players);
+            });
+            setPlayers(data.players);
         })
     }, [gameSocket])
 
@@ -208,6 +207,65 @@ const Jackpot = () => {
             setAmountError("")
         }
     }, [value])
+
+    const manualSetWinnerIndex = () => {
+        setWinner({
+            _id: "23424",
+            price: 200,
+            user_id: {
+                _id: "10001",
+                avatar: "/images/avatar.png",
+                username: "test",
+                created_at: new Date()
+            }
+
+        });
+    }
+
+    const manualSetRemainingTime = () => {
+        let time = 3
+        const interval = setInterval(() => {
+            if (time === 0)
+                clearInterval(interval)
+            setRemainingTime(time);
+            console.log(">>>>>>>>>>>>>>>>>>>>>", time)
+            time--
+        }, 1000)
+    }
+    const manualSetWager = () => {
+        setWager(10)
+    }
+
+    const manualBet = () => {
+        setSpinCards((prev) => {
+            console.log("🚀 ~ setSpinCards ~ prev:", prev)
+            return [
+                {
+                    _id: "23424",
+                    price: 200,
+                    user_id: {
+                        _id: "10001",
+                        avatar: "/images/avatar.png",
+                        username: "test",
+                        created_at: new Date()
+                    }
+
+                }, // Take new players (up to original length)
+                ...prev.slice(1),
+            ]
+        })
+        setPlayers([{
+            _id: "23424",
+            price: 200,
+            user_id: {
+                _id: "10001",
+                avatar: "/images/avatar.png",
+                username: "test",
+                created_at: new Date()
+            }
+
+        }])
+    }
 
     useEffect(() => {
         console.log('clear-------------')
@@ -244,10 +302,10 @@ const Jackpot = () => {
     }, [winnerIndex])
 
     useEffect(() => {
-        if (remainingTime < 59 && winnerIndex) {
+        if (remainingTime < 59 && winner) {
+            setSpinCards(initialArray);
             setWinner(null);
             setWinnerIndex(null);
-            setSpinCards(initialArray);
             setTotalAmount(0);
         }
     }, [remainingTime])
@@ -384,18 +442,12 @@ const Jackpot = () => {
                                     </div>
                                 </div>
                             </div>
-                            {/* <CardCarousel3D
-                                cards={players}
-                                remainingTime={remainingTime}
-                                selectCard={winner}
-                                isNewRound={isNewRound}
-                            /> */}
-                            {/* <CardSlider
-                                cards={players}
-                                remainingTime={remainingTime}
-                                selectCard={winner}
-                                isNewRound={isNewRound}
-                            /> */}
+                            {/* <div className="flex gap-3">
+                                <button className="bg-prime rounded-md px-4 py-2" onClick={manualSetRemainingTime}>SetRemainingTime</button>
+                                <button className="bg-prime rounded-md px-4 py-2" onClick={manualBet}>ManualBet</button>
+                                <button className="bg-prime rounded-md px-4 py-2" onClick={manualSetWager}>SetWager</button>
+                                <button className="bg-prime rounded-md px-4 py-2" onClick={manualSetWinnerIndex}>SetWinnerIndex</button>
+                            </div> */}
                             <CardSpinner
                                 cards={spinCards}
                                 remainingTime={remainingTime}

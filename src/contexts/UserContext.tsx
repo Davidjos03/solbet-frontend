@@ -1,4 +1,4 @@
-import { initialArray, waiting } from "@/utils/utils";
+import { waiting } from "@/utils/utils";
 import React, { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { fetchWithAuth, setAuthToken } from "@/utils/setAuthToken";
