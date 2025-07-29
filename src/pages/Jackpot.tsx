@@ -26,6 +26,7 @@ const Jackpot = () => {
     // const [isNewRound, setIsNewRound] = useState<boolean>(false);
     const [amountError, setAmountError] = useState<string>("");
     const [spinCards, setSpinCards] = useState<IPlayer[]>(initialArray);
+    const [allowPlayerUpdates, setAllowPlayerUpdates] = useState<boolean>(true);
 
     const { userInfo, round, totalBetAmount, players, winner, latestWinner, luckyUser, winnerIndex, solPrice, setUserInfo, setSolPrice, setSolBalance, setWinnerIndex, setWinner, setLatestWinner, setLuckyUser, setPlayers, setTotalAmount, setTotalBetAmount, setRound } = useUserProvider();
     const { publicKey, sendTransaction } = useWallet();
@@ -190,13 +191,17 @@ const Jackpot = () => {
             setWager((prev) => prev + depositAmount);
             setDepositAmount(0);
             console.log("🚀 ~ Jackpot ~ data.players:", data.players)
-            setSpinCards((prev) => {
-                return [
-                    ...data.players, // Take new players (up to original length)
-                    ...prev.slice(data.players.length),
-                ]
-            });
-            setPlayers(data.players);
+            
+            // Only update players array if we're allowed to (not in 4-second delay period)
+            if (allowPlayerUpdates) {
+                setSpinCards((prev) => {
+                    return [
+                        ...data.players, // Take new players (up to original length)
+                        ...prev.slice(data.players.length),
+                    ]
+                });
+                setPlayers(data.players);
+            }
         })
     }, [gameSocket])
 
@@ -292,7 +297,7 @@ const Jackpot = () => {
 
         // setIsNewRound(false);
         setPlayers([]);
-        setRemainingTime(59);
+        setAllowPlayerUpdates(true); // Ensure player updates are allowed for new rounds
     }, [round, publicKey])
 
     useEffect(() => {
@@ -303,12 +308,23 @@ const Jackpot = () => {
 
     useEffect(() => {
         if (remainingTime < 59 && winner) {
-            setSpinCards(initialArray);
-            setWinner(null);
-            setWinnerIndex(null);
-            setTotalAmount(0);
+            // Disable player updates during the 4-second delay
+            setAllowPlayerUpdates(false);
+            
+            // Add 4-second delay before refreshing game items
+            const timer = setTimeout(() => {
+                setSpinCards(initialArray);
+                setWinner(null);
+                setWinnerIndex(null);
+                setTotalAmount(0);
+                setRemainingTime(59);
+                setAllowPlayerUpdates(true); // Re-enable player updates after 4 seconds
+            }, 4000); // 4 seconds delay
+
+            // Cleanup timer if component unmounts or dependencies change
+            return () => clearTimeout(timer);
         }
-    }, [remainingTime])
+    }, [remainingTime, winner])
 
     useEffect(() => {
         if (gameSocket && userInfo) {
@@ -442,12 +458,12 @@ const Jackpot = () => {
                                     </div>
                                 </div>
                             </div>
-                            {/* <div className="flex gap-3">
+                            <div className="flex gap-3">
                                 <button className="bg-prime rounded-md px-4 py-2" onClick={manualSetRemainingTime}>SetRemainingTime</button>
                                 <button className="bg-prime rounded-md px-4 py-2" onClick={manualBet}>ManualBet</button>
                                 <button className="bg-prime rounded-md px-4 py-2" onClick={manualSetWager}>SetWager</button>
                                 <button className="bg-prime rounded-md px-4 py-2" onClick={manualSetWinnerIndex}>SetWinnerIndex</button>
-                            </div> */}
+                            </div>
                             <CardSpinner
                                 cards={spinCards}
                                 remainingTime={remainingTime}

@@ -188,7 +188,7 @@ const CardSpinner: React.FC<CardSliderProps> = ({
 
     // Start animation when remainingTime triggers it
     useEffect(() => {
-        if (remainingTime < 59 && remainingTime > 0 && animationPhase === 'idle') {
+        if (remainingTime <= 59 && remainingTime > 0 && animationPhase === 'idle') {
             // Reset moved flag for new round
             moved.current = false;
             console.log('🎯 New round started, resetting moved flag');
