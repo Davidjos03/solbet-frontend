@@ -228,7 +228,7 @@ const Jackpot = () => {
     }
 
     const manualSetRemainingTime = () => {
-        let time = 3
+        let time = 10
         const interval = setInterval(() => {
             if (time === 0)
                 clearInterval(interval)
