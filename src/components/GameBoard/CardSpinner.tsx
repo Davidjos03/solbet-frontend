@@ -33,7 +33,7 @@ const CardSpinner: React.FC<CardSliderProps> = ({
     useEffect(() => {
         const updateCardDimensions = () => {
             const screenWidth = window.innerWidth;
-            
+
             if (screenWidth < 640) {
                 setCardWidth(140);
                 setCardHeight(160);
@@ -51,7 +51,7 @@ const CardSpinner: React.FC<CardSliderProps> = ({
 
         updateCardDimensions();
         window.addEventListener('resize', updateCardDimensions);
-        
+
         return () => {
             window.removeEventListener('resize', updateCardDimensions);
         };
@@ -63,11 +63,12 @@ const CardSpinner: React.FC<CardSliderProps> = ({
     const [offset, setOffset] = useState(0);
     const [animationPhase, setAnimationPhase] = useState<AnimationPhase>('idle');
     const [spinStartTime, setSpinStartTime] = useState<number | null>(null);
-    const [targetOffset, setTargetOffset] = useState<number | null>(null);
+    const [targetOffset] = useState<number | null>(null);
     const [steadySpeed, setSteadySpeed] = useState(1);
     const [spinDirection, setSpinDirection] = useState<1 | -1>(1);
     const [winnerScale, setWinnerScale] = useState(1);
     const [animatedPrice, setAnimatedPrice] = useState(0);
+    const [fastLoopActive, setFastLoopActive] = useState(false);
 
     const requestRef = useRef<number>();
     const previousTimeRef = useRef<number>();
@@ -118,19 +119,19 @@ const CardSpinner: React.FC<CardSliderProps> = ({
             visibleIndex: number;
             isSelected: boolean;
         }> = [];
-        
+
         if (!cards) return positions;
-        
+
         const containerCenterX = containerWidth > 0 ? containerWidth / 2 : 0;
         const cardCenterX = cardWidth / 2;
-        
+
         if (containerWidth === 0) return positions;
-        
+
         if (cards.length === 0) {
             const centerVisibleIndex = Math.floor(visibleCardCount / 2);
             const centerPosition = containerCenterX - (cardWidth / 2);
             const startPos = centerPosition - (centerVisibleIndex * cardWidth);
-            
+
             for (let i = 0; i < totalCardCount; i++) {
                 const position = startPos + i * cardWidth;
                 positions.push({
@@ -148,7 +149,7 @@ const CardSpinner: React.FC<CardSliderProps> = ({
             }
             return positions;
         }
-        
+
         const startPos = -offset % cardWidth;
         const startIndex = Math.floor(offset / cardWidth) % cards.length;
         const centerVisibleIndex = Math.floor(visibleCardCount / 2);
@@ -221,7 +222,19 @@ const CardSpinner: React.FC<CardSliderProps> = ({
                 setSpinStartTime(time);
             }
         } else if (animationPhase === 'spinning' && spinStartTime !== null) {
-            setOffset(prev => prev + spinDirection * (deltaTime / 1000) * steadySpeed * cardWidth);
+            const currentSpeed = fastLoopActive ? 20 : steadySpeed;
+            setOffset(prev => prev + spinDirection * (deltaTime / 1000) * currentSpeed * cardWidth);
+
+            // Stop if selected card is at center (under triangle button)
+            if (selectCard && fastLoopActive) {
+                const centerCard = cardPositions.find(pos => pos.isCenter);
+                if (centerCard && centerCard.card._id === selectCard._id) {
+                    setFastLoopActive(false);
+                    setSteadySpeed(1); // Reset to default speed
+                    setAnimationPhase('idle');
+                    return;
+                }
+            }
         } else if (animationPhase === 'stopping' && spinStartTime !== null && targetOffset !== null) {
             const elapsed = time - spinStartTime;
             const t = Math.min(elapsed / stopDuration, 1);
@@ -242,7 +255,7 @@ const CardSpinner: React.FC<CardSliderProps> = ({
         if (animationPhase !== 'idle') {
             requestRef.current = requestAnimationFrame(animate);
         }
-    }, [animationPhase, spinStartTime, steadySpeed, spinDirection, cardWidth, targetOffset, offset, startDuration, stopDuration]);
+    }, [animationPhase, spinStartTime, steadySpeed, spinDirection, cardWidth, targetOffset, offset, startDuration, stopDuration, fastLoopActive]);
 
     // Start animation when remainingTime triggers it
     useEffect(() => {
@@ -257,31 +270,24 @@ const CardSpinner: React.FC<CardSliderProps> = ({
         }
     }, [remainingTime, animationPhase, selectCard]);
 
-    // Stop animation when selectCard is set
+    // Start fast loop when selectCard is set
     useEffect(() => {
-        if (selectCard && remainingTime === 0 && animationPhase !== 'stopping') {
-            setSteadySpeed(3);
-            const centerOffset = getCenterOffsetForCard(selectCard._id);
-            const current = offset;
-            let target = centerOffset;
-            
-            if (cards.length > 0) {
-                while (target < current) target += cards.length * cardWidth;
-            } else {
-                target = current;
-            }
-            setTargetOffset(target);
+        if (selectCard && remainingTime === 0 && animationPhase === 'idle') {
+            // Start fast loop animation with smooth transition
+            setFastLoopActive(true);
+            setSteadySpeed(20); // Much higher speed for dramatic effect
+            setSpinDirection(1);
+            setAnimationPhase('spinning'); // Skip starting phase for immediate fast spin
             setSpinStartTime(performance.now());
-            setAnimationPhase('stopping');
         }
-    }, [selectCard, remainingTime, animationPhase, offset, cards.length, cardWidth, getCenterOffsetForCard]);
+    }, [selectCard, remainingTime, animationPhase, cards.length, cardWidth, getCenterOffsetForCard, cardPositions]);
 
     // Auto-center selected card
     useEffect(() => {
         if (remainingTime === 0 && animationPhase === 'idle') {
             const autoCenterTimer = setTimeout(() => {
                 let targetCard = null;
-                
+
                 if (selectCard) {
                     targetCard = cardPositions.find(pos => pos.card._id === selectCard._id);
                 } else {
@@ -338,22 +344,22 @@ const CardSpinner: React.FC<CardSliderProps> = ({
                                                 const priceIncrement = targetPrice / 100;
                                                 let currentStep = 0;
                                                 const totalSteps = 100;
-                                                
+
                                                 const animatePrice = (currentTime: number) => {
                                                     const elapsed = currentTime - startTime;
                                                     const progress = Math.min(elapsed / duration, 1);
                                                     currentStep = Math.floor(progress * totalSteps);
                                                     const currentPrice = currentStep * priceIncrement;
-                                                    
+
                                                     setAnimatedPrice(currentPrice);
-                                                    
+
                                                     if (progress < 1) {
                                                         requestAnimationFrame(animatePrice);
                                                     } else {
                                                         setAnimatedPrice(targetPrice);
                                                     }
                                                 };
-                                                
+
                                                 requestAnimationFrame(animatePrice);
                                             }, 500);
                                         }, 1000);
@@ -376,22 +382,22 @@ const CardSpinner: React.FC<CardSliderProps> = ({
                                     const priceIncrement = targetPrice / 100;
                                     let currentStep = 0;
                                     const totalSteps = 100;
-                                    
+
                                     const animatePrice = (currentTime: number) => {
                                         const elapsed = currentTime - startTime;
                                         const progress = Math.min(elapsed / duration, 1);
                                         currentStep = Math.floor(progress * totalSteps);
                                         const currentPrice = currentStep * priceIncrement;
-                                        
+
                                         setAnimatedPrice(currentPrice);
-                                        
+
                                         if (progress < 1) {
                                             requestAnimationFrame(animatePrice);
                                         } else {
                                             setAnimatedPrice(targetPrice);
                                         }
                                     };
-                                    
+
                                     requestAnimationFrame(animatePrice);
                                 }, 500);
                             }, 1000);
