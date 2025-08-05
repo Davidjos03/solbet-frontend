@@ -223,12 +223,11 @@ const Jackpot = () => {
                 username: "test",
                 created_at: new Date()
             }
-
         });
     }
 
     const manualSetRemainingTime = () => {
-        let time = 10
+        let time = 5
         const interval = setInterval(() => {
             if (time === 0)
                 clearInterval(interval)
