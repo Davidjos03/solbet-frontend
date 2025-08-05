@@ -213,63 +213,63 @@ const Jackpot = () => {
         }
     }, [value])
 
-    const manualSetWinnerIndex = () => {
-        setWinner({
-            _id: "23424",
-            price: 200,
-            user_id: {
-                _id: "10001",
-                avatar: "/images/avatar.png",
-                username: "test",
-                created_at: new Date()
-            }
-        });
-    }
+    // const manualSetWinnerIndex = () => {
+    //     setWinner({
+    //         _id: "23424",
+    //         price: 200,
+    //         user_id: {
+    //             _id: "10001",
+    //             avatar: "/images/avatar.png",
+    //             username: "test",
+    //             created_at: new Date()
+    //         }
+    //     });
+    // }
 
-    const manualSetRemainingTime = () => {
-        let time = 5
-        const interval = setInterval(() => {
-            if (time === 0)
-                clearInterval(interval)
-            setRemainingTime(time);
-            console.log(">>>>>>>>>>>>>>>>>>>>>", time)
-            time--
-        }, 1000)
-    }
-    const manualSetWager = () => {
-        setWager(10)
-    }
+    // const manualSetRemainingTime = () => {
+    //     let time = 5
+    //     const interval = setInterval(() => {
+    //         if (time === 0)
+    //             clearInterval(interval)
+    //         setRemainingTime(time);
+    //         console.log(">>>>>>>>>>>>>>>>>>>>>", time)
+    //         time--
+    //     }, 1000)
+    // }
+    // const manualSetWager = () => {
+    //     setWager(10)
+    // }
 
-    const manualBet = () => {
-        setSpinCards((prev) => {
-            console.log("🚀 ~ setSpinCards ~ prev:", prev)
-            return [
-                {
-                    _id: "23424",
-                    price: 200,
-                    user_id: {
-                        _id: "10001",
-                        avatar: "/images/avatar.png",
-                        username: "test",
-                        created_at: new Date()
-                    }
+    // const manualBet = () => {
+    //     setSpinCards((prev) => {
+    //         console.log("🚀 ~ setSpinCards ~ prev:", prev)
+    //         return [
+    //             {
+    //                 _id: "23424",
+    //                 price: 200,
+    //                 user_id: {
+    //                     _id: "10001",
+    //                     avatar: "/images/avatar.png",
+    //                     username: "test",
+    //                     created_at: new Date()
+    //                 }
 
-                }, // Take new players (up to original length)
-                ...prev.slice(1),
-            ]
-        })
-        setPlayers([{
-            _id: "23424",
-            price: 200,
-            user_id: {
-                _id: "10001",
-                avatar: "/images/avatar.png",
-                username: "test",
-                created_at: new Date()
-            }
+    //             }, // Take new players (up to original length)
+    //             ...prev.slice(1),
+    //         ]
+    //     })
+    //     setPlayers([{
+    //         _id: "23424",
+    //         price: 200,
+    //         user_id: {
+    //             _id: "10001",
+    //             avatar: "/images/avatar.png",
+    //             username: "test",
+    //             created_at: new Date()
+    //         }
 
-        }])
-    }
+    //     }])
+    // }
 
     useEffect(() => {
         console.log('clear-------------')
@@ -457,12 +457,12 @@ const Jackpot = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex gap-3">
+                            {/* <div className="flex gap-3">
                                 <button className="bg-prime rounded-md px-4 py-2" onClick={manualSetRemainingTime}>SetRemainingTime</button>
                                 <button className="bg-prime rounded-md px-4 py-2" onClick={manualBet}>ManualBet</button>
                                 <button className="bg-prime rounded-md px-4 py-2" onClick={manualSetWager}>SetWager</button>
                                 <button className="bg-prime rounded-md px-4 py-2" onClick={manualSetWinnerIndex}>SetWinnerIndex</button>
-                            </div>
+                            </div> */}
                             <CardSpinner
                                 cards={spinCards}
                                 remainingTime={remainingTime}

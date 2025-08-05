@@ -232,6 +232,40 @@ const CardSpinner: React.FC<CardSliderProps> = ({
                     setFastLoopActive(false);
                     setSteadySpeed(1); // Reset to default speed
                     setAnimationPhase('idle');
+                    
+                    // Start scaling animation after sliding stops
+                    setTimeout(() => {
+                        setWinnerScale(1.15);
+                        setTimeout(() => {
+                            setWinnerScale(1.05);
+                            setTimeout(() => {
+                                const targetPrice = selectCard.price;
+                                const duration = 2000;
+                                const startTime = performance.now();
+                                const priceIncrement = targetPrice / 100;
+                                let currentStep = 0;
+                                const totalSteps = 100;
+
+                                const animatePrice = (currentTime: number) => {
+                                    const elapsed = currentTime - startTime;
+                                    const progress = Math.min(elapsed / duration, 1);
+                                    currentStep = Math.floor(progress * totalSteps);
+                                    const currentPrice = currentStep * priceIncrement;
+
+                                    setAnimatedPrice(currentPrice);
+
+                                    if (progress < 1) {
+                                        requestAnimationFrame(animatePrice);
+                                    } else {
+                                        setAnimatedPrice(targetPrice);
+                                    }
+                                };
+
+                                requestAnimationFrame(animatePrice);
+                            }, 500);
+                        }, 1000);
+                    }, 300);
+                    
                     return;
                 }
             }
@@ -332,6 +366,7 @@ const CardSpinner: React.FC<CardSliderProps> = ({
                             if (progress < 1) {
                                 requestAnimationFrame(smoothCenter);
                             } else {
+                                // Sliding animation completed, now start scaling if there's a selected card
                                 if (selectCard) {
                                     setTimeout(() => {
                                         setWinnerScale(1.15);
@@ -371,36 +406,39 @@ const CardSpinner: React.FC<CardSliderProps> = ({
                         requestAnimationFrame(smoothCenter);
                         moved.current = true;
                     } else {
+                        // Card is already centered, start scaling immediately if there's a selected card
                         if (selectCard) {
-                            setWinnerScale(1.15);
                             setTimeout(() => {
-                                setWinnerScale(1.05);
+                                setWinnerScale(1.15);
                                 setTimeout(() => {
-                                    const targetPrice = selectCard.price;
-                                    const duration = 2000;
-                                    const startTime = performance.now();
-                                    const priceIncrement = targetPrice / 100;
-                                    let currentStep = 0;
-                                    const totalSteps = 100;
+                                    setWinnerScale(1.05);
+                                    setTimeout(() => {
+                                        const targetPrice = selectCard.price;
+                                        const duration = 2000;
+                                        const startTime = performance.now();
+                                        const priceIncrement = targetPrice / 100;
+                                        let currentStep = 0;
+                                        const totalSteps = 100;
 
-                                    const animatePrice = (currentTime: number) => {
-                                        const elapsed = currentTime - startTime;
-                                        const progress = Math.min(elapsed / duration, 1);
-                                        currentStep = Math.floor(progress * totalSteps);
-                                        const currentPrice = currentStep * priceIncrement;
+                                        const animatePrice = (currentTime: number) => {
+                                            const elapsed = currentTime - startTime;
+                                            const progress = Math.min(elapsed / duration, 1);
+                                            currentStep = Math.floor(progress * totalSteps);
+                                            const currentPrice = currentStep * priceIncrement;
 
-                                        setAnimatedPrice(currentPrice);
+                                            setAnimatedPrice(currentPrice);
 
-                                        if (progress < 1) {
-                                            requestAnimationFrame(animatePrice);
-                                        } else {
-                                            setAnimatedPrice(targetPrice);
-                                        }
-                                    };
+                                            if (progress < 1) {
+                                                requestAnimationFrame(animatePrice);
+                                            } else {
+                                                setAnimatedPrice(targetPrice);
+                                            }
+                                        };
 
-                                    requestAnimationFrame(animatePrice);
-                                }, 500);
-                            }, 1000);
+                                        requestAnimationFrame(animatePrice);
+                                    }, 500);
+                                }, 1000);
+                            }, 300);
                         }
                     }
                 }
