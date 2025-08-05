@@ -8,7 +8,7 @@ const Sidebar = () => {
 
   return (
     <div className="flex w-fit h-full z-10 duration-300">
-      <div className={`fixed left-0 top-[70px] ${isToggle ? "w-[350px] xl:w-[300px] 2xl:w-[350px] xl:bg-opacity-0 bg-[#1e2a38]" : "w-[0px] "} flex flex-col lg:top-[110px] h-[calc(100%-70px)] lg:h-[calc(100%-110px)] border-r border-border duration-300 overflow-hidden object-cover`}>
+      <div className={`fixed left-0 top-[118px] ${isToggle ? "w-[350px] xl:w-[300px] 2xl:w-[350px] xl:bg-opacity-0 bg-[#1e2a38]" : "w-[0px] "} flex flex-col lg:top-[158px] h-[calc(100%-118px)] lg:h-[calc(100%-158px)] border-r border-border duration-300 overflow-hidden object-cover`}>
         <div className="w-full px-6 py-4 bg-main top-0 left-0 z-[10] grow-0 shrink-0 animate-fade-in">
           <div className="flex w-full gap-2">
             <button className="flex w-full bg-gradient-border-btn p-[1px] rounded-lg">
@@ -39,7 +39,7 @@ const Sidebar = () => {
         <SendChat />
       </div>
       <button
-        className={`left-0 items-center justify-center min-w-10 transition duration-300 px-3 bg-[#303030] hover:bg-[#393939]/75 text-sm font-medium text-white rounded-lg fixed top-[84px] lg:top-[124px] z-[35] w-[56px] h-[56px] rounded-l-none border-r-[2px] border-[#3B3B3B] will-change-transform ${isToggle ? "hidden xl:hidden" : "md:block hidden"} opacity-100 animate-fade-in cursor-pointer`}
+        className={`left-0 items-center justify-center min-w-10 transition duration-300 px-3 bg-[#303030] hover:bg-[#393939]/75 text-sm font-medium text-white rounded-lg fixed top-[132px] lg:top-[172px] z-[35] w-[56px] h-[56px] rounded-l-none border-r-[2px] border-[#3B3B3B] will-change-transform ${isToggle ? "hidden xl:hidden" : "md:block hidden"} opacity-100 animate-fade-in cursor-pointer`}
         onClick={() => setIsToggle(true)}
       >
         <Icon icon="tabler:message-filled" width="28" height="28" style={{ color: "#cecece" }} />

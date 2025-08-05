@@ -71,6 +71,15 @@ export default {
         'gradient-wager-bg': 'linear-gradient(268deg, #123370 -51.82%, #1d2b45 50%)',
         'gradient-wallet-btn': 'linear-gradient(180deg, #4f5e78 0%, #415170 100%)',
       },
+      animation: {
+        'scroll-x': 'scroll-x 30s linear infinite',
+      },
+      keyframes: {
+        'scroll-x': {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+      },
     },
   },
   plugins: [],

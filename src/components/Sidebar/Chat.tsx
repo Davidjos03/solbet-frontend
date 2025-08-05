@@ -46,7 +46,7 @@ const Chat = () => {
     }, [chatSocket]);
 
     return (
-        <div className="flex flex-col relative w-full h-full max-h-[calc(100vh-281px)]">
+        <div className="flex flex-col relative w-full h-full max-h-[calc(100vh-329px)]">
             {/* Top gradient overlay */}
             <div className="absolute bg-gradient-primary w-full top-0 left-0 h-[40px] z-10" />
 

@@ -7,12 +7,14 @@ import ProfileModal from "../Modal/ProfileModal";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import RegisterModal from "../Modal/RegisterModal";
+import CryptoTicker from "../CryptoTicker";
 
 const Layout = () => {
   const { isToggle, setIsToggle } = useUserProvider()
 
   return (
     <div className="h-full min-h-screen w-full pt-0 pb-0 block bg-main">
+      <CryptoTicker />
       <div className="fixed top-0 left-0 w-full h-full z-[10000] flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none">
         <div className="absolute top-0 z-30 h-0.5 w-full">
           <div className="animate-top-loader h-full w-1/2 bg-[#2c5fbf]"></div>
@@ -36,7 +38,7 @@ const Layout = () => {
       <div className="flex w-full h-full relative">
         <Sidebar />
         <div className={`relative w-full h-max ${isToggle ? "xl:pl-[300px] 2xl:pl-[350px]" : ""} overflow-hidden transition-[padding,opacity] will-change-[padding,opacity] duration-300`}>
-          <div className="absolute h-full top-[70px] lg:top-[109px] transition-[width,left] duration-300 mix-blend-difference will-change-[padding,width] w-full xl:w-[calc(100%-300px)] 2xl:w-[calc(100%-350px)] xl:left-[300px] 2xl:left-[350px]"></div>
+          <div className="absolute h-full top-[82px] lg:top-[121px] transition-[width,left] duration-300 mix-blend-difference will-change-[padding,width] w-full xl:w-[calc(100%-300px)] 2xl:w-[calc(100%-350px)] xl:left-[300px] 2xl:left-[350px]"></div>
           <Outlet />
           <Footer />
         </div>
