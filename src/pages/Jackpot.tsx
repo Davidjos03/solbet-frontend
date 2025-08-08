@@ -351,7 +351,7 @@ const Jackpot = () => {
                                         </div>
                                         <h4 className="font-inter text-light-grey text-xs 2xl:text-sm whitespace-nowrap">Winner takes all...</h4>
                                     </div>
-                                    <img src="/images/static/halftone.e9491561.webp" className="object-cover object-center w-[109px] aspect-[109/79] hidden sm:block" alt=""></img>
+                                    {/* <img src="/images/static/halftone.e9491561.webp" className="object-cover object-center w-[109px] aspect-[109/79] hidden sm:block" alt=""></img> */}
                                 </div>
                                 <div className="flex flex-col-reverse sm:flex-row items-end ml-auto shrink gap-2 sm:gap-0.5 md:gap-1 mt-auto">
                                     <div className="w-full md:w-auto mr-auto">
@@ -530,7 +530,7 @@ const Jackpot = () => {
                                                     </div>
                                                 </div>
                                                 <div className="w-full bg-layer2 rounded-b-[10px] relative py-2 px-3">
-                                                    <img src="/images/static/grid.bb6dda07.webp" className="object-cover object-center w-full h-full rounded-b-[10px] absolute top-0 left-0" alt=""></img>
+                                                    {/* <img src="/images/static/grid.bb6dda07.webp" className="object-cover object-center w-full h-full rounded-b-[10px] absolute top-0 left-0" alt=""></img> */}
                                                     <div className="flex flex-col gap-[2px]">
                                                         <div className="flex items-center w-full justify-between z-[3]">
                                                             <p className="font-inter text-xs text-light-grey">Won</p>
@@ -576,7 +576,7 @@ const Jackpot = () => {
                                                     </div>
                                                 </div>
                                                 <div className="w-full bg-layer2 rounded-b-[10px] relative py-2 px-3">
-                                                    <img src="/images/static/grid.bb6dda07.webp" className="object-cover object-center w-full h-full rounded-b-[10px] absolute top-0 left-0" alt=""></img>
+                                                    {/* <img src="/images/static/grid.bb6dda07.webp" className="object-cover object-center w-full h-full rounded-b-[10px] absolute top-0 left-0" alt=""></img> */}
                                                     <div className="flex flex-col gap-[2px]">
                                                         <div className="flex items-center w-full justify-between z-[3]">
                                                             <p className="font-inter text-xs text-light-grey">Won</p>

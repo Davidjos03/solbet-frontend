@@ -12,68 +12,97 @@ interface CryptoData {
 
 const CryptoTicker = () => {
   const [cryptoData, setCryptoData] = useState<CryptoData[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  // Popular memecoins to display
+  // Major cryptocurrencies to display
   const cryptoIds = [
-    'dogecoin',
-    'bonk',
-    'dogwifhat',
-    'floki',
-    'shiba-inu',
-    'pepe',
-    'doge',
-    'baby-doge-coin'
+    'bitcoin',
+    'ethereum',
+    'ripple',
+    'tether',
+    'binancecoin',
+    'solana',
+    'usd-coin'
   ];
 
   useEffect(() => {
     const fetchCryptoData = async () => {
       try {
-        setLoading(true);
         const response = await fetch(
           `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${cryptoIds.join(',')}&order=market_cap_desc&per_page=20&page=1&sparkline=false&locale=en`
         );
         
-        if (!response.ok) {
-          throw new Error('Failed to fetch crypto data');
+        if (response.ok) {
+          const data = await response.json();
+          setCryptoData(data);
         }
-        
-        const data = await response.json();
-        setCryptoData(data);
       } catch (error) {
         console.error('Error fetching crypto data:', error);
         // Fallback data in case API fails
         setCryptoData([
           {
-            id: 'dogecoin',
-            symbol: 'doge',
-            name: 'Dogecoin',
-            image: 'https://assets.coingecko.com/coins/images/5/large/dogecoin.png',
-            current_price: 0.12,
-            market_cap: 12400000000,
-            price_change_percentage_24h: 2.34
+            id: 'bitcoin',
+            symbol: 'btc',
+            name: 'Bitcoin',
+            image: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png',
+            current_price: 45000,
+            market_cap: 850000000000,
+            price_change_percentage_24h: 2.5
           },
           {
-            id: 'bonk',
-            symbol: 'bonk',
-            name: 'Bonk',
-            image: 'https://assets.coingecko.com/coins/images/28600/large/bonk.jpg',
-            current_price: 0.000023,
-            market_cap: 2300000000,
-            price_change_percentage_24h: 12.45
+            id: 'ethereum',
+            symbol: 'eth',
+            name: 'Ethereum',
+            image: 'https://assets.coingecko.com/coins/images/279/large/ethereum.png',
+            current_price: 2800,
+            market_cap: 340000000000,
+            price_change_percentage_24h: 1.8
           },
           {
-            id: 'dogwifhat',
-            symbol: 'wif',
-            name: 'dogwifhat',
-            image: 'https://assets.coingecko.com/coins/images/35085/large/wif.jpg',
-            current_price: 2.34,
-            market_cap: 3400000000,
-            price_change_percentage_24h: -3.21
+            id: 'ripple',
+            symbol: 'xrp',
+            name: 'XRP',
+            image: 'https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png',
+            current_price: 0.55,
+            market_cap: 30000000000,
+            price_change_percentage_24h: -0.5
+          },
+          {
+            id: 'tether',
+            symbol: 'usdt',
+            name: 'Tether',
+            image: 'https://assets.coingecko.com/coins/images/325/large/Tether.png',
+            current_price: 1.00,
+            market_cap: 95000000000,
+            price_change_percentage_24h: 0.01
+          },
+          {
+            id: 'binancecoin',
+            symbol: 'bnb',
+            name: 'BNB',
+            image: 'https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png',
+            current_price: 320,
+            market_cap: 48000000000,
+            price_change_percentage_24h: 3.2
+          },
+          {
+            id: 'solana',
+            symbol: 'sol',
+            name: 'Solana',
+            image: 'https://assets.coingecko.com/coins/images/4128/large/solana.png',
+            current_price: 95,
+            market_cap: 42000000000,
+            price_change_percentage_24h: 5.8
+          },
+          {
+            id: 'usd-coin',
+            symbol: 'usdc',
+            name: 'USDC',
+            image: 'https://assets.coingecko.com/coins/images/6319/large/USD_Coin_icon.png',
+            current_price: 1.00,
+            market_cap: 32000000000,
+            price_change_percentage_24h: 0.02
           }
         ]);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -97,24 +126,14 @@ const CryptoTicker = () => {
     }
   };
 
-
-
-  if (loading) {
-    return (
-      <div className="fixed top-0 left-0 w-full h-12 bg-[#] border-b border-[#2E3E5A] z-[7] flex items-center justify-center">
-        <div className="text-white text-sm">Loading crypto data...</div>
-      </div>
-    );
-  }
-
   return (
     <div className="fixed top-0 left-0 w-full h-12 bg-[#0C122C] border-b border-[#2E3E5A] z-[7] overflow-hidden">
       <div className="flex items-center h-full animate-scroll-x">
-        {cryptoData.map((crypto, index) => (
+        {cryptoData.map((crypto) => (
           <div
             key={crypto.id}
             className={`flex items-center gap-3 px-6 py-2 min-w-max ${
-              index === 0 ? 'bg-yellow-500/20' : ''
+              crypto.symbol === 'xrp' ? 'bg-yellow-500/20' : ''
             }`}
           >
             <img
